@@ -343,25 +343,48 @@
 
     status.textContent = "Caut localitatea…";
     try {
-      const url = new URL("https://nominatim.openstreetmap.org/search");
-      url.search = new URLSearchParams({ q: city, country: "Romania", format: "json", limit: "1" });
+      async function searchCity() {
+  const city = document.querySelector("#city").value.trim();
 
-      const response = await fetch(url);
-      const places = await response.json();
-      if (!places.length) {
-        status.textContent = "Nu am găsit localitatea. Verifică numele și încearcă din nou.";
-        return;
-      }
-
-      const place = places[0];
-      const lat = Number(place.lat);
-      const lon = Number(place.lon);
-      map.setView([lat, lon], 13);
-      await searchSupermarkets(lat, lon);
-    } catch (error) {
-      status.textContent = "Nu am putut căuta localitatea acum. Încearcă din nou.";
-    }
+  if (!city) {
+    status.textContent = "Scrie numele unui oraș sau al unei localități.";
+    return;
   }
+
+  status.textContent = "Caut localitatea…";
+
+  try {
+    const url = new URL("https://nominatim.openstreetmap.org/search");
+    url.searchParams.set("q", city);
+    url.searchParams.set("countrycodes", "ro");
+    url.searchParams.set("format", "jsonv2");
+    url.searchParams.set("limit", "1");
+    url.searchParams.set("accept-language", "ro");
+
+    const response = await fetch(url.toString());
+
+    if (!response.ok) {
+      throw new Error(`Eroare ${response.status}`);
+    }
+
+    const places = await response.json();
+
+    if (!places.length) {
+      status.textContent = `Nu am găsit „${city}”. Încearcă fără diacritice sau adaugă județul.`;
+      return;
+    }
+
+    const place = places[0];
+    const lat = Number(place.lat);
+    const lon = Number(place.lon);
+
+    map.setView([lat, lon], 13);
+    await searchSupermarkets(lat, lon);
+  } catch (error) {
+    status.textContent = `Căutarea localității a eșuat: ${error.message}`;
+  }
+}
+
 
   document.querySelector("#searchCity").addEventListener("click", searchCity);
   document.querySelector("#city").addEventListener("keydown", event => {
