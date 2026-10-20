@@ -4,7 +4,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Meniu în buget</title>
-
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
   <style>
@@ -17,37 +16,39 @@
       --text: #202820;
       --muted: #657164;
       --border: #dce4d8;
+      --cream: #fffdf7;
     }
 
     body {
       margin: 0;
       background: var(--bg);
       color: var(--text);
-      font: 16px/1.5 system-ui, sans-serif;
+      font: 16px/1.55 system-ui, sans-serif;
     }
 
     header {
-      padding: 26px 20px;
-      background: var(--green-dark);
+      padding: 30px 20px;
+      background: linear-gradient(120deg, var(--green-dark), #38865b);
       color: white;
     }
 
-    header > div, main { max-width: 1000px; margin: auto; }
-    header h1 { margin: 0 0 4px; }
+    header > div, main { max-width: 1050px; margin: auto; }
+    header h1 { margin: 0 0 5px; font-size: clamp(1.7rem, 4vw, 2.3rem); }
     header p { margin: 0; color: #e1eee4; }
 
     main { padding: 22px 16px 48px; }
 
     .card {
       margin-bottom: 18px;
-      padding: 20px;
+      padding: 22px;
       background: white;
       border: 1px solid var(--border);
-      border-radius: 16px;
-      box-shadow: 0 4px 18px #2030200b;
+      border-radius: 18px;
+      box-shadow: 0 5px 20px #2030200b;
     }
 
-    h2 { margin: 0 0 12px; font-size: 1.3rem; }
+    h2 { margin: 0 0 12px; font-size: 1.35rem; }
+    h3 { margin: 0; }
     label { display: block; margin: 12px 0 5px; font-weight: 650; }
 
     input, select, button {
@@ -55,7 +56,7 @@
       min-height: 44px;
       padding: 10px 12px;
       border: 1px solid #cbd6c8;
-      border-radius: 9px;
+      border-radius: 10px;
       background: white;
       color: var(--text);
       font: inherit;
@@ -83,6 +84,83 @@
     .muted, .status { color: var(--muted); }
     .status { margin: 12px 0; }
 
+    .intro { margin: 0 0 14px; color: var(--muted); }
+    .results { margin-top: 22px; }
+    .summary {
+      padding: 12px 14px;
+      background: #edf5ee;
+      border-radius: 12px;
+    }
+
+    .meal {
+      margin-top: 14px;
+      padding: 17px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--cream);
+    }
+
+    .meal-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .meal h3 { font-size: 1.08rem; }
+    .meal-meta { margin: 4px 0 12px; color: var(--muted); font-size: .94rem; }
+    .meal h4 { margin: 15px 0 6px; }
+    .meal ol { margin: 6px 0 0; padding-left: 22px; }
+    .meal li { margin: 4px 0; }
+
+    .category-tag {
+      display: inline-block;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: #e7f1e8;
+      color: var(--green-dark);
+      font-size: .82rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .shopping-list { list-style: none; padding: 0 !important; }
+    .shopping-list li { margin: 7px 0; }
+    .shopping-list label {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0;
+      font-weight: 450;
+    }
+
+    .shopping-list input { width: 18px; min-height: 18px; margin: 0; accent-color: var(--green); }
+    .already-have { color: var(--muted); text-decoration: line-through; }
+    .empty-note { color: var(--green-dark); }
+
+    .category-block { margin-top: 22px; }
+    .category-block h3 { margin-bottom: 10px; }
+    .recipe-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .recipe-card {
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: #fff;
+    }
+
+    .recipe-card p { margin: 7px 0 0; color: var(--muted); font-size: .94rem; }
+    .filter-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0; }
+    .filter-button {
+      width: auto;
+      min-height: 38px;
+      padding: 7px 13px;
+      background: white;
+      border: 1px solid var(--border);
+      color: var(--green-dark);
+      border-radius: 999px;
+    }
+    .filter-button.active { background: var(--green); color: white; }
+
     #map {
       height: 380px;
       border: 1px solid var(--border);
@@ -91,26 +169,19 @@
     }
 
     #stores { display: grid; gap: 10px; margin-top: 14px; }
-
-    .store {
-      padding: 13px;
-      border: 1px solid var(--border);
-      border-radius: 11px;
-    }
-
+    .store { padding: 13px; border: 1px solid var(--border); border-radius: 11px; }
     .store h3 { margin: 0 0 4px; font-size: 1.05rem; }
     .store p { margin: 3px 0; }
     .store button { margin-top: 9px; }
 
-    .meal { padding: 12px 0; border-top: 1px solid #e7ece5; }
-    .meal h3 { margin: 0; }
-
     [hidden] { display: none !important; }
 
     @media (max-width: 600px) {
-      header { padding: 22px 16px; }
-      .grid, .actions { grid-template-columns: 1fr; }
+      header { padding: 23px 16px; }
+      .grid, .actions, .recipe-grid { grid-template-columns: 1fr; }
+      .card { padding: 17px; }
       #map { height: 320px; }
+      .meal-top { align-items: start; }
     }
   </style>
 </head>
@@ -118,14 +189,15 @@
 <body>
 <header>
   <div>
-    <h1>Meniu în buget</h1>
-    <p>Mese planificate pentru bugetul și ingredientele tale.</p>
+    <h1>🥗 Meniu în buget</h1>
+    <p>Planifică mese simple, vezi ce ingrediente îți lipsesc și găsește magazine în apropiere.</p>
   </div>
 </header>
 
 <main>
   <section class="card">
     <h2>Planifică mesele</h2>
+    <p class="intro">Alege bugetul, numărul de persoane și ce ai deja în bucătărie.</p>
 
     <form id="planner">
       <div class="grid">
@@ -134,8 +206,8 @@
           <input id="budget" type="number" min="20" value="150" required>
         </div>
         <div>
-          <label for="people">Număr de persoane</label>
-          <input id="people" type="number" min="1" value="2" required>
+          <label for="people">Număr de porții</label>
+          <input id="people" type="number" min="1" max="20" value="2" required>
         </div>
       </div>
 
@@ -148,15 +220,21 @@
       <label for="pantry">Ce ai deja? (separate prin virgulă)</label>
       <input id="pantry" placeholder="ex.: orez, ceapă, ouă">
 
-      <button style="margin-top:16px" type="submit">Creează meniul</button>
+      <button style="margin-top:16px" type="submit">Creează meniul pentru 3 zile</button>
     </form>
 
-    <div id="menuResults" hidden aria-live="polite"></div>
+    <div id="menuResults" class="results" hidden aria-live="polite"></div>
   </section>
 
   <section class="card">
-    <h2>Găsește supermarketuri</h2>
-    <p class="muted">Caută magazine după oraș sau folosește locația dispozitivului.</p>
+    <h2>📖 Răsfoiește rețetele</h2>
+    <p class="intro">Rețetele sunt grupate pe categorii. Cantitățile din meniul planificat se adaptează la porțiile alese.</p>
+    <div id="recipeCategories"></div>
+  </section>
+
+  <section class="card">
+    <h2>📍 Găsește supermarketuri</h2>
+    <p class="intro">Caută magazine după oraș sau folosește locația dispozitivului.</p>
 
     <label for="city">Oraș sau localitate</label>
     <input id="city" placeholder="ex.: Cluj-Napoca">
@@ -174,43 +252,224 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
+  // Cantitățile și costurile sunt orientative și sunt calculate pentru 2 porții.
   const recipes = [
-    { name: "Orez cu legume", type: "vegetarian", cost: 24, ingredients: ["orez", "morcovi", "ceapă", "mazăre"], time: "25 min" },
-    { name: "Paste cu sos de roșii", type: "vegetarian", cost: 22, ingredients: ["paste", "roșii", "ceapă", "usturoi"], time: "20 min" },
-    { name: "Omletă cu cartofi", type: "vegetarian", cost: 20, ingredients: ["ouă", "cartofi", "ceapă"], time: "25 min" },
-    { name: "Tocăniță de linte", type: "vegetarian", cost: 26, ingredients: ["linte", "morcovi", "ceapă", "roșii"], time: "35 min" },
-    { name: "Pui cu orez", type: "oricare", cost: 34, ingredients: ["pui", "orez", "morcovi", "ceapă"], time: "40 min" },
-    { name: "Paste cu pui", type: "oricare", cost: 32, ingredients: ["paste", "pui", "roșii"], time: "30 min" }
+    {
+      name: "Orez cu legume", category: "Mâncăruri vegetariene", type: "vegetarian",
+      cost: 24, time: "25 min", servings: 2,
+      ingredients: [
+        { name: "orez", amount: 160, unit: "g" },
+        { name: "morcovi", amount: 2, unit: "buc." },
+        { name: "ceapă", amount: 1, unit: "buc." },
+        { name: "mazăre", amount: 120, unit: "g" }
+      ],
+      steps: ["Spală și taie legumele.", "Călește ceapa și morcovul într-o tigaie.", "Adaugă orezul, mazărea și apă. Fierbe până când orezul este moale."]
+    },
+    {
+      name: "Paste cu sos de roșii", category: "Paste", type: "vegetarian",
+      cost: 22, time: "20 min", servings: 2,
+      ingredients: [
+        { name: "paste", amount: 180, unit: "g" },
+        { name: "roșii", amount: 250, unit: "g" },
+        { name: "ceapă", amount: 1, unit: "buc." },
+        { name: "usturoi", amount: 2, unit: "căței" }
+      ],
+      steps: ["Fierbe pastele conform instrucțiunilor de pe ambalaj.", "Toacă ceapa, usturoiul și roșiile.", "Gătește legumele într-o tigaie, apoi amestecă sosul cu pastele."]
+    },
+    {
+      name: "Omletă cu cartofi", category: "Mic dejun și cine rapide", type: "vegetarian",
+      cost: 20, time: "25 min", servings: 2,
+      ingredients: [
+        { name: "ouă", amount: 4, unit: "buc." },
+        { name: "cartofi", amount: 300, unit: "g" },
+        { name: "ceapă", amount: 1, unit: "buc." }
+      ],
+      steps: ["Taie cartofii cubulețe și gătește-i într-o tigaie.", "Adaugă ceapa tăiată.", "Bate ouăle, toarnă-le peste legume și gătește omleta până se încheagă."]
+    },
+    {
+      name: "Tocăniță de linte", category: "Mâncăruri vegetariene", type: "vegetarian",
+      cost: 26, time: "35 min", servings: 2,
+      ingredients: [
+        { name: "linte", amount: 160, unit: "g" },
+        { name: "morcovi", amount: 2, unit: "buc." },
+        { name: "ceapă", amount: 1, unit: "buc." },
+        { name: "roșii", amount: 200, unit: "g" }
+      ],
+      steps: ["Clătește lintea și taie legumele.", "Pune totul într-o oală cu apă și condimente.", "Fierbe la foc mic până când lintea este fragedă."]
+    },
+    {
+      name: "Cartofi copți cu salată", category: "Mâncăruri vegetariene", type: "vegetarian",
+      cost: 21, time: "40 min", servings: 2,
+      ingredients: [
+        { name: "cartofi", amount: 500, unit: "g" },
+        { name: "roșii", amount: 2, unit: "buc." },
+        { name: "castraveți", amount: 1, unit: "buc." },
+        { name: "salată verde", amount: 1, unit: "buc." }
+      ],
+      steps: ["Spală cartofii, taie-i și așază-i într-o tavă.", "Coace cartofii până se rumenesc și sunt fragezi.", "Servește cu salată din roșii, castraveți și salată verde."]
+    },
+    {
+      name: "Mămăligă cu brânză și ou", category: "Mic dejun și cine rapide", type: "vegetarian",
+      cost: 25, time: "20 min", servings: 2,
+      ingredients: [
+        { name: "mălai", amount: 150, unit: "g" },
+        { name: "brânză", amount: 120, unit: "g" },
+        { name: "ouă", amount: 2, unit: "buc." },
+        { name: "lapte", amount: 100, unit: "ml" }
+      ],
+      steps: ["Prepară mămăliga urmând instrucțiunile de pe ambalaj.", "Fierbe sau prăjește ouăle.", "Servește mămăliga cu brânză, ou și puțin lapte."]
+    },
+    {
+      name: "Pui cu orez", category: "Mese cu carne", type: "oricare",
+      cost: 34, time: "40 min", servings: 2,
+      ingredients: [
+        { name: "pui", amount: 250, unit: "g" },
+        { name: "orez", amount: 160, unit: "g" },
+        { name: "morcovi", amount: 1, unit: "buc." },
+        { name: "ceapă", amount: 1, unit: "buc." }
+      ],
+      steps: ["Taie puiul și legumele.", "Gătește puiul într-o tigaie, apoi adaugă legumele.", "Adaugă orezul și apă; fierbe până când orezul este gata."]
+    },
+    {
+      name: "Paste cu pui", category: "Paste", type: "oricare",
+      cost: 32, time: "30 min", servings: 2,
+      ingredients: [
+        { name: "paste", amount: 180, unit: "g" },
+        { name: "pui", amount: 220, unit: "g" },
+        { name: "roșii", amount: 200, unit: "g" },
+        { name: "smântână", amount: 100, unit: "ml" }
+      ],
+      steps: ["Fierbe pastele conform instrucțiunilor.", "Gătește puiul tăiat bucăți până este bine făcut.", "Adaugă roșiile și smântâna, apoi amestecă sosul cu pastele."]
+    },
+    {
+      name: "Supă de legume", category: "Supe", type: "vegetarian",
+      cost: 23, time: "35 min", servings: 2,
+      ingredients: [
+        { name: "cartofi", amount: 200, unit: "g" },
+        { name: "morcovi", amount: 2, unit: "buc." },
+        { name: "ceapă", amount: 1, unit: "buc." },
+        { name: "țelină", amount: 100, unit: "g" }
+      ],
+      steps: ["Curăță și taie legumele.", "Pune-le la fiert într-o oală cu apă și puțină sare.", "Fierbe până când toate legumele sunt fragede."]
+    },
+    {
+      name: "Salată cu năut", category: "Mâncăruri vegetariene", type: "vegetarian",
+      cost: 27, time: "15 min", servings: 2,
+      ingredients: [
+        { name: "năut", amount: 240, unit: "g" },
+        { name: "roșii", amount: 2, unit: "buc." },
+        { name: "castraveți", amount: 1, unit: "buc." },
+        { name: "brânză", amount: 80, unit: "g" }
+      ],
+      steps: ["Scurge și clătește năutul.", "Taie roșiile și castravetele.", "Amestecă ingredientele și adaugă brânza."]
+    },
+    {
+      name: "Tocăniță de pui cu cartofi", category: "Mese cu carne", type: "oricare",
+      cost: 35, time: "40 min", servings: 2,
+      ingredients: [
+        { name: "pui", amount: 250, unit: "g" },
+        { name: "cartofi", amount: 350, unit: "g" },
+        { name: "ceapă", amount: 1, unit: "buc." },
+        { name: "morcovi", amount: 1, unit: "buc." }
+      ],
+      steps: ["Taie puiul și legumele în bucăți.", "Rumenește ușor puiul și ceapa într-o oală.", "Adaugă cartofii, morcovii și apă; fierbe până sunt fragede."]
+    },
+    {
+      name: "Clătite simple", category: "Mic dejun și cine rapide", type: "vegetarian",
+      cost: 19, time: "25 min", servings: 2,
+      ingredients: [
+        { name: "făină", amount: 150, unit: "g" },
+        { name: "lapte", amount: 250, unit: "ml" },
+        { name: "ouă", amount: 2, unit: "buc." }
+      ],
+      steps: ["Amestecă făina, laptele și ouăle până obții un aluat fluid.", "Toarnă câte puțin aluat într-o tigaie încinsă.", "Coace clătitele pe ambele părți și servește-le cu umplutura preferată."]
+    }
   ];
+
+  function normalize(text) {
+    return text.trim().toLocaleLowerCase("ro");
+  }
+
+  function formatAmount(amount) {
+    return Number.isInteger(amount) ? amount : Number(amount.toFixed(1));
+  }
+
+  function scaledIngredients(recipe, portions) {
+    const factor = portions / recipe.servings;
+    return recipe.ingredients.map(item => ({
+      ...item,
+      scaled: formatAmount(item.amount * factor)
+    }));
+  }
+
+  function getPantry() {
+    return document.querySelector("#pantry").value
+      .split(",")
+      .map(normalize)
+      .filter(Boolean);
+  }
+
+  function renderMeal(recipe, day, portions, pantry) {
+    const ingredients = scaledIngredients(recipe, portions);
+    const cost = Math.round(recipe.cost * portions / recipe.servings);
+    const shopping = ingredients.filter(item => !pantry.includes(normalize(item.name)));
+
+    return `
+      <article class="meal">
+        <div class="meal-top">
+          <h3>Ziua ${day}: ${recipe.name}</h3>
+          <span class="category-tag">${recipe.category}</span>
+        </div>
+        <p class="meal-meta">${recipe.time} · ${portions} ${portions === 1 ? "porție" : "porții"} · cost estimat ${cost} lei</p>
+
+        <h4>Mod de preparare</h4>
+        <ol>${recipe.steps.map(step => `<li>${step}</li>`).join("")}</ol>
+
+        <h4>Listă de cumpărături pentru ${portions} ${portions === 1 ? "porție" : "porții"}</h4>
+        ${ingredients.length ? `
+          <ul class="shopping-list">
+            ${ingredients.map(item => {
+              const have = pantry.includes(normalize(item.name));
+              return `<li><label class="${have ? "already-have" : ""}">
+                <input type="checkbox" ${have ? "checked disabled" : ""}>
+                <span>${item.name} — ${item.scaled} ${item.unit}${have ? " (ai deja)" : ""}</span>
+              </label></li>`;
+            }).join("")}
+          </ul>
+        ` : ""}
+        ${shopping.length === 0 ? `<p class="empty-note">Ai deja toate ingredientele acestei rețete.</p>` : ""}
+      </article>
+    `;
+  }
 
   document.querySelector("#planner").addEventListener("submit", event => {
     event.preventDefault();
 
     const budget = Number(document.querySelector("#budget").value);
-    const people = Number(document.querySelector("#people").value);
+    const portions = Math.max(1, Number(document.querySelector("#people").value));
     const preference = document.querySelector("#preference").value;
-    const pantry = document.querySelector("#pantry").value
-      .toLocaleLowerCase("ro")
-      .split(",")
-      .map(item => item.trim())
-      .filter(Boolean);
+    const pantry = getPantry();
 
     const candidates = recipes
-      .filter(recipe => preference === "oricare" || recipe.type === preference)
-      .map(recipe => ({ ...recipe, total: recipe.cost * people }))
-      .filter(recipe => recipe.total <= budget)
-      .sort((a, b) =>
-        b.ingredients.filter(item => pantry.includes(item)).length -
-        a.ingredients.filter(item => pantry.includes(item)).length
-      );
+      .filter(recipe => preference === "oricare" || recipe.type === "vegetarian")
+      .map(recipe => ({
+        recipe,
+        cost: Math.round(recipe.cost * portions / recipe.servings)
+      }))
+      .filter(item => item.cost <= budget)
+      .sort((a, b) => {
+        const haveA = a.recipe.ingredients.filter(i => pantry.includes(normalize(i.name))).length;
+        const haveB = b.recipe.ingredients.filter(i => pantry.includes(normalize(i.name))).length;
+        return haveB - haveA;
+      });
 
     const chosen = [];
     let total = 0;
 
-    for (const recipe of candidates) {
-      if (chosen.length < 3 && total + recipe.total <= budget) {
-        chosen.push(recipe);
-        total += recipe.total;
+    for (const item of candidates) {
+      if (chosen.length < 3 && total + item.cost <= budget) {
+        chosen.push(item);
+        total += item.cost;
       }
     }
 
@@ -218,31 +477,68 @@
     results.hidden = false;
 
     if (!chosen.length) {
-      results.innerHTML = "<p>Bugetul este prea mic pentru exemplele disponibile. Încearcă o sumă mai mare.</p>";
+      results.innerHTML = "<p>Bugetul este prea mic pentru rețetele disponibile. Încearcă o sumă mai mare.</p>";
       return;
     }
 
-    const shopping = [...new Set(chosen.flatMap(recipe => recipe.ingredients))]
-      .filter(item => !pantry.includes(item));
-
     results.innerHTML = `
-      <h2 style="margin-top:22px">Meniul tău pentru 3 zile</h2>
-      <p><strong>Cost estimat:</strong> aproximativ ${total} lei pentru ${people} ${people === 1 ? "persoană" : "persoane"}.</p>
-      ${chosen.map((recipe, index) => `
-        <article class="meal">
-          <h3>Ziua ${index + 1}: ${recipe.name}</h3>
-          <p class="muted">${recipe.time} · aproximativ ${recipe.total} lei</p>
-          <p>Ingrediente: ${recipe.ingredients.join(", ")}</p>
-        </article>
-      `).join("")}
-      <h3>Listă de cumpărături</h3>
-      ${shopping.length
-        ? `<ul>${shopping.map(item => `<li>${item}</li>`).join("")}</ul>`
-        : "<p>Ai deja toate ingredientele din meniu.</p>"}
-      <p class="muted">Prețurile sunt demonstrative.</p>
+      <h2>Meniul tău pentru 3 zile</h2>
+      <p class="summary"><strong>Cost estimat:</strong> aproximativ ${total} lei pentru ${portions} ${portions === 1 ? "porție" : "porții"} pe rețetă. Bifează ingredientele pe măsură ce le cumperi.</p>
+      ${chosen.map((item, index) => renderMeal(item.recipe, index + 1, portions, pantry)).join("")}
+      <p class="muted">Prețurile sunt orientative. Cantitățile sunt calculate proporțional pornind de la rețete pentru 2 porții.</p>
     `;
   });
 
+  function renderRecipeCategories() {
+    const container = document.querySelector("#recipeCategories");
+    const categories = [...new Set(recipes.map(recipe => recipe.category))];
+
+    container.innerHTML = `
+      <div class="filter-row" aria-label="Filtrează rețetele după categorie">
+        <button type="button" class="filter-button active" data-category="Toate">Toate</button>
+        ${categories.map(category => `<button type="button" class="filter-button" data-category="${category}">${category}</button>`).join("")}
+      </div>
+      <div id="recipeCatalog"></div>
+    `;
+
+    function showCategory(selected) {
+      document.querySelectorAll(".filter-button").forEach(button => {
+        button.classList.toggle("active", button.dataset.category === selected);
+      });
+
+      const visible = selected === "Toate"
+        ? recipes
+        : recipes.filter(recipe => recipe.category === selected);
+
+      const groups = selected === "Toate"
+        ? categories.map(category => [category, visible.filter(recipe => recipe.category === category)])
+        : [[selected, visible]];
+
+      document.querySelector("#recipeCatalog").innerHTML = groups.map(([category, group]) => `
+        <section class="category-block">
+          <h3>${category}</h3>
+          <div class="recipe-grid">
+            ${group.map(recipe => `
+              <article class="recipe-card">
+                <h3>${recipe.name}</h3>
+                <p>${recipe.time} · ${recipe.type === "vegetarian" ? "Vegetariană" : "Cu carne"} · aproximativ ${recipe.cost} lei / 2 porții</p>
+              </article>
+            `).join("")}
+          </div>
+        </section>
+      `).join("");
+    }
+
+    container.querySelectorAll(".filter-button").forEach(button => {
+      button.addEventListener("click", () => showCategory(button.dataset.category));
+    });
+
+    showCategory("Toate");
+  }
+
+  renderRecipeCategories();
+
+  // Harta și căutarea supermarketurilor
   const map = L.map("map").setView([45.9432, 24.9668], 6);
 
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -387,7 +683,6 @@
 
       const data = await response.json();
       const features = data.features || [];
-
       const place = features.find(feature =>
         feature.properties?.countrycode?.toUpperCase() === "RO"
       ) || features[0];
