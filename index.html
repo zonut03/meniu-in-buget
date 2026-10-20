@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Meniu în buget</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 24px; background: #f5f7f2; color: #202820;
+      font: 16px/1.5 system-ui, sans-serif;
+    }
+    main { max-width: 760px; margin: auto; }
+    h1 { margin-bottom: 4px; }
+    .intro { color: #536153; margin-top: 0; }
+    form, .results {
+      background: white; padding: 22px; border-radius: 16px;
+      box-shadow: 0 3px 16px #20302012; margin-top: 20px;
+    }
+    label { display: block; font-weight: 650; margin: 14px 0 5px; }
+    input, select, button {
+      width: 100%; padding: 11px; border: 1px solid #ccd5c8;
+      border-radius: 9px; font: inherit;
+    }
+    button {
+      margin-top: 20px; border: 0; background: #286b45;
+      color: white; font-weight: 700; cursor: pointer;
+    }
+    button:hover { background: #1f5537; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .meal { border-top: 1px solid #e5eae2; padding: 12px 0; }
+    .meal h3 { margin: 0; }
+    .muted { color: #647064; font-size: .95rem; }
+    .notice { color: #8a4d00; }
+    [hidden] { display: none; }
+    @media (max-width: 520px) {
+      body { padding: 14px; }
+      .row { grid-template-columns: 1fr; gap: 0; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Meniu în buget</h1>
+  <p class="intro">Planifică mesele folosind ce ai deja și cumpără doar ce îți lipsește.</p>
+
+  <form id="planner">
+    <div class="row">
+      <div>
+        <label for="budget">Buget pentru 3 zile (lei)</label>
+        <input id="budget" type="number" min="20" value="150" required>
+      </div>
+      <div>
+        <label for="people">Număr de persoane</label>
+        <input id="people" type="number" min="1" value="2" required>
+      </div>
+    </div>
+
+    <label for="preference">Preferință alimentară</label>
+    <select id="preference">
+      <option value="oricare">Fără preferințe</option>
+      <option value="vegetarian">Vegetarian</option>
+    </select>
+
+    <label for="pantry">Ce ai deja? (separate prin virgulă)</label>
+    <input id="pantry" placeholder="ex.: orez, ceapă, ouă">
+
+    <button type="submit">Creează meniul</button>
+  </form>
+
+  <section id="results" class="results" hidden aria-live="polite"></section>
+</main>
+
+<script>
+  const recipes = [
+    {
+      name: "Orez cu legume",
+      type: "vegetarian",
+      cost: 24,
+      ingredients: ["orez", "morcovi", "ceapă", "mazăre"],
+      time: "25 min"
+    },
+    {
+      name: "Paste cu sos de roșii",
+      type: "vegetarian",
+      cost: 22,
+      ingredients: ["paste", "roșii", "ceapă", "usturoi"],
+      time: "20 min"
+    },
+    {
+      name: "Omletă cu cartofi",
+      type: "vegetarian",
+      cost: 20,
+      ingredients: ["ouă", "cartofi", "ceapă"],
+      time: "25 min"
+    },
+    {
+      name: "Tocăniță de linte",
+      type: "vegetarian",
+      cost: 26,
+      ingredients: ["linte", "morcovi", "ceapă", "roșii"],
+      time: "35 min"
+    },
+    {
+      name: "Pui cu orez",
+      type: "oricare",
+      cost: 34,
+      ingredients: ["pui", "orez", "morcovi", "ceapă"],
+      time: "40 min"
+    },
+    {
+      name: "Paste cu pui",
+      type: "oricare",
+      cost: 32,
+      ingredients: ["paste", "pui", "roșii"],
+      time: "30 min"
+    }
+  ];
+
+  const form = document.querySelector("#planner");
+  const output = document.querySelector("#results");
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const budget = Number(document.querySelector("#budget").value);
+    const people = Number(document.querySelector("#people").value);
+    const preference = document.querySelector("#preference").value;
+    const pantry = document.querySelector("#pantry").value
+      .toLocaleLowerCase("ro")
+      .split(",")
+      .map(item => item.trim())
+      .filter(Boolean);
+
+    // Costurile din prototip sunt pentru o persoană.
+    const available = recipes
+      .filter(recipe => preference === "oricare" || recipe.type === preference)
+      .map(recipe => ({
+        ...recipe,
+        totalCost: recipe.cost * people
+      }))
+      .filter(recipe => recipe.totalCost <= budget)
+      .sort((a, b) => {
+        const aUses = a.ingredients.filter(i => pantry.includes(i)).length;
+        const bUses = b.ingredients.filter(i => pantry.includes(i)).length;
+        return bUses - aUses || a.totalCost - b.totalCost;
+      });
+
+    const menu = [];
+    let total = 0;
+
+    for (const recipe of available) {
+      if (menu.length === 3) break;
+      if (total + recipe.totalCost <= budget) {
+        menu.push(recipe);
+        total += recipe.totalCost;
+      }
+    }
+
+    if (!menu.length) {
+      output.innerHTML = "<p>Bugetul este prea mic pentru exemplele disponibile. Încearcă o sumă mai mare.</p>";
+      output.hidden = false;
+      return;
+    }
+
+    const shoppingList = [...new Set(
+      menu.flatMap(recipe => recipe.ingredients)
+        .filter(ingredient => !pantry.includes(ingredient))
+    )];
+
+    output.innerHTML = `
+      <h2>Meniul tău pentru 3 zile</h2>
+      <p><strong>Cost estimat:</strong> aproximativ ${total} lei pentru ${people} ${people === 1 ? "persoană" : "persoane"}.</p>
+      ${menu.map((recipe, index) => `
+        <article class="meal">
+          <h3>Ziua ${index + 1}: ${recipe.name}</h3>
+          <p class="muted">${recipe.time} · aproximativ ${recipe.totalCost} lei</p>
+          <p>Ingrediente: ${recipe.ingredients.join(", ")}</p>
+        </article>
+      `).join("")}
+      <h2>Listă de cumpărături</h2>
+      ${shoppingList.length
+        ? `<ul>${shoppingList.map(item => `<li>${item}</li>`).join("")}</ul>`
+        : "<p>Ai deja toate ingredientele din acest meniu.</p>"}
+      <p class="muted">Prețurile sunt demonstrative; meniul nu ține încă evidența cantităților sau a prețurilor magazinelor.</p>
+    `;
+
+    output.hidden = false;
+    output.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+</script>
+</body>
+</html>
