@@ -183,6 +183,85 @@
       #map { height: 320px; }
       .meal-top { align-items: start; }
     }
+    .online-search {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: end;
+}
+
+.online-search label {
+  grid-column: 1 / -1;
+  margin-bottom: -5px;
+}
+
+.online-search button {
+  width: auto;
+  min-width: 140px;
+}
+
+.online-recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.online-recipe-card {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: white;
+}
+
+.online-recipe-card img {
+  display: block;
+  width: 100%;
+  height: 210px;
+  object-fit: cover;
+  background: #edf1eb;
+}
+
+.online-recipe-content {
+  padding: 15px;
+}
+
+.online-recipe-content h3 {
+  margin: 0 0 5px;
+}
+
+.online-recipe-content p {
+  margin: 6px 0;
+}
+
+.online-recipe-content details {
+  margin-top: 10px;
+}
+
+.online-recipe-content summary {
+  color: var(--green-dark);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.online-recipe-content a {
+  display: inline-block;
+  margin-top: 12px;
+  color: var(--green-dark);
+  font-weight: 700;
+}
+
+@media (max-width: 600px) {
+  .online-search,
+  .online-recipe-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .online-search button {
+    width: 100%;
+  }
+}
+
   </style>
 </head>
 
@@ -231,6 +310,19 @@
     <p class="intro">Rețetele sunt grupate pe categorii. Cantitățile din meniul planificat se adaptează la porțiile alese.</p>
     <div id="recipeCategories"></div>
   </section>
+<section class="card">
+  <h2>🌐 Rețete de pe internet</h2>
+  <p class="intro">Caută un preparat și descoperă rețete cu fotografii și instrucțiuni.</p>
+
+  <form id="onlineRecipeForm" class="online-search">
+    <label for="onlineRecipeSearch">Ce ai vrea să gătești?</label>
+    <input id="onlineRecipeSearch" type="search" placeholder="ex.: pasta, chicken, soup" required>
+    <button type="submit">Caută rețete</button>
+  </form>
+
+  <p id="onlineRecipeStatus" class="status" aria-live="polite"></p>
+  <div id="onlineRecipeResults" class="online-recipe-grid"></div>
+</section>
 
   <section class="card">
     <h2>📍 Găsește supermarketuri</h2>
@@ -750,6 +842,109 @@
       { enableHighAccuracy: true, timeout: 12000 }
     );
   });
+  const onlineRecipeForm = document.querySelector("#onlineRecipeForm");
+const onlineRecipeSearch = document.querySelector("#onlineRecipeSearch");
+const onlineRecipeStatus = document.querySelector("#onlineRecipeStatus");
+const onlineRecipeResults = document.querySelector("#onlineRecipeResults");
+
+function escapeRecipeText(value) {
+  const element = document.createElement("span");
+  element.textContent = value || "";
+  return element.innerHTML;
+}
+
+function getOnlineIngredients(meal) {
+  const ingredients = [];
+
+  for (let i = 1; i <= 20; i++) {
+    const ingredient = meal[`strIngredient${i}`]?.trim();
+    const measure = meal[`strMeasure${i}`]?.trim();
+
+    if (ingredient) {
+      ingredients.push(
+        `${escapeRecipeText(measure)} ${escapeRecipeText(ingredient)}`.trim()
+      );
+    }
+  }
+
+  return ingredients;
+}
+
+onlineRecipeForm.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const searchTerm = onlineRecipeSearch.value.trim();
+
+  if (!searchTerm) return;
+
+  onlineRecipeStatus.textContent = "Caut rețete…";
+  onlineRecipeResults.replaceChildren();
+
+  try {
+    const url = new URL("https://www.themealdb.com/api/json/v1/1/search.php");
+    url.searchParams.set("s", searchTerm);
+
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error("Serviciul de rețete nu a răspuns.");
+    }
+
+    const data = await response.json();
+    const meals = data.meals || [];
+
+    if (!meals.length) {
+      onlineRecipeStatus.textContent =
+        "Nu am găsit rețete pentru această căutare. Încearcă un termen în engleză, de exemplu „pasta” sau „chicken”.";
+      return;
+    }
+
+    onlineRecipeStatus.textContent = `Am găsit ${meals.length} rețete.`;
+    onlineRecipeResults.innerHTML = meals.map(meal => {
+      const ingredients = getOnlineIngredients(meal);
+      const instructions = escapeRecipeText(meal.strInstructions);
+      const sourceUrl = /^https?:\/\//i.test(meal.strSource || "")
+        ? meal.strSource
+        : "";
+      const imageUrl = /^https?:\/\//i.test(meal.strMealThumb || "")
+        ? meal.strMealThumb
+        : "";
+
+      return `
+        <article class="online-recipe-card">
+          ${imageUrl
+            ? `<img src="${escapeRecipeText(imageUrl)}" alt="Fotografie: ${escapeRecipeText(meal.strMeal)}" loading="lazy">`
+            : ""}
+          <div class="online-recipe-content">
+            <h3>${escapeRecipeText(meal.strMeal)}</h3>
+            <p class="muted">
+              ${escapeRecipeText(meal.strCategory || "Rețetă")}
+              ${meal.strArea ? ` · ${escapeRecipeText(meal.strArea)}` : ""}
+            </p>
+
+            <details>
+              <summary>Ingrediente (${ingredients.length})</summary>
+              <ul>${ingredients.map(item => `<li>${item}</li>`).join("")}</ul>
+            </details>
+
+            <details>
+              <summary>Mod de preparare</summary>
+              <p>${instructions.replace(/\r?\n/g, "<br>")}</p>
+            </details>
+
+            ${sourceUrl
+              ? `<a href="${escapeRecipeText(sourceUrl)}" target="_blank" rel="noopener noreferrer">Deschide sursa rețetei ↗</a>`
+              : ""}
+          </div>
+        </article>
+      `;
+    }).join("");
+  } catch (error) {
+    onlineRecipeStatus.textContent =
+      "Nu am putut încărca rețetele. Verifică conexiunea și încearcă din nou.";
+  }
+});
+
 </script>
 </body>
 </html>
