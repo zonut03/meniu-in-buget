@@ -139,6 +139,86 @@
       .section-head { align-items: start; flex-direction: column; }
       #map { height: 360px; }
     }
+    /* Funcții noi Poftim! */
+.new-feature { margin: 24px 0; }
+.nutrition {
+  background: #edf3e9;
+  border-radius: 12px;
+  padding: 12px;
+  margin-top: 12px;
+}
+.nutrition-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 10px;
+}
+.nutrition-item {
+  background: white;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+}
+.nutrition-item strong { display: block; color: var(--green); }
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+.feature-card {
+  overflow: hidden;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.feature-card img {
+  display: block;
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+}
+.feature-body { padding: 16px; }
+.feature-body p { color: var(--muted); }
+.delivery-logo {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  border-radius: 10px;
+}
+.blog-entry {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+.blog-entry img {
+  width: 100%;
+  max-height: 260px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+.upload-area {
+  border: 2px dashed #b9cbb7;
+  border-radius: 16px;
+  padding: 22px;
+  text-align: center;
+  background: white;
+}
+.upload-preview {
+  display: block;
+  max-width: 100%;
+  max-height: 320px;
+  object-fit: contain;
+  margin: 14px auto;
+  border-radius: 12px;
+}
+@media(max-width:800px) {
+  .feature-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+@media(max-width:560px) {
+  .feature-grid { grid-template-columns: 1fr; }
+  .nutrition-grid { grid-template-columns: repeat(2,1fr); }
+}
   </style>
 </head>
 
@@ -212,6 +292,79 @@
     <div id="recipeGrid" class="recipe-grid"></div>
   </section>
 
+<!-- Deserturi -->
+<section id="deserturi" class="section">
+  <div class="section-head">
+    <div>
+      <div class="eyebrow">Ceva dulce</div>
+      <h2>Deserturi</h2>
+      <p>Idei dulci, ingrediente și informații nutriționale estimative.</p>
+    </div>
+  </div>
+  <div id="dessertGrid" class="feature-grid"></div>
+</section>
+
+<!-- Scanner foto -->
+<section id="scanner" class="section">
+  <div class="section-head">
+    <div>
+      <div class="eyebrow">Descoperă ce mănânci</div>
+      <h2>Scanner foto pentru mâncare</h2>
+      <p>Încarcă o fotografie pentru a încerca identificarea preparatului.</p>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="upload-area">
+      <label for="foodPhoto">Alege fotografia preparatului</label>
+      <input id="foodPhoto" type="file" accept="image/*" capture="environment">
+      <img id="foodPreview" class="upload-preview" hidden alt="Previzualizare mâncare">
+      <button class="btn" id="analyzeFood" type="button">Analizează fotografia</button>
+    </div>
+    <div id="foodAnalysis" aria-live="polite"></div>
+    <p class="recipe-meta">
+      Estimările nu înlocuiesc analiza nutrițională profesională.
+      Identificarea automată necesită conectarea unui serviciu de analiză foto.
+    </p>
+  </div>
+</section>
+
+<!-- Blog separat -->
+<section id="blog" class="section">
+  <div class="section-head">
+    <div>
+      <div class="eyebrow">Povești din bucătărie</div>
+      <h2>Blog culinar</h2>
+      <p>Împărtășește rețete, experiențe și secrete culinare.</p>
+    </div>
+  </div>
+  <div class="two-col">
+    <div class="panel">
+      <h3>Publică o poveste</h3>
+      <label for="blogTitle">Titlul articolului</label>
+      <input class="field" id="blogTitle" maxlength="120"
+             placeholder="Rețeta mea preferată" style="width:100%">
+      <label for="blogAuthor" style="margin-top:12px">Autor</label>
+      <input class="field" id="blogAuthor" maxlength="60"
+             placeholder="Numele tău" style="width:100%">
+      <label for="blogText" style="margin-top:12px">Povestea sau rețeta</label>
+      <textarea id="blogText" maxlength="10000"
+                placeholder="Povestește cum prepari rețeta..."></textarea>
+      <label for="blogPhoto" style="margin-top:12px">Fotografie (opțional)</label>
+      <input id="blogPhoto" type="file" accept="image/*">
+      <button class="btn" id="publishBlog" style="margin-top:12px">
+        Publică articolul
+      </button>
+      <p class="recipe-meta">
+        Articolele acestei demonstrații sunt salvate în browserul curent.
+      </p>
+    </div>
+    <div class="panel">
+      <h3>Articolele comunității</h3>
+      <div id="blogList"></div>
+    </div>
+  </div>
+</section>
+
   <section id="lista" class="section">
     <div class="section-head"><div><div class="eyebrow" data-i18n="organized">Totul la îndemână</div><h2 data-i18n="shoppingTitle">Cumpărături & inventar</h2></div></div>
     <div class="two-col">
@@ -253,10 +406,37 @@
 
   <section class="section">
     <div class="section-head"><div><div class="eyebrow" data-i18n="takeaway">Poftă de ceva gata?</div><h2 data-i18n="deliveryTitle">Livrare în România</h2></div></div>
-    <div class="delivery">
-      <a href="https://glovoapp.com/ro/ro/cluj-napoca/" target="_blank" rel="noopener"><div class="panel">🛵 Glovo <span>↗</span></div></a>
-      <a href="https://wolt.com/ro/rou/cluj-napoca" target="_blank" rel="noopener"><div class="panel">🍔 Wolt <span>↗</span></div></a>
+   
+<div class="delivery">
+  <a href="https://glovoapp.com/ro/ro/cluj-napoca/"
+     target="_blank" rel="noopener noreferrer">
+    <div class="panel">
+      <img class="delivery-logo"
+           src="https://www.google.com/s2/favicons?domain=glovoapp.com&sz=128"
+           alt="Logo Glovo">
+      Glovo ↗
     </div>
+  </a>
+  <a href="https://bolt.eu/ro-ro/food/"
+     target="_blank" rel="noopener noreferrer">
+    <div class="panel">
+      <img class="delivery-logo"
+           src="https://www.google.com/s2/favicons?domain=bolt.eu&sz=128"
+           alt="Logo Bolt Food">
+      Bolt Food ↗
+    </div>
+  </a>
+  <a href="https://www.bringo.ro/"
+     target="_blank" rel="noopener noreferrer">
+    <div class="panel">
+      <img class="delivery-logo"
+           src="https://www.google.com/s2/favicons?domain=bringo.ro&sz=128"
+           alt="Logo Bringo">
+      Bringo ↗
+    </div>
+  </a>
+</div>
+
   </section>
 
   <section id="comunitate" class="section">
@@ -599,6 +779,206 @@
   $("#mapCity").addEventListener("keydown",e=>{if(e.key==="Enter")findPlaces();});
 
   initCategories(); translatePage(); initMap();
+/* ===== Funcții suplimentare Poftim! ===== */
+
+const dessertRecipes = [
+  {
+    id: "pancakes",
+    name: "Clătite cu fructe",
+    image: "https://images.unsplash.com/photo-1528207776546-365bb710ee93?auto=format&fit=crop&w=900&q=80",
+    ingredients: ["200 g făină", "250 ml lapte", "2 ouă", "150 g fructe"],
+    kcal: 210, protein: 7, carbs: 32, fat: 6
+  },
+  {
+    id: "cheesecake",
+    name: "Cheesecake",
+    image: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=900&q=80",
+    ingredients: ["200 g biscuiți", "400 g cremă de brânză", "2 ouă", "80 g zahăr"],
+    kcal: 320, protein: 6, carbs: 28, fat: 21
+  },
+  {
+    id: "tiramisu",
+    name: "Tiramisu",
+    image: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=900&q=80",
+    ingredients: ["Pișcoturi", "Mascarpone", "Cafea", "Ouă", "Cacao"],
+    kcal: 350, protein: 6, carbs: 31, fat: 23
+  }
+];
+
+function renderDesserts() {
+  const grid = document.querySelector("#dessertGrid");
+  if (!grid) return;
+
+  grid.innerHTML = dessertRecipes.map((d, i) => `
+    <article class="feature-card">
+      <img src="${escapeHtml(d.image)}" alt="${escapeHtml(d.name)}" loading="lazy">
+      <div class="feature-body">
+        <h3>${escapeHtml(d.name)}</h3>
+        <div class="recipe-meta">Valori orientative per 100 g</div>
+        <div class="nutrition">
+          <div class="nutrition-grid">
+            <div class="nutrition-item"><strong>${d.kcal}</strong><small>kcal</small></div>
+            <div class="nutrition-item"><strong>${d.protein} g</strong><small>Proteine</small></div>
+            <div class="nutrition-item"><strong>${d.carbs} g</strong><small>Carbohidrați</small></div>
+            <div class="nutrition-item"><strong>${d.fat} g</strong><small>Grăsimi</small></div>
+          </div>
+        </div>
+        <h4>Ingrediente</h4>
+        <ul class="list">${d.ingredients.map(x => `<li>${escapeHtml(x)}</li>`).join("")}</ul>
+        <button class="btn btn-light" data-dessert="${i}">Adaugă ingredientele</button>
+      </div>
+    </article>
+  `).join("");
+
+  grid.querySelectorAll("[data-dessert]").forEach(button => {
+    button.addEventListener("click", () => {
+      const dessert = dessertRecipes[Number(button.dataset.dessert)];
+      shopping.push(...dessert.ingredients.map(name => ({name, checked: false})));
+      persist("poftim-shopping", shopping);
+      renderShopping();
+      toast("Ingredientele desertului au fost adăugate.");
+    });
+  });
+}
+
+/* Scanner: previzualizarea funcționează local.
+   Analiza reală necesită un API de recunoaștere a alimentelor. */
+let selectedFoodPhoto = null;
+
+const foodPhotoInput = document.querySelector("#foodPhoto");
+if (foodPhotoInput) {
+  foodPhotoInput.addEventListener("change", () => {
+    const file = foodPhotoInput.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      toast("Alege un fișier imagine.");
+      return;
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      toast("Imaginea trebuie să aibă maximum 10 MB.");
+      foodPhotoInput.value = "";
+      return;
+    }
+
+    selectedFoodPhoto = file;
+    const preview = document.querySelector("#foodPreview");
+    preview.src = URL.createObjectURL(file);
+    preview.hidden = false;
+    document.querySelector("#foodAnalysis").textContent =
+      "Fotografie încărcată. Apasă Analizează fotografia.";
+  });
+}
+
+document.querySelector("#analyzeFood")?.addEventListener("click", () => {
+  const result = document.querySelector("#foodAnalysis");
+
+  if (!selectedFoodPhoto) {
+    result.textContent = "Încarcă mai întâi o fotografie.";
+    return;
+  }
+
+  result.innerHTML = `
+    <div class="nutrition">
+      <h3>Fotografie pregătită pentru analiză</h3>
+      <p>Imaginea a fost încărcată. Pentru a identifica efectiv alimentele,
+      ingredientele și caloriile, conectează un serviciu de analiză foto.</p>
+      <p>Nu putem determina în mod fiabil valorile nutriționale doar din
+      fotografia încărcată, fără un model de analiză.</p>
+    </div>`;
+});
+
+/* Blog local: articolele sunt salvate în acest browser.
+   Fotografiile se păstrează ca Data URL numai dacă sunt mici. */
+let blogPosts = [];
+try {
+  blogPosts = JSON.parse(localStorage.getItem("poftim-blog") || "[]");
+  if (!Array.isArray(blogPosts)) blogPosts = [];
+} catch {
+  blogPosts = [];
+}
+
+function renderBlog() {
+  const box = document.querySelector("#blogList");
+  if (!box) return;
+
+  if (!blogPosts.length) {
+    box.innerHTML = '<p class="recipe-meta">Nu există încă articole. Publică prima poveste!</p>';
+    return;
+  }
+
+  box.innerHTML = blogPosts.slice().reverse().map(post => `
+    <article class="blog-entry">
+      ${post.image ? `<img src="${post.image}" alt="Fotografie pentru ${escapeHtml(post.title)}" loading="lazy">` : ""}
+      <h3>${escapeHtml(post.title)}</h3>
+      <small>${escapeHtml(post.author)} · ${new Date(post.time).toLocaleDateString("ro-RO")}</small>
+      <p>${escapeHtml(post.text).replace(/\n/g, "<br>")}</p>
+    </article>
+  `).join("");
+}
+
+document.querySelector("#publishBlog")?.addEventListener("click", async () => {
+  const title = document.querySelector("#blogTitle").value.trim();
+  const author = document.querySelector("#blogAuthor").value.trim();
+  const text = document.querySelector("#blogText").value.trim();
+  const file = document.querySelector("#blogPhoto").files?.[0];
+
+  if (!title || !author || !text) {
+    toast("Completează titlul, autorul și povestea.");
+    return;
+  }
+
+  let imageData = "";
+
+  if (file) {
+    if (!file.type.startsWith("image/")) {
+      toast("Alege o fotografie validă.");
+      return;
+    }
+
+    if (file.size > 700 * 1024) {
+      toast("Pentru blog, alege o fotografie mai mică de 700 KB.");
+      return;
+    }
+
+    try {
+      imageData = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(String(reader.result));
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    } catch {
+      toast("Fotografia nu a putut fi citită.");
+      return;
+    }
+  }
+
+  blogPosts.push({
+    title, author, text, image: imageData, time: Date.now()
+  });
+
+  try {
+    localStorage.setItem("poftim-blog", JSON.stringify(blogPosts));
+  } catch {
+    blogPosts.pop();
+    toast("Spațiul de stocare este plin. Încearcă o fotografie mai mică.");
+    return;
+  }
+
+  document.querySelector("#blogTitle").value = "";
+  document.querySelector("#blogAuthor").value = "";
+  document.querySelector("#blogText").value = "";
+  document.querySelector("#blogPhoto").value = "";
+
+  renderBlog();
+  toast("Articolul a fost salvat în acest browser.");
+});
+
+/* Completează inițializarea fără să înlocuiască funcțiile existente. */
+renderDesserts();
+renderBlog();
 })();
 </script>
 </body>
