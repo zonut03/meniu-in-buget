@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#fff8ef">
   <title>Poftim! — planificator de mese</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
@@ -13,257 +12,124 @@
 
   <style>
     :root {
-      --cream: #fff8ef;
-      --paper: #fffdf9;
-      --ink: #28352d;
-      --muted: #758078;
-      --green: #2e7652;
-      --green-dark: #215c3d;
-      --mint: #e5f2e8;
-      --orange: #f4a340;
-      --peach: #fff0dc;
-      --red: #df4d45;
-      --line: #e9e5dc;
-      --shadow: 0 12px 35px #3c4b3810;
-      --radius: 20px;
+      --cream:#fff8ef; --paper:#fffdf9; --ink:#28352d; --muted:#758078;
+      --green:#2e7652; --green-dark:#215c3d; --mint:#e5f2e8;
+      --orange:#f4a340; --peach:#fff0dc; --red:#df4d45;
+      --line:#e9e5dc; --shadow:0 12px 35px #3c4b3810; --radius:20px;
     }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      background: var(--cream);
-      color: var(--ink);
-      font-family: "DM Sans", sans-serif;
+    * { box-sizing:border-box }
+    html { scroll-behavior:smooth }
+    body { margin:0; background:var(--cream); color:var(--ink); font-family:"DM Sans",sans-serif }
+    button,input,select { font:inherit }
+    button { cursor:pointer }
+    a { color:inherit }
+    .wrap { width:min(1180px,calc(100% - 36px)); margin:auto }
+    header { position:sticky; top:0; z-index:1000; background:#fff8efed; backdrop-filter:blur(12px); border-bottom:1px solid #e9e5dcaa }
+    .nav { min-height:72px; display:flex; align-items:center; justify-content:space-between; gap:16px }
+    .brand { display:flex; align-items:center; gap:10px; text-decoration:none; font:900 25px "Nunito",sans-serif; color:var(--green-dark); white-space:nowrap }
+    .brand-mark { width:39px; height:39px; display:grid; place-items:center; border-radius:14px; background:var(--orange); color:white; transform:rotate(-5deg); font-size:23px }
+    .navlinks { display:flex; gap:16px; align-items:center }
+    .navlinks a { font-size:13px; font-weight:800; text-decoration:none; color:#536157; white-space:nowrap }
+    .navlinks a:hover { color:var(--green) }
+    .nav-actions { display:flex; align-items:center; gap:9px }
+    .btn,.btn-secondary { border:0; border-radius:12px; padding:11px 16px; font-weight:800 }
+    .btn { background:var(--green); color:white }
+    .btn:hover { background:var(--green-dark) }
+    .btn-secondary { background:var(--mint); color:var(--green-dark) }
+    .btn-small { padding:8px 11px; font-size:13px }
+    .icon-btn { background:transparent; border:0; color:var(--muted); font-size:19px; padding:3px 8px }
+    .hero { display:grid; grid-template-columns:1.15fr .85fr; gap:36px; align-items:center; padding:54px 0 36px }
+    .eyebrow { color:var(--green); font-size:12px; font-weight:900; letter-spacing:.12em; text-transform:uppercase }
+    h1,h2,h3,p { margin-top:0 }
+    h1 { font:900 clamp(38px,6vw,68px)/1.02 "Nunito",sans-serif; letter-spacing:-.04em; margin:12px 0 16px }
+    h1 span { color:var(--green) }
+    .hero p { color:var(--muted); font-size:17px; line-height:1.65; max-width:570px }
+    .hero-art { min-height:280px; display:grid; place-items:center; border-radius:34px; background:var(--mint); position:relative; overflow:hidden }
+    .plate { width:220px; height:220px; display:grid; place-items:center; border-radius:50%; background:#fffdf6; box-shadow:0 15px 35px #194d2c1c; font-size:105px; transform:rotate(-8deg) }
+    .float-tag { position:absolute; background:white; border-radius:14px; padding:11px 14px; box-shadow:var(--shadow); font-size:13px; font-weight:800 }
+    .tag-one { top:26px; left:20px } .tag-two { bottom:25px; right:18px }
+    section { padding:36px 0; scroll-margin-top:82px }
+    .section-title { display:flex; justify-content:space-between; align-items:end; gap:16px; margin-bottom:20px }
+    .section-title h2 { font:900 29px "Nunito",sans-serif; margin:5px 0 0 }
+    .section-title p { color:var(--muted); margin:6px 0 0 }
+    .panel,.card { background:var(--paper); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow) }
+    .panel { padding:22px }
+    .controls { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; align-items:end }
+    label { display:block; font-weight:800; font-size:13px; margin-bottom:7px }
+    input,select { width:100%; min-height:43px; border:1px solid var(--line); border-radius:11px; padding:10px 12px; color:var(--ink); background:white; outline:none }
+    input:focus,select:focus { border-color:var(--green); box-shadow:0 0 0 3px #2e76521a }
+    .check-row { display:flex; gap:8px; align-items:center; padding:10px 0 }
+    .check-row input { width:auto; min-height:unset; accent-color:var(--green) }
+    .recipe-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px }
+    .recipe-card { overflow:hidden }
+    .recipe-emoji { height:130px; display:grid; place-items:center; background:linear-gradient(140deg,#e5f2e8,#fff0dc); font-size:60px }
+    .recipe-body { padding:17px }
+    .recipe-body h3 { margin:0 0 7px; font:900 19px "Nunito",sans-serif }
+    .meta { color:var(--muted); font-size:13px; margin-bottom:12px }
+    .recipe-body p { color:#59665d; font-size:14px; line-height:1.5 }
+    .pill { display:inline-block; padding:5px 9px; border-radius:99px; background:var(--mint); color:var(--green-dark); font-size:11px; font-weight:900; margin:0 4px 8px 0 }
+    .inline-controls { display:flex; gap:9px; align-items:center }
+    .inline-controls select { min-height:38px }
+    .two-col,.social-grid { display:grid; grid-template-columns:1fr 1fr; gap:17px }
+    .stack { display:grid; gap:12px }
+    .add-row { display:flex; gap:8px }
+    .add-row input { flex:1 }
+    .shopping-list,.inventory-list { list-style:none; padding:0; margin:12px 0 0 }
+    .shopping-list li,.inventory-list li { display:flex; align-items:center; gap:9px; padding:10px 0; border-bottom:1px solid var(--line) }
+    .shopping-list li:last-child,.inventory-list li:last-child { border:0 }
+    .shopping-list input[type=checkbox] { width:17px; min-height:auto; accent-color:var(--green) }
+    .item-text { flex:1 } .checked .item-text { text-decoration:line-through; color:#929a93 }
+    .summary { display:flex; justify-content:space-between; gap:12px; border-radius:14px; background:var(--peach); padding:13px 15px; font-weight:800; margin-top:14px }
+    .muted { color:var(--muted); font-size:13px; line-height:1.5 }
+    .map-controls { display:grid; grid-template-columns:1fr auto auto; gap:10px; margin-bottom:12px }
+    #map { height:430px; width:100%; border-radius:16px; z-index:1 }
+    .legend { display:flex; gap:16px; flex-wrap:wrap; margin:12px 0; font-size:13px; color:var(--muted) }
+    .dot { display:inline-block; width:11px; height:11px; border-radius:50%; margin-right:6px }
+    .dot.green { background:var(--green) } .dot.red { background:var(--red) }
+    .results { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-top:14px }
+    .place-card { padding:13px; border:1px solid var(--line); border-radius:13px; background:white; font-size:13px }
+    .place-card strong { display:block; margin-bottom:5px }
+    .online-search { display:flex; gap:9px }
+    .online-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:15px; margin-top:17px }
+    .online-card { overflow:hidden }
+    .online-card img { width:100%; height:165px; object-fit:cover; display:block; background:var(--mint) }
+    .online-content { padding:15px }
+    .online-content h3 { font:900 17px "Nunito",sans-serif }
+    .online-content details { font-size:13px; color:#56635a; line-height:1.5 }
+    .online-content summary { cursor:pointer; font-weight:800; color:var(--green); margin:8px 0 }
+    .delivery-links { display:flex; gap:10px; flex-wrap:wrap }
+    .delivery-links a { display:inline-block; text-decoration:none; background:var(--peach); color:#70421b; padding:11px 15px; border-radius:12px; font-weight:900 }
+    .comment { border-bottom:1px solid var(--line); padding:11px 0 }
+    .comment:last-child { border:0 }
+    .comment strong { font-size:13px } .comment p { margin:5px 0 0; color:#59665d; font-size:14px }
+    .footer { padding:28px 0 40px; text-align:center; color:var(--muted); font-size:12px }
+    .modal-backdrop { position:fixed; inset:0; z-index:2000; display:none; place-items:center; background:#17231ccc; padding:18px }
+    .modal-backdrop.open { display:grid }
+    .modal { background:white; border-radius:20px; padding:23px; width:min(420px,100%) }
+    .modal h2 { font:900 24px "Nunito",sans-serif }
+    .modal form { display:grid; gap:12px }
+    #toast { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:var(--ink); color:white; padding:12px 17px; border-radius:12px; z-index:3000; display:none; box-shadow:var(--shadow) }
+    @media(max-width:900px) {
+      .navlinks { gap:9px } .navlinks a { font-size:12px }
+      .nav-actions { gap:5px } .nav-actions .btn { padding:8px }
     }
-    button, input, select { font: inherit; }
-    button { cursor: pointer; }
-    a { color: inherit; }
-    .wrap { width: min(1180px, calc(100% - 36px)); margin: auto; }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: #fff8efed;
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid #e9e5dcaa;
+    @media(max-width:800px) {
+      .navlinks { display:none } .hero { grid-template-columns:1fr; padding-top:35px }
+      .hero-art { min-height:220px } .plate { width:165px; height:165px; font-size:78px }
+      .controls { grid-template-columns:repeat(2,1fr) }
+      .recipe-grid,.online-grid { grid-template-columns:repeat(2,1fr) }
+      .two-col,.social-grid { grid-template-columns:1fr }
     }
-    .nav {
-      min-height: 72px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-    }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      font: 900 25px "Nunito", sans-serif;
-      color: var(--green-dark);
-    }
-    .brand-mark {
-      width: 39px; height: 39px;
-      display: grid; place-items: center;
-      border-radius: 14px;
-      background: var(--orange);
-      color: white;
-      transform: rotate(-5deg);
-      font-size: 23px;
-    }
-    .navlinks { display: flex; gap: 20px; align-items: center; }
-    .navlinks a {
-      font-size: 14px; font-weight: 700;
-      text-decoration: none; color: #536157;
-    }
-    .navlinks a:hover { color: var(--green); }
-    .btn, .btn-secondary {
-      border: 0; border-radius: 12px;
-      padding: 11px 16px;
-      font-weight: 800;
-    }
-    .btn { background: var(--green); color: white; }
-    .btn:hover { background: var(--green-dark); }
-    .btn-secondary { background: var(--mint); color: var(--green-dark); }
-    .btn-small { padding: 8px 11px; font-size: 13px; }
-    .icon-btn {
-      background: transparent; border: 0; color: var(--muted);
-      font-size: 19px; padding: 3px 8px;
-    }
-
-    .hero {
-      display: grid; grid-template-columns: 1.15fr .85fr;
-      gap: 36px; align-items: center;
-      padding: 54px 0 36px;
-    }
-    .eyebrow {
-      color: var(--green); font-size: 12px; font-weight: 900;
-      letter-spacing: .12em; text-transform: uppercase;
-    }
-    h1, h2, h3, p { margin-top: 0; }
-    h1 {
-      font: 900 clamp(38px, 6vw, 68px)/1.02 "Nunito", sans-serif;
-      letter-spacing: -.04em; margin: 12px 0 16px;
-    }
-    h1 span { color: var(--green); }
-    .hero p { color: var(--muted); font-size: 17px; line-height: 1.65; max-width: 570px; }
-    .hero-art {
-      min-height: 280px; display: grid; place-items: center;
-      border-radius: 34px; background: var(--mint); position: relative;
-      overflow: hidden;
-    }
-    .hero-art .plate {
-      width: 220px; height: 220px; display: grid; place-items: center;
-      border-radius: 50%; background: #fffdf6;
-      box-shadow: 0 15px 35px #194d2c1c; font-size: 105px;
-      transform: rotate(-8deg);
-    }
-    .float-tag {
-      position: absolute; background: white; border-radius: 14px;
-      padding: 11px 14px; box-shadow: var(--shadow);
-      font-size: 13px; font-weight: 800;
-    }
-    .tag-one { top: 26px; left: 20px; }
-    .tag-two { bottom: 25px; right: 18px; }
-
-    section { padding: 36px 0; scroll-margin-top: 82px; }
-    .section-title {
-      display: flex; justify-content: space-between; align-items: end;
-      gap: 16px; margin-bottom: 20px;
-    }
-    .section-title h2 {
-      font: 900 29px "Nunito", sans-serif; margin: 5px 0 0;
-    }
-    .section-title p { color: var(--muted); margin: 6px 0 0; }
-    .panel, .card {
-      background: var(--paper); border: 1px solid var(--line);
-      border-radius: var(--radius); box-shadow: var(--shadow);
-    }
-    .panel { padding: 22px; }
-    .controls {
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: 14px; align-items: end;
-    }
-    label { display: block; font-weight: 800; font-size: 13px; margin-bottom: 7px; }
-    input, select {
-      width: 100%; min-height: 43px; border: 1px solid var(--line);
-      border-radius: 11px; padding: 10px 12px; color: var(--ink);
-      background: white; outline: none;
-    }
-    input:focus, select:focus { border-color: var(--green); box-shadow: 0 0 0 3px #2e76521a; }
-    .check-row { display: flex; gap: 8px; align-items: center; padding: 10px 0; }
-    .check-row input { width: auto; min-height: unset; accent-color: var(--green); }
-    .recipe-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
-    }
-    .recipe-card { overflow: hidden; }
-    .recipe-emoji {
-      height: 130px; display: grid; place-items: center;
-      background: linear-gradient(140deg, #e5f2e8, #fff0dc);
-      font-size: 60px;
-    }
-    .recipe-body { padding: 17px; }
-    .recipe-body h3 { margin: 0 0 7px; font: 900 19px "Nunito", sans-serif; }
-    .meta { color: var(--muted); font-size: 13px; margin-bottom: 12px; }
-    .recipe-body p { color: #59665d; font-size: 14px; line-height: 1.5; }
-    .pill {
-      display: inline-block; padding: 5px 9px; border-radius: 99px;
-      background: var(--mint); color: var(--green-dark);
-      font-size: 11px; font-weight: 900; margin: 0 4px 8px 0;
-    }
-    .inline-controls { display: flex; gap: 9px; align-items: center; }
-    .inline-controls select { min-height: 38px; }
-
-    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 17px; }
-    .stack { display: grid; gap: 12px; }
-    .add-row { display: flex; gap: 8px; }
-    .add-row input { flex: 1; }
-    .shopping-list, .inventory-list { list-style: none; padding: 0; margin: 12px 0 0; }
-    .shopping-list li, .inventory-list li {
-      display: flex; align-items: center; gap: 9px;
-      padding: 10px 0; border-bottom: 1px solid var(--line);
-    }
-    .shopping-list li:last-child, .inventory-list li:last-child { border: 0; }
-    .shopping-list input[type="checkbox"] { width: 17px; min-height: auto; accent-color: var(--green); }
-    .shopping-list .item-text { flex: 1; }
-    .checked .item-text { text-decoration: line-through; color: #929a93; }
-    .summary {
-      display: flex; justify-content: space-between; gap: 12px;
-      border-radius: 14px; background: var(--peach); padding: 13px 15px;
-      font-weight: 800; margin-top: 14px;
-    }
-    .muted { color: var(--muted); font-size: 13px; line-height: 1.5; }
-    .map-controls {
-      display: grid; grid-template-columns: 1fr auto auto; gap: 10px;
-      margin-bottom: 12px;
-    }
-    #map { height: 430px; width: 100%; border-radius: 16px; z-index: 1; }
-    .legend { display: flex; gap: 16px; flex-wrap: wrap; margin: 12px 0; font-size: 13px; color: var(--muted); }
-    .dot { display: inline-block; width: 11px; height: 11px; border-radius: 50%; margin-right: 6px; }
-    .dot.green { background: var(--green); } .dot.red { background: var(--red); }
-    .results { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 14px; }
-    .place-card {
-      padding: 13px; border: 1px solid var(--line); border-radius: 13px;
-      background: white; font-size: 13px;
-    }
-    .place-card strong { display: block; margin-bottom: 5px; }
-    .online-search { display: flex; gap: 9px; }
-    .online-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 17px; }
-    .online-card { overflow: hidden; }
-    .online-card img { width: 100%; height: 165px; object-fit: cover; display: block; background: var(--mint); }
-    .online-content { padding: 15px; }
-    .online-content h3 { font: 900 17px "Nunito", sans-serif; }
-    .online-content details { font-size: 13px; color: #56635a; line-height: 1.5; }
-    .online-content summary { cursor: pointer; font-weight: 800; color: var(--green); margin: 8px 0; }
-    .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 17px; }
-    .delivery-links { display: flex; gap: 10px; flex-wrap: wrap; }
-    .delivery-links a {
-      display: inline-block; text-decoration: none; background: var(--peach);
-      color: #70421b; padding: 11px 15px; border-radius: 12px; font-weight: 900;
-    }
-    .comment { border-bottom: 1px solid var(--line); padding: 11px 0; }
-    .comment:last-child { border: 0; }
-    .comment strong { font-size: 13px; }
-    .comment p { margin: 5px 0 0; color: #59665d; font-size: 14px; }
-    .footer { padding: 28px 0 40px; text-align: center; color: var(--muted); font-size: 12px; }
-    .modal-backdrop {
-      position: fixed; inset: 0; z-index: 2000; display: none;
-      place-items: center; background: #17231ccc; padding: 18px;
-    }
-    .modal-backdrop.open { display: grid; }
-    .modal { background: white; border-radius: 20px; padding: 23px; width: min(420px, 100%); }
-    .modal h2 { font: 900 24px "Nunito", sans-serif; }
-    .modal form { display: grid; gap: 12px; }
-    #toast {
-      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-      background: var(--ink); color: white; padding: 12px 17px; border-radius: 12px;
-      z-index: 3000; display: none; box-shadow: var(--shadow);
-    }
-
-    @media (max-width: 800px) {
-      .navlinks { display: none; }
-      .hero { grid-template-columns: 1fr; padding-top: 35px; }
-      .hero-art { min-height: 220px; }
-      .hero-art .plate { width: 165px; height: 165px; font-size: 78px; }
-      .controls { grid-template-columns: repeat(2, 1fr); }
-      .recipe-grid, .online-grid { grid-template-columns: repeat(2, 1fr); }
-      .two-col, .social-grid { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 520px) {
-      .wrap { width: min(100% - 24px, 1180px); }
-      .nav { min-height: 62px; }
-      .brand { font-size: 22px; }
-      .section-title { align-items: start; flex-direction: column; }
-      .controls { grid-template-columns: 1fr 1fr; gap: 10px; }
-      .recipe-grid, .online-grid, .results { grid-template-columns: 1fr; }
-      .panel { padding: 16px; }
-      .map-controls { grid-template-columns: 1fr 1fr; }
-      .map-controls input { grid-column: 1 / -1; }
-      #map { height: 360px; }
-      .online-search { flex-direction: column; }
-      .hero p { font-size: 15px; }
+    @media(max-width:520px) {
+      .wrap { width:min(100% - 24px,1180px) } .nav { min-height:62px }
+      .brand { font-size:22px } .brand-mark { width:34px;height:34px }
+      .section-title { align-items:start; flex-direction:column }
+      .controls { grid-template-columns:1fr 1fr; gap:10px }
+      .recipe-grid,.online-grid,.results { grid-template-columns:1fr }
+      .panel { padding:16px } .map-controls { grid-template-columns:1fr 1fr }
+      .map-controls input { grid-column:1/-1 } #map { height:360px }
+      .online-search { flex-direction:column } .hero p { font-size:15px }
+      .nav-actions #accountButton { font-size:11px; padding:8px }
     }
   </style>
 </head>
@@ -273,88 +139,90 @@
   <div class="wrap nav">
     <a class="brand" href="#top"><span class="brand-mark">✳</span>Poftim!</a>
     <nav class="navlinks" aria-label="Navigare">
-      <a href="#plan">Planificator</a>
-      <a href="#lista">Cumpărături</a>
-      <a href="#harta">Hartă</a>
-      <a href="#retete-online">Rețete online</a>
-      <a href="#comunitate">Comunitate</a>
+      <a href="#plan" data-i18n="navPlan">Planificator</a>
+      <a href="#lista" data-i18n="navShopping">Cumpărături</a>
+      <a href="#harta" data-i18n="navMap">Hartă</a>
+      <a href="#retete-online" data-i18n="navOnline">Rețete online</a>
+      <a href="#comunitate" data-i18n="navCommunity">Comunitate</a>
     </nav>
-    <button class="btn btn-small" id="accountButton">Contul meu</button>
+    <div class="nav-actions">
+      <select id="languageSelect" aria-label="Language">
+        <option value="ro">🇷🇴 RO</option>
+        <option value="en">🇬🇧 EN</option>
+        <option value="fr">🇫🇷 FR</option>
+        <option value="it">🇮🇹 IT</option>
+        <option value="ru">🇷🇺 RU</option>
+        <option value="zh">🇨🇳 中文</option>
+        <option value="ja">🇯🇵 日本語</option>
+      </select>
+      <button class="btn btn-small" id="accountButton" data-i18n="account">Contul meu</button>
+    </div>
   </div>
 </header>
 
 <main id="top" class="wrap">
   <section class="hero">
     <div>
-      <div class="eyebrow">Mese bune. Buget echilibrat.</div>
-      <h1>Planifică simplu.<br><span>Mănâncă pofticios.</span></h1>
-      <p>Alege rețetele, ajustează porțiile și vezi ce merită pus pe lista de cumpărături. Gata cu întrebarea „ce mâncăm azi?”</p>
-      <a class="btn" href="#plan" style="display:inline-block;text-decoration:none">Începe planificarea →</a>
+      <div class="eyebrow" data-i18n="heroEyebrow">Mese bune. Buget echilibrat.</div>
+      <h1 data-i18n-html="heroTitle">Planifică simplu.<br><span>Mănâncă pofticios.</span></h1>
+      <p data-i18n="heroText">Alege rețetele, ajustează porțiile și vezi ce merită pus pe lista de cumpărături.</p>
+      <a class="btn" href="#plan" style="display:inline-block;text-decoration:none" data-i18n="startPlanning">Începe planificarea →</a>
     </div>
     <div class="hero-art" aria-label="Ilustrație cu mâncare">
-      <span class="float-tag tag-one">🥕 Mai puțină risipă</span>
+      <span class="float-tag tag-one" data-i18n="lessWaste">🥕 Mai puțină risipă</span>
       <div class="plate">🍲</div>
-      <span class="float-tag tag-two">💚 Plan pentru toți</span>
+      <span class="float-tag tag-two" data-i18n="forEveryone">💚 Plan pentru toți</span>
     </div>
   </section>
 
   <section id="plan">
     <div class="section-title">
-      <div><div class="eyebrow">Planificator</div><h2>Setează planul tău</h2></div>
-      <p>Costurile sunt estimări orientative.</p>
+      <div><div class="eyebrow" data-i18n="planner">Planificator</div><h2 data-i18n="setPlan">Setează planul tău</h2></div>
+      <p data-i18n="costNote">Costurile sunt estimări orientative.</p>
     </div>
     <div class="panel">
       <div class="controls">
-        <div><label for="budget">Buget (lei)</label><input id="budget" type="number" min="0" value="150"></div>
-        <div><label for="people">Număr de persoane</label><input id="people" type="number" min="1" max="20" value="2"></div>
-        <div><label for="diet">Preferință alimentară</label>
+        <div><label for="budget" data-i18n="budget">Buget (lei)</label><input id="budget" type="number" min="0" value="150"></div>
+        <div><label for="people" data-i18n="people">Număr de persoane</label><input id="people" type="number" min="1" max="20" value="2"></div>
+        <div><label for="diet" data-i18n="diet">Preferință alimentară</label>
           <select id="diet">
-            <option value="all">Fără restricții</option>
-            <option value="vegetarian">Vegetarian</option>
-            <option value="vegan">Vegan</option>
+            <option value="all" data-i18n="allDiets">Fără restricții</option>
+            <option value="vegetarian" data-i18n="vegetarian">Vegetarian</option>
+            <option value="vegan" data-i18n="vegan">Vegan</option>
           </select>
         </div>
-        <div><label for="category">Categorie</label>
+        <div><label for="category" data-i18n="category">Categorie</label>
           <select id="category">
-            <option value="all">Toate rețetele</option>
-            <option value="Mic dejun">Mic dejun</option>
-            <option value="Prânz">Prânz</option>
-            <option value="Cină">Cină</option>
-            <option value="Gustare">Gustare</option>
+            <option value="all" data-i18n="allRecipes">Toate rețetele</option>
+            <option value="Breakfast" data-i18n="catBreakfast">Mic dejun</option>
+            <option value="Lunch" data-i18n="catLunch">Prânz</option>
+            <option value="Dinner" data-i18n="catDinner">Cină</option>
+            <option value="Snack" data-i18n="catSnack">Gustare</option>
           </select>
         </div>
       </div>
-      <div class="check-row">
-        <input type="checkbox" id="vegetarianOnly">
-        <label for="vegetarianOnly" style="margin:0">Arată doar rețete vegetariene</label>
-      </div>
+      <div class="check-row"><input type="checkbox" id="vegetarianOnly"><label for="vegetarianOnly" style="margin:0" data-i18n="vegetarianOnly">Arată doar rețete vegetariene</label></div>
     </div>
     <div id="recipeGrid" class="recipe-grid" style="margin-top:16px"></div>
   </section>
 
   <section id="lista">
     <div class="section-title">
-      <div><div class="eyebrow">Organizare</div><h2>Inventar & cumpărături</h2></div>
-      <p>Ingredientele din inventar sunt excluse din listă.</p>
+      <div><div class="eyebrow" data-i18n="organization">Organizare</div><h2 data-i18n="inventoryShopping">Inventar & cumpărături</h2></div>
+      <p data-i18n="inventoryNote">Ingredientele din inventar sunt excluse din listă.</p>
     </div>
     <div class="two-col">
       <div class="panel">
-        <h3>🧺 Ce ai deja acasă?</h3>
-        <div class="add-row">
-          <input id="inventoryInput" placeholder="Ex.: orez, ceapă">
-          <button class="btn btn-small" id="addInventory">Adaugă</button>
-        </div>
+        <h3 data-i18n="atHome">🧺 Ce ai deja acasă?</h3>
+        <div class="add-row"><input id="inventoryInput" data-i18n-placeholder="inventoryPlaceholder" placeholder="Ex.: orez, ceapă"><button class="btn btn-small" id="addInventory" data-i18n="add">Adaugă</button></div>
         <ul class="inventory-list" id="inventoryList"></ul>
       </div>
       <div class="panel">
-        <h3>🛒 Lista ta de cumpărături</h3>
-        <p class="muted">Bifează produsele cumpărate sau adaugă și șterge elemente.</p>
-        <div class="add-row">
-          <input id="shoppingInput" placeholder="Adaugă un produs">
-          <button class="btn btn-small" id="addShopping">Adaugă</button>
-        </div>
+        <h3 data-i18n="shoppingListTitle">🛒 Lista ta de cumpărături</h3>
+        <p class="muted" data-i18n="shoppingHelp">Bifează produsele cumpărate sau adaugă și șterge elemente.</p>
+        <div class="add-row"><input id="shoppingInput" data-i18n-placeholder="shoppingPlaceholder" placeholder="Adaugă un produs"><button class="btn btn-small" id="addShopping" data-i18n="add">Adaugă</button></div>
         <ul class="shopping-list" id="shoppingList"></ul>
-        <div class="summary"><span>Estimare pentru rețetele selectate</span><span id="totalCost">0 lei</span></div>
+        <div class="summary"><span data-i18n="estimatedTotal">Estimare pentru rețetele selectate</span><span id="totalCost">0 lei</span></div>
         <p class="muted" id="budgetStatus" style="margin:10px 0 0"></p>
       </div>
     </div>
@@ -362,412 +230,690 @@
 
   <section id="harta">
     <div class="section-title">
-      <div><div class="eyebrow">În apropiere</div><h2>Magazine & restaurante</h2></div>
-      <p>Rezultatele depind de datele disponibile în OpenStreetMap.</p>
+      <div><div class="eyebrow" data-i18n="nearby">În apropiere</div><h2 data-i18n="storesRestaurants">Magazine & restaurante</h2></div>
+      <p data-i18n="mapNote">Rezultatele depind de datele disponibile în OpenStreetMap.</p>
     </div>
     <div class="panel">
       <div class="map-controls">
-        <input id="cityInput" value="Cluj-Napoca" aria-label="Oraș" placeholder="Caută un oraș">
-        <button class="btn btn-small" id="searchCity">Caută orașul</button>
-        <button class="btn-secondary btn-small" id="locateMe">📍 Locația mea</button>
+        <input id="cityInput" value="Cluj-Napoca" data-i18n-placeholder="cityPlaceholder" placeholder="Caută un oraș" aria-label="City">
+        <button class="btn btn-small" id="searchCity" data-i18n="searchCity">Caută orașul</button>
+        <button class="btn-secondary btn-small" id="locateMe" data-i18n="myLocation">📍 Locația mea</button>
       </div>
       <div class="map-controls" style="grid-template-columns:1fr 1fr">
-        <button class="btn-secondary btn-small" id="searchStores">Caută supermarketuri</button>
-        <button class="btn-secondary btn-small" id="searchRestaurants">Caută restaurante</button>
+        <button class="btn-secondary btn-small" id="searchStores" data-i18n="searchStores">Caută supermarketuri</button>
+        <button class="btn-secondary btn-small" id="searchRestaurants" data-i18n="searchRestaurants">Caută restaurante</button>
       </div>
-      <div class="legend">
-        <span><i class="dot green"></i>Supermarket / magazin</span>
-        <span><i class="dot red"></i>Restaurant</span>
-      </div>
-      <div id="map"></div>
-      <div id="mapMessage" class="muted" style="margin-top:10px"></div>
-      <div id="placeResults" class="results"></div>
+      <div class="legend"><span><i class="dot green"></i><span data-i18n="storeLegend">Supermarket / magazin</span></span><span><i class="dot red"></i><span data-i18n="restaurantLegend">Restaurant</span></span></div>
+      <div id="map"></div><div id="mapMessage" class="muted" style="margin-top:10px"></div><div id="placeResults" class="results"></div>
     </div>
   </section>
 
   <section id="retete-online">
     <div class="section-title">
-      <div><div class="eyebrow">Inspiră-te</div><h2>Rețete online</h2></div>
-      <p>Căutare prin TheMealDB.</p>
+      <div><div class="eyebrow" data-i18n="inspiration">Inspiră-te</div><h2 data-i18n="onlineRecipes">Rețete online</h2></div>
+      <p data-i18n="mealDbNote">Căutare prin TheMealDB.</p>
     </div>
     <div class="panel">
-      <div class="online-search">
-        <input id="onlineQuery" placeholder="Caută o rețetă sau un ingredient, de ex. chicken">
-        <button class="btn" id="searchOnline">Caută rețete</button>
-      </div>
-      <div class="muted" id="onlineMessage" style="margin-top:10px"></div>
-      <div class="online-grid" id="onlineGrid"></div>
+      <div class="online-search"><input id="onlineQuery" data-i18n-placeholder="onlinePlaceholder" placeholder="Caută rețete sau ingrediente"><button class="btn" id="searchOnline" data-i18n="searchRecipes">Caută rețete</button></div>
+      <div class="muted" id="onlineMessage" style="margin-top:10px"></div><div class="online-grid" id="onlineGrid"></div>
     </div>
   </section>
 
   <section id="comunitate">
     <div class="section-title">
-      <div><div class="eyebrow">Poftim, împreună</div><h2>Comunitate & livrare</h2></div>
-      <p>Conturile și comentariile sunt salvate local în acest browser.</p>
+      <div><div class="eyebrow" data-i18n="together">Poftim, împreună</div><h2 data-i18n="communityDelivery">Comunitate & livrare</h2></div>
+      <p data-i18n="localStorageNote">Conturile și comentariile sunt salvate local în acest browser.</p>
     </div>
     <div class="social-grid">
       <div class="panel">
-        <h3>💬 Comentarii</h3>
-        <div id="commentArea"></div>
+        <h3 data-i18n="comments">💬 Comentarii</h3><div id="commentArea"></div>
         <form id="commentForm" style="display:grid;gap:9px">
-          <input id="commentName" placeholder="Numele tău" required>
-          <input id="commentText" placeholder="Lasă un comentariu..." required>
-          <button class="btn btn-small" style="justify-self:start">Publică</button>
+          <input id="commentName" data-i18n-placeholder="yourName" placeholder="Numele tău" required>
+          <input id="commentText" data-i18n-placeholder="leaveComment" placeholder="Lasă un comentariu..." required>
+          <button class="btn btn-small" style="justify-self:start" data-i18n="publish">Publică</button>
         </form>
       </div>
       <div class="panel">
-        <h3>🚲 Poftă de livrare?</h3>
-        <p class="muted">Deschide serviciul și verifică disponibilitatea în zona ta.</p>
+        <h3 data-i18n="delivery">🚲 Poftă de livrare?</h3>
+        <p class="muted" data-i18n="deliveryHelp">Deschide serviciul și verifică disponibilitatea în zona ta.</p>
         <div class="delivery-links">
           <a href="https://glovoapp.com/ro/ro/cluj-napoca/" target="_blank" rel="noopener noreferrer">Glovo ↗</a>
           <a href="https://wolt.com/ro/rou/cluj-napoca" target="_blank" rel="noopener noreferrer">Wolt ↗</a>
         </div>
-        <p class="muted" style="margin:18px 0 0">Poftim! este un proiect independent; linkurile duc către servicii externe.</p>
       </div>
     </div>
   </section>
-  <div class="footer">Poftim! — idei bune pentru mese de zi cu zi ✳</div>
+  <div class="footer" data-i18n="footer">Poftim! — idei bune pentru mese de zi cu zi ✳</div>
 </main>
 
 <div class="modal-backdrop" id="modalBackdrop">
   <div class="modal">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <h2 id="modalTitle">Contul meu</h2>
-      <button class="icon-btn" id="closeModal" aria-label="Închide">✕</button>
-    </div>
-    <p class="muted">Cont demonstrativ, salvat numai în browserul acesta. Nu folosi o parolă reală.</p>
+    <div style="display:flex;justify-content:space-between;align-items:center"><h2 id="modalTitle" data-i18n="account">Contul meu</h2><button class="icon-btn" id="closeModal" aria-label="Close">✕</button></div>
+    <p class="muted" data-i18n="demoAccountNote">Cont demonstrativ, salvat numai în browserul acesta. Nu folosi o parolă reală.</p>
     <form id="accountForm">
-      <input id="accountName" placeholder="Nume de utilizator" required>
-      <input id="accountPassword" type="password" placeholder="Parolă demonstrativă" required>
-      <button class="btn">Creează cont / autentifică-te</button>
+      <input id="accountName" data-i18n-placeholder="username" placeholder="Nume de utilizator" required>
+      <input id="accountPassword" type="password" data-i18n-placeholder="demoPassword" placeholder="Parolă demonstrativă" required>
+      <button class="btn" data-i18n="createLogin">Creează cont / autentifică-te</button>
     </form>
-    <button id="logoutButton" class="btn-secondary btn-small" style="display:none;margin-top:12px">Deconectare</button>
+    <button id="logoutButton" class="btn-secondary btn-small" style="display:none;margin-top:12px" data-i18n="logout">Deconectare</button>
     <p class="muted" id="accountMessage" style="margin:12px 0 0"></p>
   </div>
 </div>
-<div id="toast"></div>
+<div id="toast" role="status" aria-live="polite"></div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-  // Rețetele locale au ingrediente și costuri aproximative per porție.
-  const recipes = [
-    {id:"oats", name:"Terci cu banană", category:"Mic dejun", emoji:"🥣", time:10, vegetarian:true, vegan:true,
-      ingredients:[["fulgi de ovăz",60,"g"],["banană",1,"buc"],["lapte",150,"ml"]], cost:5.5,
-      description:"Un mic dejun rapid, sățios și ușor de personalizat."},
-    {id:"pasta", name:"Paste cu sos de roșii", category:"Prânz", emoji:"🍝", time:25, vegetarian:true, vegan:true,
-      ingredients:[["paste",100,"g"],["roșii pasate",150,"g"],["ceapă",0.5,"buc"],["usturoi",1,"cățel"]], cost:8,
-      description:"Paste simple cu sos aromat de roșii și usturoi."},
-    {id:"lentils", name:"Tocăniță de linte", category:"Cină", emoji:"🍲", time:35, vegetarian:true, vegan:true,
-      ingredients:[["linte",90,"g"],["morcov",1,"buc"],["ceapă",0.5,"buc"],["roșii pasate",100,"g"]], cost:9,
-      description:"O mâncare consistentă, potrivită pentru mai multe porții."},
-    {id:"omelet", name:"Omletă cu legume", category:"Mic dejun", emoji:"🍳", time:15, vegetarian:true, vegan:false,
-      ingredients:[["ouă",2,"buc"],["ardei",0.5,"buc"],["brânză",30,"g"]], cost:9,
-      description:"Omletă rapidă cu legume și puțină brânză."},
-    {id:"salad", name:"Salată cu năut", category:"Prânz", emoji:"🥗", time:15, vegetarian:true, vegan:true,
-      ingredients:[["năut",120,"g"],["roșii",1,"buc"],["castravete",0.5,"buc"],["lămâie",0.25,"buc"]], cost:10,
-      description:"Salată proaspătă cu năut și dressing de lămâie."},
-    {id:"chicken", name:"Pui cu orez", category:"Cină", emoji:"🍗", time:40, vegetarian:false, vegan:false,
-      ingredients:[["piept de pui",150,"g"],["orez",75,"g"],["morcov",0.5,"buc"]], cost:15,
-      description:"O masă simplă și sățioasă, cu ingrediente accesibile."},
-    {id:"apple", name:"Măr cu unt de arahide", category:"Gustare", emoji:"🍎", time:5, vegetarian:true, vegan:true,
-      ingredients:[["măr",1,"buc"],["unt de arahide",15,"g"]], cost:4.5,
-      description:"Gustare rapidă, dulce și crocantă."},
-    {id:"polenta", name:"Mămăligă cu ciuperci", category:"Cină", emoji:"🍄", time:30, vegetarian:true, vegan:true,
-      ingredients:[["mălai",80,"g"],["ciuperci",120,"g"],["ceapă",0.5,"buc"]], cost:8.5,
-      description:"O variantă fără carne, cu ciuperci rumenite."}
-  ];
+/* Partea 2/3 continuă aici: dicționarul de traduceri și logica aplicației. */
+  const T = {
+  ro: {
+    navPlan:"Planificator",navShopping:"Cumpărături",navMap:"Hartă",navOnline:"Rețete online",navCommunity:"Comunitate",
+    account:"Contul meu",heroEyebrow:"Mese bune. Buget echilibrat.",heroTitle:'Planifică simplu.<br><span>Mănâncă pofticios.</span>',
+    heroText:"Alege rețetele, ajustează porțiile și vezi ce merită pus pe lista de cumpărături.",startPlanning:"Începe planificarea →",
+    lessWaste:"🥕 Mai puțină risipă",forEveryone:"💚 Plan pentru toți",planner:"Planificator",setPlan:"Setează planul tău",
+    costNote:"Costurile sunt estimări orientative.",budget:"Buget (lei)",people:"Număr de persoane",
+    diet:"Preferință alimentară",allDiets:"Fără restricții",vegetarian:"Vegetarian",vegan:"Vegan",
+    category:"Categorie",allRecipes:"Toate rețetele",catBreakfast:"Mic dejun",catLunch:"Prânz",
+    catDinner:"Cină",catSnack:"Gustare",vegetarianOnly:"Arată doar rețete vegetariene",
+    organization:"Organizare",inventoryShopping:"Inventar & cumpărături",
+    inventoryNote:"Ingredientele din inventar sunt excluse din listă.",atHome:"🧺 Ce ai deja acasă?",
+    inventoryPlaceholder:"Ex.: orez, ceapă",add:"Adaugă",shoppingListTitle:"🛒 Lista ta de cumpărături",
+    shoppingHelp:"Bifează produsele cumpărate sau adaugă și șterge elemente.",
+    shoppingPlaceholder:"Adaugă un produs",estimatedTotal:"Estimare pentru rețetele selectate",
+    nearby:"În apropiere",storesRestaurants:"Magazine & restaurante",
+    mapNote:"Rezultatele depind de datele disponibile în OpenStreetMap.",
+    cityPlaceholder:"Caută un oraș",searchCity:"Caută orașul",myLocation:"📍 Locația mea",
+    searchStores:"Caută supermarketuri",searchRestaurants:"Caută restaurante",
+    storeLegend:"Supermarket / magazin",restaurantLegend:"Restaurant",inspiration:"Inspiră-te",
+    onlineRecipes:"Rețete online",mealDbNote:"Căutare prin TheMealDB.",
+    onlinePlaceholder:"Caută rețete sau ingrediente",searchRecipes:"Caută rețete",
+    together:"Poftim, împreună",communityDelivery:"Comunitate & livrare",
+    localStorageNote:"Conturile și comentariile sunt salvate local în acest browser.",
+    comments:"💬 Comentarii",yourName:"Numele tău",leaveComment:"Lasă un comentariu...",
+    publish:"Publică",delivery:"🚲 Poftă de livrare?",
+    deliveryHelp:"Deschide serviciul și verifică disponibilitatea în zona ta.",
+    footer:"Poftim! — idei bune pentru mese de zi cu zi ✳",
+    demoAccountNote:"Cont demonstrativ, salvat numai în browserul acesta. Nu folosi o parolă reală.",
+    username:"Nume de utilizator",demoPassword:"Parolă demonstrativă",
+    createLogin:"Creează cont / autentifică-te",logout:"Deconectare",
+    portions:"porții",minutes:"min",selectRecipe:"Adaugă în plan",remove:"Șterge",
+    budgetOk:"Te încadrezi în buget.",budgetOver:"Buget depășit cu aproximativ",
+    noRecipes:"Nu există rețete pentru filtrele alese.",ingredients:"Ingrediente",
+    instructions:"Mod de preparare",directions:"Indicații",searching:"Se caută…",
+    noResults:"Nu am găsit rezultate.",mapLoading:"Se încarcă harta…",
+    storesFound:"Locații găsite:",hours:"Program indisponibil",
+    route:"Rută Google Maps",cityNotFound:"Orașul nu a fost găsit.",
+    locationError:"Nu am putut accesa locația. Verifică permisiunile browserului.",
+    loginAs:"Autentificat ca",loginOk:"Autentificare demonstrativă reușită.",
+    commentEmpty:"Scrie un comentariu.",ingredient:"Ingredient",cost:"Cost estimat",
+    onlineError:"Căutarea nu a reușit. Încearcă din nou."
+  },
+  en: {
+    navPlan:"Meal planner",navShopping:"Shopping",navMap:"Map",navOnline:"Online recipes",navCommunity:"Community",
+    account:"My account",heroEyebrow:"Good meals. Balanced budget.",heroTitle:'Plan simply.<br><span>Eat happily.</span>',
+    heroText:"Choose recipes, adjust servings, and see what belongs on your shopping list.",startPlanning:"Start planning →",
+    lessWaste:"🥕 Less waste",forEveryone:"💚 A plan for everyone",planner:"Planner",setPlan:"Set your plan",
+    costNote:"Costs are estimates.",budget:"Budget (lei)",people:"Number of people",
+    diet:"Dietary preference",allDiets:"No restrictions",vegetarian:"Vegetarian",vegan:"Vegan",
+    category:"Category",allRecipes:"All recipes",catBreakfast:"Breakfast",catLunch:"Lunch",
+    catDinner:"Dinner",catSnack:"Snack",vegetarianOnly:"Show vegetarian recipes only",
+    organization:"Organization",inventoryShopping:"Inventory & shopping",
+    inventoryNote:"Items in your inventory are excluded from the list.",atHome:"🧺 What do you have at home?",
+    inventoryPlaceholder:"E.g. rice, onion",add:"Add",shoppingListTitle:"🛒 Your shopping list",
+    shoppingHelp:"Check off purchased items, or add and remove items.",
+    shoppingPlaceholder:"Add an item",estimatedTotal:"Estimate for selected recipes",
+    nearby:"Nearby",storesRestaurants:"Stores & restaurants",
+    mapNote:"Results depend on OpenStreetMap data.",cityPlaceholder:"Search for a city",
+    searchCity:"Search city",myLocation:"📍 My location",searchStores:"Find supermarkets",
+    searchRestaurants:"Find restaurants",storeLegend:"Supermarket / store",restaurantLegend:"Restaurant",
+    inspiration:"Get inspired",onlineRecipes:"Online recipes",mealDbNote:"Search powered by TheMealDB.",
+    onlinePlaceholder:"Search recipes or ingredients",searchRecipes:"Search recipes",
+    together:"Poftim, together",communityDelivery:"Community & delivery",
+    localStorageNote:"Accounts and comments are stored in this browser.",comments:"💬 Comments",
+    yourName:"Your name",leaveComment:"Leave a comment...",publish:"Post",
+    delivery:"🚲 Craving delivery?",deliveryHelp:"Open a service to check availability in your area.",
+    footer:"Poftim! — good ideas for everyday meals ✳",
+    demoAccountNote:"Demo account stored only in this browser. Do not use a real password.",
+    username:"Username",demoPassword:"Demo password",createLogin:"Create account / sign in",
+    logout:"Sign out",portions:"servings",minutes:"min",selectRecipe:"Add to plan",remove:"Remove",
+    budgetOk:"You're within budget.",budgetOver:"Over budget by about",
+    noRecipes:"No recipes match these filters.",ingredients:"Ingredients",instructions:"Instructions",
+    directions:"Directions",searching:"Searching…",noResults:"No results found.",
+    mapLoading:"Loading map…",storesFound:"Locations found:",hours:"Hours unavailable",
+    route:"Google Maps route",cityNotFound:"City not found.",
+    locationError:"Could not access your location. Check browser permissions.",
+    loginAs:"Signed in as",loginOk:"Demo sign-in successful.",commentEmpty:"Write a comment.",
+    ingredient:"Ingredient",cost:"Estimated cost",onlineError:"Search failed. Please try again."
+  },
+  fr: {
+    navPlan:"Planificateur",navShopping:"Courses",navMap:"Carte",navOnline:"Recettes en ligne",navCommunity:"Communauté",
+    account:"Mon compte",heroEyebrow:"De bons repas. Un budget équilibré.",heroTitle:'Planifiez simplement.<br><span>Régalez-vous.</span>',
+    heroText:"Choisissez des recettes, ajustez les portions et préparez votre liste de courses.",startPlanning:"Commencer →",
+    lessWaste:"🥕 Moins de gaspillage",forEveryone:"💚 Pour tout le monde",planner:"Planificateur",setPlan:"Votre plan",
+    costNote:"Les coûts sont estimatifs.",budget:"Budget (lei)",people:"Nombre de personnes",
+    diet:"Préférence alimentaire",allDiets:"Aucune restriction",vegetarian:"Végétarien",vegan:"Végane",
+    category:"Catégorie",allRecipes:"Toutes les recettes",catBreakfast:"Petit-déjeuner",catLunch:"Déjeuner",
+    catDinner:"Dîner",catSnack:"Collation",vegetarianOnly:"Afficher seulement les recettes végétariennes",
+    organization:"Organisation",inventoryShopping:"Inventaire et courses",inventoryNote:"Les ingrédients disponibles sont exclus de la liste.",
+    atHome:"🧺 Qu’avez-vous déjà ?",inventoryPlaceholder:"Ex. : riz, oignon",add:"Ajouter",
+    shoppingListTitle:"🛒 Votre liste de courses",shoppingHelp:"Cochez les produits achetés ou ajoutez-en et supprimez-en.",
+    shoppingPlaceholder:"Ajouter un produit",estimatedTotal:"Estimation des recettes sélectionnées",
+    nearby:"À proximité",storesRestaurants:"Magasins et restaurants",mapNote:"Résultats selon les données OpenStreetMap.",
+    cityPlaceholder:"Rechercher une ville",searchCity:"Chercher",myLocation:"📍 Ma position",
+    searchStores:"Chercher des supermarchés",searchRestaurants:"Chercher des restaurants",
+    storeLegend:"Supermarché / magasin",restaurantLegend:"Restaurant",inspiration:"Inspiration",
+    onlineRecipes:"Recettes en ligne",mealDbNote:"Recherche avec TheMealDB.",
+    onlinePlaceholder:"Recettes ou ingrédients",searchRecipes:"Chercher",
+    together:"Poftim, ensemble",communityDelivery:"Communauté et livraison",
+    localStorageNote:"Comptes et commentaires enregistrés dans ce navigateur.",comments:"💬 Commentaires",
+    yourName:"Votre nom",leaveComment:"Écrire un commentaire...",publish:"Publier",
+    delivery:"🚲 Envie de livraison ?",deliveryHelp:"Ouvrez un service pour vérifier sa disponibilité.",
+    footer:"Poftim! — de bonnes idées pour les repas du quotidien ✳",
+    demoAccountNote:"Compte de démonstration enregistré dans ce navigateur. N’utilisez pas de vrai mot de passe.",
+    username:"Nom d’utilisateur",demoPassword:"Mot de passe démo",createLogin:"Créer un compte / se connecter",
+    logout:"Déconnexion",portions:"portions",minutes:"min",selectRecipe:"Ajouter au plan",remove:"Supprimer",
+    budgetOk:"Vous respectez votre budget.",budgetOver:"Budget dépassé d’environ",
+    noRecipes:"Aucune recette ne correspond.",ingredients:"Ingrédients",instructions:"Préparation",
+    directions:"Instructions",searching:"Recherche…",noResults:"Aucun résultat.",
+    mapLoading:"Chargement de la carte…",storesFound:"Lieux trouvés :",hours:"Horaires indisponibles",
+    route:"Itinéraire Google Maps",cityNotFound:"Ville introuvable.",
+    locationError:"Position inaccessible. Vérifiez les autorisations du navigateur.",
+    loginAs:"Connecté comme",loginOk:"Connexion démo réussie.",commentEmpty:"Écrivez un commentaire.",
+    ingredient:"Ingrédient",cost:"Coût estimé",onlineError:"Échec de la recherche. Réessayez."
+  },
+  it: {
+    navPlan:"Pianificatore",navShopping:"Spesa",navMap:"Mappa",navOnline:"Ricette online",navCommunity:"Comunità",
+    account:"Il mio account",heroEyebrow:"Buoni pasti. Budget equilibrato.",heroTitle:'Pianifica facilmente.<br><span>Mangia con gusto.</span>',
+    heroText:"Scegli le ricette, regola le porzioni e prepara la lista della spesa.",startPlanning:"Inizia →",
+    lessWaste:"🥕 Meno sprechi",forEveryone:"💚 Per tutti",planner:"Pianificatore",setPlan:"Imposta il piano",
+    costNote:"I costi sono stime.",budget:"Budget (lei)",people:"Numero di persone",
+    diet:"Preferenza alimentare",allDiets:"Nessuna restrizione",vegetarian:"Vegetariano",vegan:"Vegano",
+    category:"Categoria",allRecipes:"Tutte le ricette",catBreakfast:"Colazione",catLunch:"Pranzo",
+    catDinner:"Cena",catSnack:"Spuntino",vegetarianOnly:"Mostra solo ricette vegetariane",
+    organization:"Organizzazione",inventoryShopping:"Dispensa e spesa",inventoryNote:"Gli ingredienti già disponibili sono esclusi.",
+    atHome:"🧺 Cosa hai già?",inventoryPlaceholder:"Es.: riso, cipolla",add:"Aggiungi",
+    shoppingListTitle:"🛒 Lista della spesa",shoppingHelp:"Spunta gli acquisti oppure aggiungi o rimuovi prodotti.",
+    shoppingPlaceholder:"Aggiungi un prodotto",estimatedTotal:"Stima delle ricette selezionate",
+    nearby:"Vicino a te",storesRestaurants:"Negozi e ristoranti",mapNote:"Risultati basati sui dati OpenStreetMap.",
+    cityPlaceholder:"Cerca una città",searchCity:"Cerca città",myLocation:"📍 La mia posizione",
+    searchStores:"Cerca supermercati",searchRestaurants:"Cerca ristoranti",
+    storeLegend:"Supermercato / negozio",restaurantLegend:"Ristorante",inspiration:"Ispirazione",
+    onlineRecipes:"Ricette online",mealDbNote:"Ricerca con TheMealDB.",
+    onlinePlaceholder:"Cerca ricette o ingredienti",searchRecipes:"Cerca ricette",
+    together:"Poftim, insieme",communityDelivery:"Comunità e consegna",
+    localStorageNote:"Account e commenti salvati in questo browser.",comments:"💬 Commenti",
+    yourName:"Il tuo nome",leaveComment:"Lascia un commento...",publish:"Pubblica",
+    delivery:"🚲 Voglia di consegna?",deliveryHelp:"Apri un servizio e verifica la disponibilità.",
+    footer:"Poftim! — buone idee per i pasti di ogni giorno ✳",
+    demoAccountNote:"Account demo salvato solo in questo browser. Non usare una password reale.",
+    username:"Nome utente",demoPassword:"Password demo",createLogin:"Crea account / accedi",
+    logout:"Esci",portions:"porzioni",minutes:"min",selectRecipe:"Aggiungi al piano",remove:"Rimuovi",
+    budgetOk:"Sei nel budget.",budgetOver:"Budget superato di circa",
+    noRecipes:"Nessuna ricetta corrisponde ai filtri.",ingredients:"Ingredienti",instructions:"Istruzioni",
+    directions:"Procedimento",searching:"Ricerca…",noResults:"Nessun risultato.",
+    mapLoading:"Caricamento mappa…",storesFound:"Luoghi trovati:",hours:"Orari non disponibili",
+    route:"Percorso Google Maps",cityNotFound:"Città non trovata.",
+    locationError:"Posizione non accessibile. Controlla i permessi del browser.",
+    loginAs:"Accesso come",loginOk:"Accesso demo riuscito.",commentEmpty:"Scrivi un commento.",
+    ingredient:"Ingrediente",cost:"Costo stimato",onlineError:"Ricerca non riuscita. Riprova."
+  },
+  ru: {
+    navPlan:"План питания",navShopping:"Покупки",navMap:"Карта",navOnline:"Рецепты онлайн",navCommunity:"Сообщество",
+    account:"Мой аккаунт",heroEyebrow:"Вкусная еда. Удобный бюджет.",heroTitle:'Планируйте легко.<br><span>Ешьте с удовольствием.</span>',
+    heroText:"Выбирайте рецепты, меняйте порции и составляйте список покупок.",startPlanning:"Начать →",
+    lessWaste:"🥕 Меньше отходов",forEveryone:"💚 Для всех",planner:"Планировщик",setPlan:"Настройте план",
+    costNote:"Стоимость указана приблизительно.",budget:"Бюджет (лей)",people:"Количество людей",
+    diet:"Питание",allDiets:"Без ограничений",vegetarian:"Вегетарианское",vegan:"Веганское",
+    category:"Категория",allRecipes:"Все рецепты",catBreakfast:"Завтрак",catLunch:"Обед",
+    catDinner:"Ужин",catSnack:"Перекус",vegetarianOnly:"Только вегетарианские рецепты",
+    organization:"Организация",inventoryShopping:"Запасы и покупки",inventoryNote:"Имеющиеся ингредиенты исключаются из списка.",
+    atHome:"🧺 Что уже есть дома?",inventoryPlaceholder:"Напр.: рис, лук",add:"Добавить",
+    shoppingListTitle:"🛒 Список покупок",shoppingHelp:"Отмечайте купленное, добавляйте или удаляйте товары.",
+    shoppingPlaceholder:"Добавить товар",estimatedTotal:"Оценка выбранных рецептов",
+    nearby:"Рядом",storesRestaurants:"Магазины и рестораны",mapNote:"Результаты зависят от данных OpenStreetMap.",
+    cityPlaceholder:"Найти город",searchCity:"Найти город",myLocation:"📍 Моё местоположение",
+    searchStores:"Найти супермаркеты",searchRestaurants:"Найти рестораны",
+    storeLegend:"Супермаркет / магазин",restaurantLegend:"Ресторан",inspiration:"Вдохновение",
+    onlineRecipes:"Рецепты онлайн",mealDbNote:"Поиск через TheMealDB.",
+    onlinePlaceholder:"Рецепт или ингредиент",searchRecipes:"Найти рецепты",
+    together:"Poftim, вместе",communityDelivery:"Сообщество и доставка",
+    localStorageNote:"Аккаунты и комментарии сохраняются в этом браузере.",comments:"💬 Комментарии",
+    yourName:"Ваше имя",leaveComment:"Оставьте комментарий...",publish:"Опубликовать",
+    delivery:"🚲 Заказать доставку?",deliveryHelp:"Откройте сервис и проверьте доступность.",
+    footer:"Poftim! — идеи для повседневных блюд ✳",
+    demoAccountNote:"Демо-аккаунт хранится только в этом браузере. Не используйте настоящий пароль.",
+    username:"Имя пользователя",demoPassword:"Демо-пароль",createLogin:"Создать аккаунт / войти",
+    logout:"Выйти",portions:"порций",minutes:"мин",selectRecipe:"Добавить в план",remove:"Удалить",
+    budgetOk:"Вы укладываетесь в бюджет.",budgetOver:"Превышение бюджета примерно на",
+    noRecipes:"Нет рецептов для выбранных фильтров.",ingredients:"Ингредиенты",instructions:"Приготовление",
+    directions:"Инструкции",searching:"Поиск…",noResults:"Ничего не найдено.",
+    mapLoading:"Загрузка карты…",storesFound:"Найдено мест:",hours:"Часы работы неизвестны",
+    route:"Маршрут в Google Maps",cityNotFound:"Город не найден.",
+    locationError:"Не удалось определить местоположение. Проверьте разрешения браузера.",
+    loginAs:"Вы вошли как",loginOk:"Демо-вход выполнен.",commentEmpty:"Напишите комментарий.",
+    ingredient:"Ингредиент",cost:"Примерная стоимость",onlineError:"Ошибка поиска. Попробуйте ещё раз."
+  },
+  zh: {
+    navPlan:"膳食计划",navShopping:"购物清单",navMap:"地图",navOnline:"在线食谱",navCommunity:"社区",
+    account:"我的账户",heroEyebrow:"美味餐食，合理预算。",heroTitle:'轻松规划。<br><span>享受美食。</span>',
+    heroText:"选择食谱、调整份量，并查看需要购买的食材。",startPlanning:"开始规划 →",
+    lessWaste:"🥕 减少浪费",forEveryone:"💚 适合每个人",planner:"计划",setPlan:"设置计划",
+    costNote:"费用为估算值。",budget:"预算（列伊）",people:"人数",
+    diet:"饮食偏好",allDiets:"不限",vegetarian:"素食",vegan:"纯素",
+    category:"类别",allRecipes:"所有食谱",catBreakfast:"早餐",catLunch:"午餐",
+    catDinner:"晚餐",catSnack:"零食",vegetarianOnly:"仅显示素食食谱",
+    organization:"整理",inventoryShopping:"库存与购物",inventoryNote:"已有食材不会加入购物清单。",
+    atHome:"🧺 家里已有的食材？",inventoryPlaceholder:"例如：米、洋葱",add:"添加",
+    shoppingListTitle:"🛒 购物清单",shoppingHelp:"勾选已购买的商品，也可添加或删除商品。",
+    shoppingPlaceholder:"添加商品",estimatedTotal:"所选食谱的估算费用",
+    nearby:"附近",storesRestaurants:"商店与餐厅",mapNote:"结果取决于 OpenStreetMap 数据。",
+    cityPlaceholder:"搜索城市",searchCity:"搜索城市",myLocation:"📍 我的位置",
+    searchStores:"搜索超市",searchRestaurants:"搜索餐厅",
+    storeLegend:"超市 / 商店",restaurantLegend:"餐厅",inspiration:"灵感",
+    onlineRecipes:"在线食谱",mealDbNote:"由 TheMealDB 提供搜索。",
+    onlinePlaceholder:"搜索食谱或食材",searchRecipes:"搜索食谱",
+    together:"Poftim，一起分享",communityDelivery:"社区与外卖",
+    localStorageNote:"账户和评论保存在此浏览器中。",comments:"💬 评论",
+    yourName:"你的名字",leaveComment:"发表评论…",publish:"发布",
+    delivery:"🚲 想点外卖？",deliveryHelp:"打开服务，查看你所在地区是否可用。",
+    footer:"Poftim! — 每日美食灵感 ✳",
+    demoAccountNote:"演示账户仅保存在此浏览器。请勿使用真实密码。",
+    username:"用户名",demoPassword:"演示密码",createLogin:"创建账户 / 登录",
+    logout:"退出",portions:"份",minutes:"分钟",selectRecipe:"加入计划",remove:"删除",
+    budgetOk:"未超出预算。",budgetOver:"超出预算约",
+    noRecipes:"没有符合筛选条件的食谱。",ingredients:"食材",instructions:"做法",
+    directions:"说明",searching:"搜索中…",noResults:"没有找到结果。",
+    mapLoading:"地图加载中…",storesFound:"找到地点：",hours:"营业时间未知",
+    route:"Google 地图路线",cityNotFound:"未找到城市。",
+    locationError:"无法获取位置，请检查浏览器权限。",
+    loginAs:"当前用户",loginOk:"演示登录成功。",commentEmpty:"请填写评论。",
+    ingredient:"食材",cost:"估算费用",onlineError:"搜索失败，请重试。"
+  },
+  ja: {
+    navPlan:"献立プラン",navShopping:"買い物",navMap:"地図",navOnline:"オンラインレシピ",navCommunity:"コミュニティ",
+    account:"アカウント",heroEyebrow:"おいしい食事を、予算内で。",heroTitle:'簡単に計画。<br><span>おいしく食べよう。</span>',
+    heroText:"レシピを選び、人数分に調整して買い物リストを作成します。",startPlanning:"計画を始める →",
+    lessWaste:"🥕 食品ロスを減らそう",forEveryone:"💚 みんなのプラン",planner:"プランナー",setPlan:"プランを設定",
+    costNote:"費用は目安です。",budget:"予算（レイ）",people:"人数",
+    diet:"食事の好み",allDiets:"制限なし",vegetarian:"ベジタリアン",vegan:"ビーガン",
+    category:"カテゴリー",allRecipes:"すべてのレシピ",catBreakfast:"朝食",catLunch:"昼食",
+    catDinner:"夕食",catSnack:"軽食",vegetarianOnly:"ベジタリアン料理のみ表示",
+    organization:"整理",inventoryShopping:"在庫と買い物",inventoryNote:"在庫にある食材はリストから除外されます。",
+    atHome:"🧺 家にある食材は？",inventoryPlaceholder:"例：米、玉ねぎ",add:"追加",
+    shoppingListTitle:"🛒 買い物リスト",shoppingHelp:"購入済みにチェックするか、商品を追加・削除できます。",
+    shoppingPlaceholder:"商品を追加",estimatedTotal:"選択したレシピの概算",
+    nearby:"近く",storesRestaurants:"店舗とレストラン",mapNote:"OpenStreetMap のデータに基づく結果です。",
+    cityPlaceholder:"都市を検索",searchCity:"都市を検索",myLocation:"📍 現在地",
+    searchStores:"スーパーを検索",searchRestaurants:"レストランを検索",
+    storeLegend:"スーパー / 店舗",restaurantLegend:"レストラン",inspiration:"アイデア",
+    onlineRecipes:"オンラインレシピ",mealDbNote:"TheMealDB で検索。",
+    onlinePlaceholder:"レシピや食材を検索",searchRecipes:"レシピを検索",
+    together:"Poftim! みんなで",communityDelivery:"コミュニティとデリバリー",
+    localStorageNote:"アカウントとコメントはこのブラウザーに保存されます。",comments:"💬 コメント",
+    yourName:"名前",leaveComment:"コメントを書く…",publish:"投稿",
+    delivery:"🚲 デリバリーを注文？",deliveryHelp:"サービスを開いて地域で利用できるか確認してください。",
+    footer:"Poftim! — 毎日の食事のアイデア ✳",
+    demoAccountNote:"デモアカウントはこのブラウザーにのみ保存されます。本物のパスワードは使わないでください。",
+    username:"ユーザー名",demoPassword:"デモ用パスワード",createLogin:"アカウント作成 / ログイン",
+    logout:"ログアウト",portions:"人分",minutes:"分",selectRecipe:"プランに追加",remove:"削除",
+    budgetOk:"予算内です。",budgetOver:"予算超過：約",
+    noRecipes:"条件に合うレシピがありません。",ingredients:"材料",instructions:"作り方",
+    directions:"手順",searching:"検索中…",noResults:"結果が見つかりません。",
+    mapLoading:"地図を読み込み中…",storesFound:"見つかった場所：",hours:"営業時間は不明です",
+    route:"Google マップでルート",cityNotFound:"都市が見つかりません。",
+    locationError:"位置情報を取得できません。ブラウザーの許可を確認してください。",
+    loginAs:"ログイン中：",loginOk:"デモログインしました。",commentEmpty:"コメントを入力してください。",
+    ingredient:"材料",cost:"概算費用",onlineError:"検索できませんでした。もう一度お試しください。"
+  }
+};
 
+const localRecipes = [
+  {
+    id:"soup",category:"Lunch",diet:"vegan",emoji:"🥣",minutes:30,cost:12,
+    title:{ro:"Supă de linte",en:"Lentil soup",fr:"Soupe de lentilles",it:"Zuppa di lenticchie",ru:"Чечевичный суп",zh:"扁豆汤",ja:"レンズ豆のスープ"},
+    description:{ro:"Sățioasă, simplă și prietenoasă cu bugetul.",en:"Hearty, simple, and budget-friendly.",fr:"Simple, nourrissante et économique.",it:"Semplice, nutriente ed economica.",ru:"Сытный, простой и бюджетный суп.",zh:"简单、饱腹又经济。",ja:"簡単でお腹も満たされる節約レシピ。"},
+    ingredients:[
+      {n:{ro:"linte",en:"lentils",fr:"lentilles",it:"lenticchie",ru:"чечевица",zh:"扁豆",ja:"レンズ豆"},q:150,u:"g"},
+      {n:{ro:"ceapă",en:"onion",fr:"oignon",it:"cipolla",ru:"лук",zh:"洋葱",ja:"玉ねぎ"},q:1,u:""},
+      {n:{ro:"morcov",en:"carrot",fr:"carotte",it:"carota",ru:"морковь",zh:"胡萝卜",ja:"にんじん"},q:1,u:""},
+      {n:{ro:"roșii",en:"tomatoes",fr:"tomates",it:"pomodori",ru:"помидоры",zh:"番茄",ja:"トマト"},q:200,u:"g"},
+      {n:{ro:"ulei",en:"oil",fr:"huile",it:"olio",ru:"масло",zh:"油",ja:"油"},q:1,u:"lingură"}
+    ],
+    instructions:{ro:"Călește ceapa și morcovul. Adaugă lintea, roșiile și apă. Fierbe până se înmoaie lintea; asezonează.",en:"Soften the onion and carrot. Add lentils, tomatoes, and water. Simmer until tender; season to taste.",fr:"Faites revenir l’oignon et la carotte. Ajoutez les lentilles, les tomates et l’eau. Faites mijoter jusqu’à tendreté.",it:"Rosola cipolla e carota. Aggiungi lenticchie, pomodori e acqua. Cuoci finché sono tenere.",ru:"Обжарьте лук и морковь. Добавьте чечевицу, помидоры и воду. Варите до мягкости.",zh:"炒香洋葱和胡萝卜，加入扁豆、番茄和水，煮至软烂后调味。",ja:"玉ねぎとにんじんを炒め、レンズ豆、トマト、水を加えて柔らかくなるまで煮ます。"}
+  },
+  {
+    id:"pasta",category:"Dinner",diet:"vegetarian",emoji:"🍝",minutes:25,cost:15,
+    title:{ro:"Paste cu sos de roșii",en:"Tomato pasta",fr:"Pâtes à la tomate",it:"Pasta al pomodoro",ru:"Паста с томатным соусом",zh:"番茄意面",ja:"トマトパスタ"},
+    description:{ro:"O cină rapidă, cu ingrediente ușor de găsit.",en:"A quick dinner with easy-to-find ingredients.",fr:"Un dîner rapide avec des ingrédients faciles à trouver.",it:"Una cena veloce con ingredienti facili da trovare.",ru:"Быстрый ужин из доступных продуктов.",zh:"用常见食材快速做成的晚餐。",ja:"手に入りやすい材料で作る簡単な夕食。"},
+    ingredients:[
+      {n:{ro:"paste",en:"pasta",fr:"pâtes",it:"pasta",ru:"макароны",zh:"意面",ja:"パスタ"},q:180,u:"g"},
+      {n:{ro:"roșii",en:"tomatoes",fr:"tomates",it:"pomodori",ru:"помидоры",zh:"番茄",ja:"トマト"},q:250,u:"g"},
+      {n:{ro:"usturoi",en:"garlic",fr:"ail",it:"aglio",ru:"чеснок",zh:"大蒜",ja:"にんにく"},q:2,u:"căței"},
+      {n:{ro:"ulei",en:"oil",fr:"huile",it:"olio",ru:"масло",zh:"油",ja:"油"},q:1,u:"lingură"},
+      {n:{ro:"parmezan",en:"parmesan",fr:"parmesan",it:"parmigiano",ru:"пармезан",zh:"帕尔马干酪",ja:"パルメザン"},q:30,u:"g"}
+    ],
+    instructions:{ro:"Fierbe pastele. Gătește usturoiul și roșiile în ulei, apoi amestecă sosul cu pastele. Adaugă parmezan.",en:"Cook the pasta. Cook garlic and tomatoes in oil, then toss with pasta. Finish with parmesan.",fr:"Faites cuire les pâtes. Faites revenir l’ail et les tomates dans l’huile, puis mélangez. Ajoutez le parmesan.",it:"Cuoci la pasta. Rosola aglio e pomodori nell’olio, poi unisci la pasta e aggiungi parmigiano.",ru:"Отварите макароны. Обжарьте чеснок и помидоры в масле, смешайте с макаронами и добавьте пармезан.",zh:"煮熟意面。用油炒香大蒜和番茄，拌入意面并撒上帕尔马干酪。",ja:"パスタをゆでます。油でにんにくとトマトを炒め、パスタと和えてパルメザンを加えます。"}
+  },
+  {
+    id:"oats",category:"Breakfast",diet:"vegan",emoji:"🥣",minutes:10,cost:7,
+    title:{ro:"Terci de ovăz cu banană",en:"Banana oatmeal",fr:"Porridge à la banane",it:"Porridge alla banana",ru:"Овсянка с бананом",zh:"香蕉燕麦粥",ja:"バナナオートミール"},
+    description:{ro:"Mic dejun rapid și sățios.",en:"A quick, filling breakfast.",fr:"Un petit-déjeuner rapide et nourrissant.",it:"Una colazione veloce e saziante.",ru:"Быстрый и сытный завтрак.",zh:"快速又饱腹的早餐。",ja:"手早く作れて満足感のある朝食。"},
+    ingredients:[
+      {n:{ro:"fulgi de ovăz",en:"rolled oats",fr:"flocons d’avoine",it:"fiocchi d’avena",ru:"овсяные хлопья",zh:"燕麦片",ja:"オートミール"},q:100,u:"g"},
+      {n:{ro:"lapte",en:"milk",fr:"lait",it:"latte",ru:"молоко",zh:"牛奶",ja:"牛乳"},q:250,u:"ml"},
+      {n:{ro:"banană",en:"banana",fr:"banane",it:"banana",ru:"банан",zh:"香蕉",ja:"バナナ"},q:1,u:""},
+      {n:{ro:"miere",en:"honey",fr:"miel",it:"miele",ru:"мёд",zh:"蜂蜜",ja:"はちみつ"},q:1,u:"linguriță"}
+    ],
+    instructions:{ro:"Fierbe ovăzul în lapte, amestecând. Servește cu banană feliată și miere.",en:"Simmer oats in milk, stirring. Serve with sliced banana and honey.",fr:"Faites cuire les flocons dans le lait en remuant. Servez avec la banane et le miel.",it:"Cuoci l’avena nel latte mescolando. Servi con banana a fette e miele.",ru:"Сварите овсяные хлопья в молоке, помешивая. Подавайте с бананом и мёдом.",zh:"燕麦片与牛奶煮至浓稠，搭配香蕉片和蜂蜜食用。",ja:"オートミールを牛乳で煮ます。スライスしたバナナとはちみつを添えます。"}
+  }
+];
+
+const LANG_NAMES = {
+  ro:["linte","paste","ovăz","supă","salată","pui","cartofi","orez"],
+  en:["lentil","pasta","oat","soup","salad","chicken","potato","rice"],
+  fr:["lentille","pâtes","avoine","soupe","salade","poulet","pomme de terre","riz"],
+  it:["lenticchie","pasta","avena","zuppa","insalata","pollo","patate","riso"],
+  ru:["чечевица","макароны","овсянка","суп","салат","курица","картофель","рис"],
+  zh:["扁豆","意面","燕麦","汤","沙拉","鸡肉","土豆","米饭"],
+  ja:["レンズ豆","パスタ","オートミール","スープ","サラダ","鶏肉","じゃがいも","ご飯"]
+};
+
+let currentLang = localStorage.getItem("poftim-language") || "ro";
   const $ = id => document.getElementById(id);
-  const load = (key, fallback) => {
-    try { return JSON.parse(localStorage.getItem(key)) ?? fallback; }
-    catch { return fallback; }
-  };
-  const save = (key, value) => localStorage.setItem(key, JSON.stringify(value));
-  let selectedRecipes = load("poftim_selected", {});
-  let inventory = load("poftim_inventory", []);
-  let customShopping = load("poftim_custom_shopping", []);
-  let comments = load("poftim_comments", []);
-  let currentUser = load("poftim_current_user", null);
+const tr = key => (T[currentLang] && T[currentLang][key]) || T.ro[key] || key;
+const read = (key, fallback=[]) => {
+  try { return JSON.parse(localStorage.getItem(key)) ?? fallback; }
+  catch { return fallback; }
+};
+const save = (key, value) => localStorage.setItem(key, JSON.stringify(value));
+const safe = value => String(value ?? "").replace(/[&<>"']/g, c => ({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+}[c]));
+const langValue = value => typeof value === "string" ? value : (value?.[currentLang] || value?.en || "");
+const toast = text => {
+  const el=$("toast"); el.textContent=text; el.style.display="block";
+  clearTimeout(window.toastTimer); window.toastTimer=setTimeout(()=>el.style.display="none",2400);
+};
+let selectedRecipes = read("poftim-selected", []);
+let inventory = read("poftim-inventory", []);
+let shopping = read("poftim-shopping", []);
+let map, markers, mapCenter = [46.7712,23.6236];
 
-  function toast(message) {
-    const el = $("toast"); el.textContent = message; el.style.display = "block";
-    clearTimeout(toast.timer); toast.timer = setTimeout(() => el.style.display = "none", 2600);
-  }
-  function norm(s) { return String(s).trim().toLocaleLowerCase("ro"); }
-  function cleanQty(n) { return Number.isInteger(n) ? n : Number(n.toFixed(1)); }
+function applyLanguage() {
+  document.documentElement.lang=currentLang;
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const key=el.dataset.i18n;
+    if(T[currentLang]?.[key]) el.textContent=T[currentLang][key];
+  });
+  document.querySelectorAll("[data-i18n-html]").forEach(el=>{
+    const key=el.dataset.i18nHtml;
+    if(T[currentLang]?.[key]) el.innerHTML=T[currentLang][key];
+  });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(el=>{
+    const key=el.dataset.i18nPlaceholder;
+    if(T[currentLang]?.[key]) el.placeholder=T[currentLang][key];
+  });
+  renderRecipes(); renderInventory(); renderShopping(); renderComments(); renderAccount();
+}
+$("languageSelect").value=currentLang;
+$("languageSelect").addEventListener("change",e=>{
+  currentLang=e.target.value;
+  localStorage.setItem("poftim-language",currentLang);
+  applyLanguage();
+});
 
-  function renderRecipes() {
-    const category = $("category").value;
-    const diet = $("diet").value;
-    const vegetarianOnly = $("vegetarianOnly").checked;
-    const people = Math.max(1, Number($("people").value) || 1);
-    const list = recipes.filter(r =>
-      (category === "all" || r.category === category) &&
-      (diet === "all" || (diet === "vegetarian" && r.vegetarian) || (diet === "vegan" && r.vegan)) &&
-      (!vegetarianOnly || r.vegetarian)
-    );
-
-    $("recipeGrid").innerHTML = list.map(r => {
-      const portions = Number(selectedRecipes[r.id]?.portions || people);
-      const isAdded = Boolean(selectedRecipes[r.id]);
-      return `<article class="card recipe-card">
-        <div class="recipe-emoji">${r.emoji}</div>
-        <div class="recipe-body">
-          <span class="pill">${r.category}</span>
-          ${r.vegan ? '<span class="pill">Vegan</span>' : r.vegetarian ? '<span class="pill">Vegetarian</span>' : ''}
-          <h3>${r.name}</h3>
-          <div class="meta">⏱ ${r.time} min · ~${(r.cost * portions).toFixed(2)} lei / ${portions} porții</div>
-          <p>${r.description}</p>
-          <div class="inline-controls">
-            <select aria-label="Porții pentru ${r.name}" onchange="setPortions('${r.id}',this.value)">
-              ${Array.from({length:12}, (_,i) => i+1).map(n => `<option value="${n}" ${portions===n?"selected":""}>${n} porț${n===1?"ie":"ii"}</option>`).join("")}
+function getRecipe(id){ return localRecipes.find(r=>r.id===id); }
+function selected(id){ return selectedRecipes.includes(id); }
+function renderRecipes() {
+  const diet=$("diet").value, category=$("category").value;
+  const vegetarianOnly=$("vegetarianOnly").checked;
+  const list=localRecipes.filter(r=>
+    (category==="all" || r.category===category) &&
+    (diet==="all" || r.diet===diet || (diet==="vegetarian" && r.diet==="vegan")) &&
+    (!vegetarianOnly || r.diet==="vegetarian" || r.diet==="vegan")
+  );
+  $("recipeGrid").innerHTML=list.length ? list.map(r=>`
+    <article class="card recipe-card">
+      <div class="recipe-emoji">${r.emoji}</div>
+      <div class="recipe-body">
+        <span class="pill">${tr("cat"+r.category)}</span>
+        <h3>${safe(langValue(r.title))}</h3>
+        <div class="meta">⏱ ${r.minutes} ${tr("minutes")} · ${tr("cost")}: ~${r.cost} lei</div>
+        <p>${safe(langValue(r.description))}</p>
+        <div class="inline-controls">
+          <label style="margin:0;flex:1">${tr("portions")}
+            <select class="portion-select" data-id="${r.id}">
+              ${[1,2,3,4,5,6,8,10,12].map(n=>`<option value="${n}" ${n===Number($("people").value||2)?"selected":""}>${n}</option>`).join("")}
             </select>
-            <button class="${isAdded?"btn-secondary":"btn"} btn-small" onclick="toggleRecipe('${r.id}')">${isAdded?"Adăugată ✓":"Adaugă în plan"}</button>
-          </div>
+          </label>
+          <button class="${selected(r.id)?"btn-secondary":"btn"} btn-small select-recipe" data-id="${r.id}">
+            ${selected(r.id)?tr("remove"):tr("selectRecipe")}
+          </button>
         </div>
-      </article>`;
-    }).join("") || '<p class="muted">Nu am găsit rețete pentru filtrele alese.</p>';
-  }
+        <details style="margin-top:12px"><summary>${tr("ingredients")} & ${tr("instructions")}</summary>
+          <p>${r.ingredients.map(i=>`${Math.round(i.q*Number($("people").value||2)/2*100)/100} ${i.u} ${safe(langValue(i.n))}`).join("<br>")}</p>
+          <p>${safe(langValue(r.instructions))}</p>
+        </details>
+      </div>
+    </article>`).join("") : `<p class="muted">${tr("noRecipes")}</p>`;
+  document.querySelectorAll(".select-recipe").forEach(btn=>btn.addEventListener("click",()=>{
+    const id=btn.dataset.id;
+    selectedRecipes=selected(id)?selectedRecipes.filter(x=>x!==id):[...selectedRecipes,id];
+    save("poftim-selected",selectedRecipes); renderRecipes(); updateGeneratedShopping();
+  }));
+}
+["budget","people","diet","category","vegetarianOnly"].forEach(id=>{
+  $(id).addEventListener("input",()=>{renderRecipes(); updateGeneratedShopping();});
+  $(id).addEventListener("change",()=>{renderRecipes(); updateGeneratedShopping();});
+});
 
-  window.setPortions = (id, value) => {
-    if (selectedRecipes[id]) selectedRecipes[id].portions = Number(value);
-    save("poftim_selected", selectedRecipes); renderRecipes(); renderShopping();
-  };
-  window.toggleRecipe = id => {
-    if (selectedRecipes[id]) delete selectedRecipes[id];
-    else selectedRecipes[id] = {portions: Math.max(1, Number($("people").value)||1)};
-    save("poftim_selected", selectedRecipes); renderRecipes(); renderShopping();
-  };
+function renderInventory(){
+  $("inventoryList").innerHTML=inventory.map((item,i)=>`
+    <li><span class="item-text">${safe(item)}</span><button class="icon-btn remove-inventory" data-i="${i}" aria-label="${tr("remove")}">×</button></li>`
+  ).join("");
+  document.querySelectorAll(".remove-inventory").forEach(b=>b.onclick=()=>{
+    inventory.splice(Number(b.dataset.i),1); save("poftim-inventory",inventory);
+    renderInventory(); updateGeneratedShopping();
+  });
+}
+$("addInventory").onclick=()=>{
+  const v=$("inventoryInput").value.trim(); if(!v)return;
+  inventory.push(v); $("inventoryInput").value="";
+  save("poftim-inventory",inventory); renderInventory(); updateGeneratedShopping();
+};
+$("inventoryInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();$("addInventory").click();}});
 
-  function renderInventory() {
-    $("inventoryList").innerHTML = inventory.length ? inventory.map((item,i) =>
-      `<li><span style="flex:1">${escapeHtml(item)}</span><button class="icon-btn" onclick="removeInventory(${i})" aria-label="Șterge">×</button></li>`
-    ).join("") : '<li class="muted">Inventarul este gol.</li>';
-  }
-  window.removeInventory = i => { inventory.splice(i,1); save("poftim_inventory",inventory); renderInventory(); renderShopping(); };
-
-  function renderShopping() {
-    const needed = new Map();
-    let cost = 0;
-    Object.entries(selectedRecipes).forEach(([id, data]) => {
-      const r = recipes.find(x => x.id === id); if (!r) return;
-      const portions = Number(data.portions) || 1;
-      cost += r.cost * portions;
-      r.ingredients.forEach(([name, qty, unit]) => {
-        const key = norm(name);
-        const current = needed.get(key) || {name, qty:0, unit};
-        current.qty += qty * portions; needed.set(key,current);
-      });
+function updateGeneratedShopping(){
+  const generated=[];
+  let total=0, people=Math.max(1,Number($("people").value)||1);
+  selectedRecipes.forEach(id=>{
+    const r=getRecipe(id); if(!r)return;
+    total+=r.cost*people/2;
+    r.ingredients.forEach(i=>{
+      const name=langValue(i.n), normalized=name.toLocaleLowerCase();
+      const already=inventory.some(x=>x.toLocaleLowerCase().includes(normalized)||normalized.includes(x.toLocaleLowerCase()));
+      if(!already && !generated.some(x=>x.toLocaleLowerCase()===normalized)){
+        generated.push(name);
+      }
     });
-    const items = [...needed.values()].filter(x => !inventory.some(i => norm(i) === norm(x.name)));
-    const savedChecks = load("poftim_checks", {});
-    const generated = items.map(x => {
-      const text = `${cleanQty(x.qty)} ${x.unit} ${x.name}`;
-      const key = norm(x.name);
-      return `<li class="${savedChecks[key]?"checked":""}">
-        <input type="checkbox" ${savedChecks[key]?"checked":""} onchange="toggleCheck('${escapeAttr(key)}',this.checked)">
-        <span class="item-text">${escapeHtml(text)}</span></li>`;
-    }).join("");
-    const custom = customShopping.map((x,i) => `<li>
-      <input type="checkbox">
-      <span class="item-text">${escapeHtml(x)}</span>
-      <button class="icon-btn" onclick="removeCustom(${i})" aria-label="Șterge">×</button></li>`).join("");
-    $("shoppingList").innerHTML = generated + custom || '<li class="muted">Adaugă rețete în plan pentru a genera lista.</li>';
-    $("totalCost").textContent = `${cost.toFixed(2)} lei`;
-    const budget = Number($("budget").value) || 0;
-    $("budgetStatus").textContent = cost > budget && cost > 0
-      ? `Estimarea depășește bugetul cu ${(cost-budget).toFixed(2)} lei. Încearcă mai puține porții sau rețete mai accesibile.`
-      : cost > 0 ? `Estimarea este în buget. Îți rămân ${(budget-cost).toFixed(2)} lei.` : "Adaugă rețete ca să vezi estimarea.";
-  }
-  window.toggleCheck = (key, checked) => {
-    const checks = load("poftim_checks", {}); checks[key] = checked; save("poftim_checks",checks); renderShopping();
-  };
-  window.removeCustom = i => { customShopping.splice(i,1); save("poftim_custom_shopping",customShopping); renderShopping(); };
-  function addInventory() {
-    const value = $("inventoryInput").value.trim(); if (!value) return;
-    if (!inventory.some(x => norm(x) === norm(value))) inventory.push(value);
-    $("inventoryInput").value = ""; save("poftim_inventory",inventory); renderInventory(); renderShopping();
-  }
-  function addShopping() {
-    const value = $("shoppingInput").value.trim(); if (!value) return;
-    customShopping.push(value); $("shoppingInput").value = "";
-    save("poftim_custom_shopping",customShopping); renderShopping();
-  }
-  $("addInventory").onclick = addInventory;
-  $("addShopping").onclick = addShopping;
-  $("inventoryInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();addInventory();}});
-  $("shoppingInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();addShopping();}});
-  ["budget","people","diet","category","vegetarianOnly"].forEach(id => $(id).addEventListener("input",()=>{renderRecipes();renderShopping();}));
-
-  // Leaflet + Photon + Overpass
-  const map = L.map("map").setView([46.7704,23.5914],13);
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    maxZoom:19, attribution:'&copy; OpenStreetMap contributors'
-  }).addTo(map);
-  let userMarker = null;
-  let placeMarkers = [];
-  let cityCenter = [46.7704,23.5914];
-  const icons = {
-    store: L.divIcon({className:"",html:'<div style="background:#2e7652;width:17px;height:17px;border:3px solid white;border-radius:50%;box-shadow:0 1px 6px #0007"></div>',iconSize:[17,17],iconAnchor:[8,8]}),
-    restaurant: L.divIcon({className:"",html:'<div style="background:#df4d45;width:17px;height:17px;border:3px solid white;border-radius:50%;box-shadow:0 1px 6px #0007"></div>',iconSize:[17,17],iconAnchor:[8,8]})
-  };
-
-  async function searchCity() {
-    const q = $("cityInput").value.trim(); if (!q) return;
-    $("mapMessage").textContent = "Caut orașul…";
-    try {
-      const res = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(q)}&limit=1`);
-      const data = await res.json();
-      if (!data.features?.length) throw new Error("Orașul nu a fost găsit.");
-      const f = data.features[0], [lon,lat] = f.geometry.coordinates;
-      cityCenter = [lat,lon]; map.setView(cityCenter,13);
-      $("mapMessage").textContent = `Hartă centrată pe ${f.properties.name || q}.`;
-      clearPlaces();
-    } catch(e) { $("mapMessage").textContent = e.message || "Nu am putut căuta orașul."; }
-  }
-  $("searchCity").onclick = searchCity;
-  $("cityInput").addEventListener("keydown",e=>{if(e.key==="Enter")searchCity();});
-  $("locateMe").onclick = () => {
-    if (!navigator.geolocation) { toast("Geolocația nu este disponibilă în acest browser."); return; }
-    $("mapMessage").textContent = "Cer acces la locația ta…";
-    navigator.geolocation.getCurrentPosition(pos => {
-      const ll = [pos.coords.latitude,pos.coords.longitude];
-      map.setView(ll,14);
-      if (userMarker) map.removeLayer(userMarker);
-      userMarker = L.marker(ll).addTo(map).bindPopup("Locația ta").openPopup();
-      $("mapMessage").textContent = "Hartă centrată pe locația ta.";
-    }, () => $("mapMessage").textContent = "Nu s-a putut accesa locația. Verifică permisiunile browserului.", {enableHighAccuracy:true});
-  };
-  function clearPlaces() {
-    placeMarkers.forEach(m=>map.removeLayer(m)); placeMarkers=[]; $("placeResults").innerHTML="";
-  }
-  async function queryOverpass(kind) {
-    clearPlaces();
-    $("mapMessage").textContent = "Caut rezultate în OpenStreetMap…";
-    const [lat,lon] = cityCenter;
-    const around = 6000;
-    const selector = kind === "restaurant"
-      ? `node["amenity"="restaurant"](around:${around},${lat},${lon});way["amenity"="restaurant"](around:${around},${lat},${lon});`
-      : `node["shop"~"supermarket|convenience|grocery"](around:${around},${lat},${lon});way["shop"~"supermarket|convenience|grocery"](around:${around},${lat},${lon});`;
-    const query = `[out:json][timeout:25];(${selector});out center tags;`;
-    try {
-      const response = await fetch("https://overpass-api.de/api/interpreter", {method:"POST",body:query});
-      if (!response.ok) throw new Error("Serviciul de hartă nu răspunde momentan.");
-      const data = await response.json();
-      const elements = data.elements || [];
-      const results = elements.slice(0,80).map(el => {
-        const tags = el.tags || {};
-        const lat = el.lat ?? el.center?.lat, lon = el.lon ?? el.center?.lon;
-        if (!lat || !lon) return "";
-        const name = tags.name || (kind==="restaurant" ? "Restaurant fără nume" : "Magazin fără nume");
-        const address = [tags["addr:street"],tags["addr:housenumber"],tags["addr:city"]].filter(Boolean).join(" ") || "Adresă indisponibilă";
-        const hours = tags.opening_hours || "Program indisponibil";
-        const marker = L.marker([lat,lon], {icon: kind==="restaurant"?icons.restaurant:icons.store}).addTo(map);
-        marker.bindPopup(`<strong>${escapeHtml(name)}</strong><br>${escapeHtml(address)}<br>${kind==="restaurant"?"Restaurant":"Magazin"} · ${escapeHtml(hours)}<br><a target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}">Indicații Google Maps ↗</a>`);
-        placeMarkers.push(marker);
-        return `<div class="place-card"><strong>${kind==="restaurant"?"🔴":"🟢"} ${escapeHtml(name)}</strong>
-          <div>${escapeHtml(address)}</div><div class="muted">${escapeHtml(hours)}</div>
-          <a target="_blank" rel="noopener noreferrer" href="https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}">Traseu în Google Maps ↗</a></div>`;
-      }).filter(Boolean);
-      $("placeResults").innerHTML = results.join("");
-      $("mapMessage").textContent = elements.length
-        ? `Am găsit ${results.length} rezultate afișate. Informațiile și programul pot fi incomplete.`
-        : "Nu am găsit rezultate. Încearcă alt oraș sau revino mai târziu.";
-    } catch(e) { $("mapMessage").textContent = e.message || "A apărut o eroare la căutarea locurilor."; }
-  }
-  $("searchStores").onclick = () => queryOverpass("store");
-  $("searchRestaurants").onclick = () => queryOverpass("restaurant");
-
-  // TheMealDB demo key: 1
-  async function searchMeals() {
-    const q = $("onlineQuery").value.trim();
-    if (!q) { $("onlineMessage").textContent = "Scrie un termen de căutare."; return; }
-    $("onlineMessage").textContent = "Caut rețete…"; $("onlineGrid").innerHTML="";
-    try {
-      const res = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${encodeURIComponent(q)}`);
-      const data = await res.json();
-      const meals = data.meals || [];
-      if (!meals.length) { $("onlineMessage").textContent="Nu am găsit rețete. Încearcă termenul în engleză."; return; }
-      $("onlineMessage").textContent = `Am găsit ${meals.length} rețete.`;
-      $("onlineGrid").innerHTML = meals.slice(0,9).map(meal => {
-        const ingredients = [];
-        for(let i=1;i<=20;i++){
-          const ingredient = meal[`strIngredient${i}`]?.trim();
-          const measure = meal[`strMeasure${i}`]?.trim();
-          if(ingredient) ingredients.push(`${measure ? escapeHtml(measure)+" " : ""}${escapeHtml(ingredient)}`);
-        }
-        const instructions = (meal.strInstructions || "Instrucțiunile nu sunt disponibile.").replace(/\r?\n/g,"<br>");
-        return `<article class="card online-card">
-          <img src="${escapeAttr(meal.strMealThumb || "")}" alt="${escapeAttr(meal.strMeal)}" loading="lazy">
-          <div class="online-content">
-            <span class="pill">${escapeHtml(meal.strCategory || "Rețetă")}</span>
-            <h3>${escapeHtml(meal.strMeal)}</h3>
-            <details><summary>Ingrediente (${ingredients.length})</summary><ul>${ingredients.map(x=>`<li>${x}</li>`).join("")}</ul></details>
-            <details><summary>Instrucțiuni</summary><div>${instructions}</div></details>
-            ${meal.strSource ? `<p><a href="${escapeAttr(meal.strSource)}" target="_blank" rel="noopener noreferrer">Sursa rețetei ↗</a></p>`:""}
-          </div>
-        </article>`;
-      }).join("");
-    } catch { $("onlineMessage").textContent="Nu am putut accesa TheMealDB. Încearcă din nou mai târziu."; }
-  }
-  $("searchOnline").onclick = searchMeals;
-  $("onlineQuery").addEventListener("keydown",e=>{if(e.key==="Enter")searchMeals();});
-
-  // Demonstrație locală pentru conturi, nu autentificare reală.
-  const backdrop = $("modalBackdrop");
-  function refreshAccount() {
-    $("accountButton").textContent = currentUser ? `Salut, ${currentUser.name}` : "Contul meu";
-    $("logoutButton").style.display = currentUser ? "inline-block" : "none";
-  }
-  $("accountButton").onclick = () => { backdrop.classList.add("open"); refreshAccount(); };
-  $("closeModal").onclick = () => backdrop.classList.remove("open");
-  backdrop.addEventListener("click",e=>{if(e.target===backdrop)backdrop.classList.remove("open");});
-  $("accountForm").addEventListener("submit",e=>{
-    e.preventDefault();
-    const name = $("accountName").value.trim(), password = $("accountPassword").value;
-    if (!name || !password) return;
-    const accounts = load("poftim_accounts",[]);
-    const existing = accounts.find(a=>norm(a.name)===norm(name));
-    if (existing) {
-      if (existing.password !== password) { $("accountMessage").textContent="Parola nu corespunde acestui cont demonstrativ."; return; }
-      currentUser = {name:existing.name};
-      $("accountMessage").textContent="Autentificare reușită.";
-    } else {
-      accounts.push({name,password}); save("poftim_accounts",accounts);
-      currentUser = {name}; $("accountMessage").textContent="Cont demonstrativ creat.";
-    }
-    save("poftim_current_user",currentUser); refreshAccount(); renderComments();
   });
-  $("logoutButton").onclick = () => {
-    currentUser=null; localStorage.removeItem("poftim_current_user");
-    $("accountMessage").textContent="Te-ai deconectat."; refreshAccount(); renderComments();
-  };
-
-  function renderComments() {
-    $("commentArea").innerHTML = comments.length ? comments.slice().reverse().map(c=>
-      `<div class="comment"><strong>${escapeHtml(c.name)}</strong><p>${escapeHtml(c.text)}</p></div>`
-    ).join("") : '<p class="muted">Fii primul care lasă un comentariu!</p>';
-    $("commentName").value = currentUser?.name || "";
-  }
-  $("commentForm").addEventListener("submit",e=>{
-    e.preventDefault();
-    const name = (currentUser?.name || $("commentName").value).trim();
-    const text = $("commentText").value.trim();
-    if(!name || !text) return;
-    comments.push({name,text,date:Date.now()}); save("poftim_comments",comments);
-    $("commentText").value=""; renderComments(); toast("Comentariu salvat în acest browser.");
-  });
-
-  function escapeHtml(s) {
-    return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-  }
-  function escapeAttr(s) { return escapeHtml(s); }
-
-  renderRecipes();
-  renderInventory();
+  const manual=shopping.filter(x=>!x.generated);
+  shopping=[...generated.map(name=>({name,generated:true,checked:false})),...manual];
+  save("poftim-shopping",shopping);
+  $("totalCost").textContent=`${Math.round(total)} lei`;
+  const budget=Number($("budget").value)||0;
+  $("budgetStatus").textContent=total<=budget?tr("budgetOk"):`${tr("budgetOver")} ${Math.round(total-budget)} lei.`;
   renderShopping();
-  refreshAccount();
-  renderComments();
-</script>
-</body>
-</html>
+}
+function renderShopping(){
+  $("shoppingList").innerHTML=shopping.map((item,i)=>`
+    <li class="${item.checked?"checked":""}">
+      <input type="checkbox" data-i="${i}" ${item.checked?"checked":""} aria-label="${safe(item.name)}">
+      <span class="item-text">${safe(item.name)}</span>
+      <button class="icon-btn remove-shopping" data-i="${i}" aria-label="${tr("remove")}">×</button>
+    </li>`).join("");
+  document.querySelectorAll("#shoppingList input[type=checkbox]").forEach(c=>c.onchange=()=>{
+    shopping[Number(c.dataset.i)].checked=c.checked; save("poftim-shopping",shopping); renderShopping();
+  });
+  document.querySelectorAll(".remove-shopping").forEach(b=>b.onclick=()=>{
+    shopping.splice(Number(b.dataset.i),1); save("poftim-shopping",shopping); renderShopping();
+  });
+}
+$("addShopping").onclick=()=>{
+  const v=$("shoppingInput").value.trim(); if(!v)return;
+  shopping.push({name:v,generated:false,checked:false});
+  $("shoppingInput").value=""; save("poftim-shopping",shopping); renderShopping();
+};
+$("shoppingInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();$("addShopping").click();}});
+
+function initMap(){
+  map=L.map("map").setView(mapCenter,13);
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
+    maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(map);
+  markers=L.layerGroup().addTo(map);
+}
+function setMapMessage(text){$("mapMessage").textContent=text;}
+async function searchCity(){
+  const city=$("cityInput").value.trim(); if(!city)return;
+  setMapMessage(tr("mapLoading"));
+  try{
+    const res=await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(city)}&limit=1`);
+    const data=await res.json(), f=data.features?.[0];
+    if(!f){setMapMessage(tr("cityNotFound"));return;}
+    const [lon,lat]=f.geometry.coordinates; mapCenter=[lat,lon];
+    map.setView(mapCenter,13); setMapMessage(f.properties.name||city);
+    $("placeResults").innerHTML="";
+  }catch{setMapMessage(tr("onlineError"))}
+}
+$("searchCity").onclick=searchCity;
+$("cityInput").addEventListener("keydown",e=>{if(e.key==="Enter")searchCity();});
+$("locateMe").onclick=()=>{
+  if(!navigator.geolocation){setMapMessage(tr("locationError"));return;}
+  navigator.geolocation.getCurrentPosition(pos=>{
+    mapCenter=[pos.coords.latitude,pos.coords.longitude]; map.setView(mapCenter,14);
+    L.circleMarker(mapCenter,{radius:8,color:"#215c3d"}).addTo(markers).bindPopup(tr("myLocation")).openPopup();
+  },()=>setMapMessage(tr("locationError")));
+};
+async function searchPlaces(kind){
+  setMapMessage(tr("mapLoading")); markers.clearLayers(); $("placeResults").innerHTML="";
+  const [lat,lon]=map.getCenter();
+  const query=kind==="store"
+    ?`node["shop"~"supermarket|convenience|greengrocer"](around:7000,${lat},${lon});way["shop"~"supermarket|convenience|greengrocer"](around:7000,${lat},${lon});out center tags;`
+    :`node["amenity"="restaurant"](around:7000,${lat},${lon});way["amenity"="restaurant"](around:7000,${lat},${lon});out center tags;`;
+  try{
+    const res=await fetch("https://overpass-api.de/api/interpreter",{method:"POST",body:"data="+encodeURIComponent("[out:json];("+query+");")});
+    if(!res.ok)throw Error("Overpass");
+    const data=await res.json(), items=data.elements||[];
+    const color=kind==="store"?"#2e7652":"#df4d45";
+    const cards=[];
+    items.slice(0,80).forEach(el=>{
+      const p=el.tags||{}, point=el.lat? [el.lat,el.lon] : [el.center?.lat,el.center?.lon];
+      if(!point[0]||!point[1])return;
+      const name=p.name|| (kind==="store"?tr("storeLegend"):tr("restaurantLegend"));
+      const address=[p["addr:street"],p["addr:housenumber"],p["addr:city"]].filter(Boolean).join(", ");
+      const hours=p.opening_hours||tr("hours");
+      const route=`https://www.google.com/maps/dir/?api=1&destination=${point[0]},${point[1]}`;
+      L.circleMarker(point,{radius:7,color,fillColor:color,fillOpacity:.9}).addTo(markers)
+        .bindPopup(`<strong>${safe(name)}</strong><br>${safe(address||tr("hours"))}<br>${safe(hours)}<br><a target="_blank" rel="noopener" href="${route}">${tr("route")}</a>`);
+      cards.push(`<div class="place-card"><strong>${safe(name)}</strong>${safe(address||tr("hours"))}<br>${safe(hours)}<p style="margin:9px 0 0"><a target="_blank" rel="noopener noreferrer" href="${route}">${tr("route")} ↗</a></p></div>`);
+    });
+    $("placeResults").innerHTML=cards.join("");
+    setMapMessage(`${tr("storesFound")} ${cards.length}`);
+  }catch{setMapMessage(tr("onlineError"))}
+}
+$("searchStores").onclick=()=>searchPlaces("store");
+$("searchRestaurants").onclick=()=>searchPlaces("restaurant");
+
+const searchTerms={
+  ro:["linte","paste","ovăz","supă","salată","pui","cartofi","orez"],
+  en:["lentil","pasta","oat","soup","salad","chicken","potato","rice"],
+  fr:["lentille","pâtes","avoine","soupe","salade","poulet","pomme de terre","riz"],
+  it:["lenticchie","pasta","avena","zuppa","insalata","pollo","patate","riso"],
+  ru:["чечевица","макароны","овсянка","суп","салат","курица","картофель","рис"],
+  zh:["扁豆","意面","燕麦","汤","沙拉","鸡肉","土豆","米饭"],
+  ja:["レンズ豆","パスタ","オートミール","スープ","サラダ","鶏肉","じゃがいも","ご飯"]
+};
+function translatedSearchTerm(q){
+  const i=searchTerms[currentLang].findIndex(x=>x.toLowerCase()===q.toLowerCase());
+  return i>=0?searchTerms.en[i]:q;
+}
+async function fetchMeals(query){
+  const url=`https://www.themealdb.com/api/json/v1/1/search.php?s=${encodeURIComponent(query)}`;
+  const res=await fetch(url); if(!res.ok)throw Error("API");
+  return (await res.json()).meals||[];
+}
+async function searchOnline(){
+  const raw=$("onlineQuery").value.trim(); if(!raw)return;
+  $("onlineMessage").textContent=tr("searching"); $("onlineGrid").innerHTML="";
+  try{
+    let meals=await fetchMeals(raw);
+    if(!meals.length && currentLang!=="en"){
+      const translated=translatedSearchTerm(raw);
+      meals=await fetchMeals(translated);
+      if(!meals.length)meals=await fetchMeals(raw);
+    }
+    if(!meals.length){$("onlineMessage").textContent=tr("noResults");return;}
+    $("onlineMessage").textContent="";
+    $("onlineGrid").innerHTML=meals.slice(0,12).map(m=>{
+      const ingredients=[];
+      for(let i=1;i<=20;i++){
+        const ingredient=m[`strIngredient${i}`]?.trim(), measure=m[`strMeasure${i}`]?.trim();
+        if(ingredient)ingredients.push(`${safe(measure)} ${safe(ingredient)}`);
+      }
+      return `<article class="card online-card">
+        <img src="${safe(m.strMealThumb||"")}" alt="${safe(m.strMeal)}" loading="lazy">
+        <div class="online-content"><h3>${safe(m.strMeal)}</h3>
+          <span class="pill">${safe(m.strArea||"")}</span><span class="pill">${safe(m.strCategory||"")}</span>
+          <details><summary>${tr("ingredients")}</summary><p>${ingredients.join("<br>")}</p></details>
+          <details><summary>${tr("instructions")}</summary><p>${safe(m.strInstructions||"").replace(/\r?\n/g,"<br>")}</p></details>
+        </div></article>`;
+    }).join("");
+  }catch{$("onlineMessage").textContent=tr("onlineError")}
+}
+$("searchOnline").onclick=searchOnline;
+$("onlineQuery").addEventListener("keydown",e=>{if(e.key==="Enter")searchOnline();});
+
+function renderComments(){
+  const comments=read("poftim-comments",[]);
+  $("commentArea").innerHTML=comments.length?comments.slice().reverse().map(c=>`
+    <div class="comment"><strong>${safe(c.name)}</strong><p>${safe(c.text)}</p></div>`
+  ).join(""):`<p class="muted">${tr("noResults")}</p>`;
+}
+$("commentForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const name=$("commentName").value.trim(), text=$("commentText").value.trim();
+  if(!name||!text){toast(tr("commentEmpty"));return;}
+  const comments=read("poftim-comments",[]);
+  comments.push({name,text,date:Date.now()}); save("poftim-comments",comments);
+  $("commentText").value=""; renderComments();
+});
+
+function renderAccount(){
+  const user=localStorage.getItem("poftim-user");
+  $("accountButton").textContent=user?`${tr("loginAs")} ${user}`:tr("account");
+}
+$("accountButton").onclick=()=>{
+  $("modalBackdrop").classList.add("open");
+  $("accountMessage").textContent="";
+  $("logoutButton").style.display=localStorage.getItem("poftim-user")?"inline-block":"none";
+};
+$("closeModal").onclick=()=>$("modalBackdrop").classList.remove("open");
+$("modalBackdrop").addEventListener("click",e=>{
+  if(e.target===$("modalBackdrop"))$("modalBackdrop").classList.remove("open");
+});
+$("accountForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const name=$("accountName").value.trim();
+  if(!name)return;
+  localStorage.setItem("poftim-user",name);
+  $("accountMessage").textContent=tr("loginOk");
+  $("logoutButton").style.display="inline-block"; renderAccount();
+});
+$("logoutButton").onclick=()=>{
+  localStorage.removeItem("poftim-user"); renderAccount();
+  $("accountMessage").textContent=""; $("logoutButton").style.display="none";
+};
+
+initMap();
+applyLanguage();
+updateGeneratedShopping();
