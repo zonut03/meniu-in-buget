@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="ro">
 <head>
@@ -55,11 +55,22 @@
       flex-wrap: wrap;
     }
 
+    /* Logo Poftim! și leguma verde */
     .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
       color: var(--verde);
       font-size: 30px;
       font-weight: 800;
       letter-spacing: -1px;
+      white-space: nowrap;
+    }
+
+    .logo-leguma {
+      font-size: 27px;
+      line-height: 1;
+      letter-spacing: normal;
     }
 
     nav {
@@ -258,6 +269,14 @@
       .poza {
         height: 220px;
       }
+
+      .logo {
+        font-size: 28px;
+      }
+
+      .logo-leguma {
+        font-size: 25px;
+      }
     }
   </style>
 </head>
@@ -265,7 +284,10 @@
 <body>
   <header>
     <div class="bara-sus">
-      <a class="logo" href="index.html">Poftim!</a>
+      <a class="logo" href="index.html" aria-label="Poftim! - pagina principală">
+        <span class="logo-leguma" aria-hidden="true">🥬</span>
+        <span>Poftim!</span>
+      </a>
 
       <nav aria-label="Navigare principală">
         <a href="index.html">Acasă</a>
@@ -370,3 +392,4 @@
   </footer>
 </body>
 </html>
+```
