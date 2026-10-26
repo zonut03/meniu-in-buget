@@ -1,0 +1,372 @@
+
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Mic dejun | Poftim!</title>
+  <meta name="description" content="Idei de mic dejun gustoase și accesibile, pe Poftim!">
+
+  <style>
+    :root {
+      --verde: #315b3d;
+      --verde-deschis: #eaf1e6;
+      --crem: #faf7ef;
+      --alb: #ffffff;
+      --text: #292d28;
+      --gri: #686d66;
+      --umbra: 0 5px 20px rgba(38, 55, 38, 0.09);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: var(--crem);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    header {
+      background: var(--alb);
+      border-bottom: 1px solid #e5e8df;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .bara-sus {
+      max-width: 1100px;
+      margin: auto;
+      padding: 16px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      color: var(--verde);
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+
+    nav {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    nav a {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    nav a:hover,
+    nav a.activ {
+      color: var(--verde);
+      text-decoration: underline;
+      text-underline-offset: 6px;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: auto;
+      padding: 35px 22px 55px;
+    }
+
+    .introducere {
+      background: var(--verde-deschis);
+      padding: 38px;
+      border-radius: 20px;
+      margin-bottom: 35px;
+    }
+
+    .eticheta {
+      color: var(--verde);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    h1 {
+      color: var(--verde);
+      font-size: clamp(32px, 5vw, 48px);
+      line-height: 1.15;
+      margin: 10px 0;
+    }
+
+    .introducere p {
+      max-width: 650px;
+      color: #495349;
+      margin-bottom: 0;
+    }
+
+    .titlu-sectiune {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    h2 {
+      color: var(--verde);
+      margin: 0;
+      font-size: 27px;
+    }
+
+    .retete {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      background: var(--alb);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--umbra);
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+    }
+
+    .poza {
+      width: 100%;
+      height: 210px;
+      object-fit: cover;
+      display: block;
+      background: var(--verde-deschis);
+    }
+
+    .continut-card {
+      padding: 20px;
+    }
+
+    .categorie {
+      color: var(--verde);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    h3 {
+      font-size: 20px;
+      margin: 7px 0;
+    }
+
+    .descriere {
+      color: var(--gri);
+      font-size: 14px;
+      margin: 0 0 16px;
+    }
+
+    .detalii {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--verde);
+      border-top: 1px solid #edf0e9;
+      padding-top: 13px;
+    }
+
+    .buton {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 10px 16px;
+      background: var(--verde);
+      color: white;
+      border-radius: 9px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .buton:hover {
+      background: #24472e;
+    }
+
+    .nota {
+      margin-top: 35px;
+      padding: 22px;
+      border-radius: 14px;
+      background: white;
+      border: 1px solid #e5e8df;
+    }
+
+    .nota h2 {
+      font-size: 21px;
+    }
+
+    footer {
+      background: var(--verde);
+      color: white;
+      text-align: center;
+      padding: 25px 20px;
+      font-size: 14px;
+    }
+
+    footer a {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 800px) {
+      .retete {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 540px) {
+      .bara-sus {
+        padding: 13px 16px;
+      }
+
+      nav {
+        gap: 12px;
+      }
+
+      main {
+        padding: 22px 15px 40px;
+      }
+
+      .introducere {
+        padding: 25px 20px;
+      }
+
+      .retete {
+        grid-template-columns: 1fr;
+      }
+
+      .poza {
+        height: 220px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="bara-sus">
+      <a class="logo" href="index.html">Poftim!</a>
+
+      <nav aria-label="Navigare principală">
+        <a href="index.html">Acasă</a>
+        <a class="activ" href="mic-dejun.html">Mic dejun</a>
+        <a href="pranz.html">Prânz</a>
+        <a href="cina.html">Cină</a>
+        <a href="deserturi.html">Deserturi</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="introducere">
+      <span class="eticheta">Începem ziua cu energie</span>
+      <h1>Idei de mic dejun</h1>
+      <p>
+        Rețete simple, gustoase și accesibile pentru dimineți mai frumoase.
+        Descoperă idei pe care le poți pregăti fără să cheltuiești mult.
+      </p>
+    </section>
+
+    <section aria-labelledby="titlu-retete">
+      <div class="titlu-sectiune">
+        <h2 id="titlu-retete">Rețete pentru dimineață</h2>
+      </div>
+
+      <div class="retete">
+        <article class="card">
+          <img
+            class="poza"
+            src="https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=800&q=80"
+            alt="Pâine prăjită cu ou și legume"
+            loading="lazy"
+          >
+          <div class="continut-card">
+            <span class="categorie">Rapid și sățios</span>
+            <h3>Toast cu ou</h3>
+            <p class="descriere">
+              Pâine prăjită, ou și legumele tale preferate.
+            </p>
+            <div class="detalii">
+              <span>⏱ 10 minute</span>
+              <span>💰 Buget redus</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <img
+            class="poza"
+            src="https://images.unsplash.com/photo-1517673132405-a56a62b18caf?auto=format&fit=crop&w=800&q=80"
+            alt="Bol cu iaurt și fructe"
+            loading="lazy"
+          >
+          <div class="continut-card">
+            <span class="categorie">Proaspăt și simplu</span>
+            <h3>Iaurt cu fructe</h3>
+            <p class="descriere">
+              Iaurt, fructe de sezon și puțină ovăz, după preferințe.
+            </p>
+            <div class="detalii">
+              <span>⏱ 5 minute</span>
+              <span>💰 Buget redus</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <img
+            class="poza"
+            src="https://images.unsplash.com/photo-1494597564530-871f2b93ac55?auto=format&fit=crop&w=800&q=80"
+            alt="Clătite servite cu fructe"
+            loading="lazy"
+          >
+          <div class="continut-card">
+            <span class="categorie">Un mic răsfăț</span>
+            <h3>Clătite de casă</h3>
+            <p class="descriere">
+              Clătite simple, pe care le poți servi cu fructe.
+            </p>
+            <div class="detalii">
+              <span>⏱ 20 minute</span>
+              <span>💰 Ingrediente simple</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="nota">
+      <h2>Un sfat pentru bugetul tău</h2>
+      <p>
+        Alege fructe de sezon și folosește ingredientele pe care le ai deja
+        acasă. Astfel, poți pregăti un mic dejun gustos cu mai puține cheltuieli.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 Poftim! — Idei gustoase, pe înțelesul tuturor.</p>
+    <a href="index.html">Înapoi la pagina principală</a>
+  </footer>
+</body>
+</html>
