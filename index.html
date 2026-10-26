@@ -1903,40 +1903,85 @@ if (foodPhotoInput) foodPhotoInput.addEventListener("change", () => {
   document.querySelector("#photoAnalysisStatus").textContent = "Fotografie încărcată. Apasă «Analizează fotografia» pentru a încerca identificarea.";
   document.querySelector("#photoAnalysisResults").innerHTML = "";
 });
-// Analiză foto gratuită în browser, cu TensorFlow.js + MobileNet (necesită internet pentru încărcarea modelului).
-let foodVisionModelPromise = null;
-function loadScriptOnce(src, test) {
-  if (test()) return Promise.resolve();
-  return new Promise((resolve, reject) => {
-    const existing = document.querySelector(`script[data-model-src="${src}"]`);
-    const script = existing || document.createElement("script");
-    if (!existing) { script.src = src; script.async = true; script.dataset.modelSrc = src; document.head.appendChild(script); }
-    script.addEventListener("load", resolve, {once:true});
-    script.addEventListener("error", () => reject(new Error("Nu s-a putut încărca biblioteca de analiză foto.")), {once:true});
-    if (test()) resolve();
-  });
-}
+// Analiză foto pentru alimente: model Food-101 rulat în browser prin Transformers.js.
+// Nu necesită cheie API sau server propriu; prima încărcare poate fi mare și necesită internet.
+let foodVisionPipelinePromise = null;
 async function loadFoodVisionModel() {
-  if (!foodVisionModelPromise) foodVisionModelPromise = (async () => {
-    await loadScriptOnce("https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js", () => !!window.tf);
-    await loadScriptOnce("https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@2.1.1", () => !!window.mobilenet);
-    return await window.mobilenet.load({version:2, alpha:1.0});
+  if (!foodVisionPipelinePromise) foodVisionPipelinePromise = (async () => {
+    const transformers = await import("https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.2");
+    if (!transformers || !transformers.pipeline) throw new Error("Biblioteca de recunoaștere nu este disponibilă.");
+    // Food-101 clasifică preparate culinare comune. Modelul rulează local în browser după descărcare.
+    return await transformers.pipeline("image-classification", "Xenova/food101-vit-base-patch16-224", {
+      device: "wasm"
+    });
   })();
-  return foodVisionModelPromise;
+  return foodVisionPipelinePromise;
 }
-function findNutritionMatch(label) {
-  const text = label.toLowerCase();
+function nutritionForFoodLabel(label) {
+  const t = String(label || "").toLowerCase().replace(/[_-]/g, " ");
   const aliases = [
-    [/\b(banana|plantain)\b/, "Banană"], [/\b(apple)\b/, "Măr"], [/\b(strawberry|strawberries)\b/, "Căpșuni"],
-    [/\b(tomato|tomatoes)\b/, "Roșii"], [/\b(cucumber)\b/, "Castravete"], [/\b(broccoli)\b/, "Broccoli"],
-    [/\b(carrot)\b/, "Morcov"], [/\b(avocado)\b/, "Avocado"], [/\b(mushroom|mushrooms)\b/, "Ciuperci"],
-    [/\b(egg)\b/, "Ou"], [/\b(chicken)\b/, "Piept de pui gătit"], [/\b(salmon)\b/, "Somon gătit"],
-    [/\b(rice)\b/, "Orez fiert"], [/\b(pasta|spaghetti|macaroni)\b/, "Paste fierte"], [/\b(bread|bagel|loaf)\b/, "Pâine integrală"],
-    [/\b(potato|french fries|mashed potato)\b/, "Cartof fiert"], [/\b(yogurt)\b/, "Iaurt simplu"], [/\b(milk)\b/, "Lapte 2%"],
-    [/\b(pizza)\b/, null], [/\b(cheeseburger|hamburger|burger)\b/, null], [/\b(soup)\b/, null]
+    [/pizza/, "Pizza (estimare)"], [/hamburger|cheeseburger/, "Burger (estimare)"],
+    [/hot dog/, "Hot-dog (estimare)"], [/french fries|fries/, "Cartofi prăjiți (estimare)"],
+    [/fried rice/, "Orez prăjit (estimare)"], [/sushi/, "Sushi (estimare)"],
+    [/spaghetti bolognese|lasagna/, "Paste cu sos (estimare)"], [/spaghetti carbonara|carbonara/, "Paste carbonara (estimare)"],
+    [/macaroni and cheese/, "Paste cu brânză (estimare)"], [/ramen|pho/, "Supă cu tăiței (estimare)"],
+    [/chicken curry|curry/, "Curry cu pui (estimare)"], [/fried chicken|chicken wings/, "Pui prăjit (estimare)"],
+    [/roast chicken|grilled chicken|chicken/, "Pui gătit (estimare)"], [/steak|filet mignon/, "Friptură de vită (estimare)"],
+    [/salmon/, "Somon gătit"], [/omelette|omelet/, "Omletă (estimare)"],
+    [/caesar salad|greek salad|salad/, "Salată (estimare)"], [/soup|chowder|ramen/, "Supă (estimare)"],
+    [/pancake|waffle/, "Clătite (estimare)"], [/ice cream/, "Înghețată (estimare)"],
+    [/cheesecake/, "Cheesecake (estimare)"], [/chocolate cake|red velvet|carrot cake|cupcake|tiramisu|brownie/, "Prăjitură (estimare)"],
+    [/donut|doughnut/, "Gogoașă (estimare)"], [/apple pie|baklava|creme brulee/, "Desert (estimare)"],
+    [/bread pudding/, "Budincă de pâine (estimare)"], [/guacamole|avocado/, "Avocado"],
+    [/broccoli/, "Broccoli"], [/caesar/, "Salată (estimare)"]
   ];
-  for (const [regex, name] of aliases) if (regex.test(text)) return name ? nutritionDatabase.find(f => f.name === name) : null;
-  return nutritionDatabase.find(f => text.includes(f.name.toLowerCase())) || null;
+  for (const [re, name] of aliases) {
+    if (re.test(t)) {
+      const exact = nutritionDatabase.find(f => f.name === name);
+      if (exact) return exact;
+      return nutritionDatabase.find(f => f.name === name) || null;
+    }
+  }
+  const direct = nutritionDatabase.find(f => t.includes(f.name.toLowerCase()));
+  return direct || null;
+}
+const estimatedDishNutrition = {
+  "Pizza (estimare)": {kcal:266,protein:11,carbs:33,fat:10},
+  "Burger (estimare)": {kcal:295,protein:17,carbs:24,fat:14},
+  "Hot-dog (estimare)": {kcal:290,protein:10,carbs:24,fat:17},
+  "Cartofi prăjiți (estimare)": {kcal:312,protein:3.4,carbs:41,fat:15},
+  "Orez prăjit (estimare)": {kcal:170,protein:5,carbs:25,fat:6},
+  "Sushi (estimare)": {kcal:150,protein:6,carbs:30,fat:1},
+  "Paste cu sos (estimare)": {kcal:160,protein:6,carbs:24,fat:4},
+  "Paste carbonara (estimare)": {kcal:220,protein:8,carbs:23,fat:9},
+  "Paste cu brânză (estimare)": {kcal:164,protein:6,carbs:20,fat:6},
+  "Supă cu tăiței (estimare)": {kcal:75,protein:4,carbs:10,fat:2},
+  "Curry cu pui (estimare)": {kcal:160,protein:12,carbs:8,fat:9},
+  "Pui prăjit (estimare)": {kcal:260,protein:20,carbs:10,fat:15},
+  "Pui gătit (estimare)": {kcal:165,protein:31,carbs:0,fat:3.6},
+  "Friptură de vită (estimare)": {kcal:220,protein:27,carbs:0,fat:12},
+  "Omletă (estimare)": {kcal:154,protein:11,carbs:1.5,fat:11},
+  "Salată (estimare)": {kcal:100,protein:3,carbs:8,fat:6},
+  "Supă (estimare)": {kcal:60,protein:3,carbs:8,fat:2},
+  "Clătite (estimare)": {kcal:227,protein:6,carbs:28,fat:10},
+  "Înghețată (estimare)": {kcal:207,protein:3.5,carbs:24,fat:11},
+  "Cheesecake (estimare)": {kcal:321,protein:5.5,carbs:26,fat:23},
+  "Prăjitură (estimare)": {kcal:350,protein:5,carbs:45,fat:17},
+  "Gogoașă (estimare)": {kcal:380,protein:6,carbs:45,fat:20},
+  "Desert (estimare)": {kcal:300,protein:5,carbs:38,fat:14},
+  "Budincă de pâine (estimare)": {kcal:220,protein:6,carbs:35,fat:8}
+};
+function getDishNutrition(label) {
+  const match = nutritionForFoodLabel(label);
+  if (match) return match;
+  const t = String(label || "").toLowerCase().replace(/[_-]/g, " ");
+  for (const key of Object.keys(estimatedDishNutrition)) {
+    const terms = key.toLowerCase().replace(" (estimare)", "").split(" ");
+    if (terms.some(term => term.length > 3 && t.includes(term))) {
+      return {name:key,...estimatedDishNutrition[key]};
+    }
+  }
+  return null;
 }
 document.querySelector("#analyzePhoto")?.addEventListener("click", async () => {
   const status = document.querySelector("#photoAnalysisStatus");
@@ -1947,28 +1992,51 @@ document.querySelector("#analyzePhoto")?.addEventListener("click", async () => {
   }
   const button = document.querySelector("#analyzePhoto");
   button.disabled = true;
-  status.textContent = "Se încarcă modelul de recunoaștere. Prima analiză poate dura puțin…";
+  status.textContent = "Se descarcă modelul de recunoaștere a mâncărurilor. Prima analiză poate dura și poate consuma date…";
   results.innerHTML = "";
   try {
-    const model = await loadFoodVisionModel();
+    const classifier = await loadFoodVisionModel();
     status.textContent = "Analizez fotografia…";
-    const predictions = await model.classify(foodPreview, 5);
-    if (!predictions.length) { status.textContent = "Nu am putut identifica un obiect clar. Încearcă o fotografie mai luminoasă."; return; }
-    const matched = [];
-    const rows = predictions.map(p => {
-      const match = findNutritionMatch(p.className);
-      if (match && !matched.some(m => m.name === match.name)) matched.push(match);
-      return `<li>${escapeHtml(p.className)} — ${Math.round(p.probability * 100)}%${match ? ` <span class="recipe-meta">(posibil: ${escapeHtml(match.name)})</span>` : ""}</li>`;
-    }).join("");
-    status.textContent = "Analiza foto s-a încheiat. Identificarea este orientativă; verifică rezultatele înainte de calcul.";
-    results.innerHTML = `<div class="nutrition"><h3>Ce a detectat modelul</h3><ul class="list">${rows}</ul>${matched.length ? `<p><strong>Adaugă un aliment sugerat:</strong></p><div style="display:flex;flex-wrap:wrap;gap:8px">${matched.map(f => `<button type="button" class="btn photo-food-suggestion" data-food-name="${escapeHtml(f.name)}">+ ${escapeHtml(f.name)}</button>`).join("")}</div>` : `<p class="recipe-meta">Nu am găsit o potrivire directă în lista nutrițională. Poți selecta manual alimentul de mai jos.</p>`}<p class="recipe-meta">Modelul clasifică imaginea și nu poate determina sigur ingredientele, porția sau gramajul. Pentru alimente compuse, verifică și adaugă fiecare ingredient manual.</p></div>`;
-    results.querySelectorAll("[data-food-name]").forEach(btn => btn.addEventListener("click", () => {
-      const index = nutritionDatabase.findIndex(f => f.name === btn.dataset.foodName);
-      if (index >= 0) { nutritionFoodSelect.value = String(index); document.querySelector("#nutritionGrams").focus(); toast("Aliment selectat. Introdu gramajul și apasă «Adaugă aliment»."); }
-    }));
+    const predictions = await classifier(foodPreview, {top_k: 5});
+    if (!Array.isArray(predictions) || !predictions.length) {
+      status.textContent = "Nu am putut identifica un preparat clar. Încearcă o fotografie mai luminoasă, cu mâncarea centrată.";
+      return;
+    }
+    const best = predictions[0];
+    const confidence = Math.round((best.score || 0) * 100);
+    const dish = getDishNutrition(best.label);
+    const alternatives = predictions.slice(1).map(p => `<li>${escapeHtml(String(p.label).replace(/_/g," "))} — ${Math.round((p.score||0)*100)}%</li>`).join("");
+    let nutritionHtml = "";
+    if (dish) {
+      const n = estimatedDishNutrition[dish.name] || dish;
+      const name = dish.name || dish.name;
+      nutritionHtml = `<div class="nutrition" style="margin-top:14px"><h3>Valori nutriționale estimate pentru 100 g de ${escapeHtml(name)}</h3><p><strong>${Math.round(n.kcal)} kcal</strong> · Proteine ${Number(n.protein).toFixed(1)} g · Carbohidrați ${Number(n.carbs).toFixed(1)} g · Grăsimi ${Number(n.fat).toFixed(1)} g</p><label for="photoPortionGrams">Gramaj estimat al porției (îl poți modifica)</label><input id="photoPortionGrams" type="number" min="1" max="10000" value="250" style="width:100%;max-width:220px;margin:6px 0"><div id="photoPortionNutrition" aria-live="polite"></div><button type="button" class="btn" id="addDetectedDish" style="margin-top:10px">Adaugă în calculul mesei</button></div>`;
+    } else {
+      nutritionHtml = `<p class="recipe-meta">Modelul a identificat un preparat, dar nu avem o estimare nutrițională potrivită pentru această etichetă. Alege ingredientele manual pentru o estimare mai bună.</p>`;
+    }
+    results.innerHTML = `<div class="nutrition"><h3>Preparat identificat: ${escapeHtml(String(best.label).replace(/_/g," "))}</h3><p>Încrederea modelului: ${confidence}%</p><p class="recipe-meta">Aceasta este o predicție a modelului, nu o confirmare. Valorile nutriționale sunt medii orientative per 100 g, nu sunt calculate din fotografia exactă.</p>${nutritionHtml}<details style="margin-top:12px"><summary>Alte rezultate posibile</summary><ul class="list">${alternatives}</ul></details></div>`;
+    const updatePortion = () => {
+      const grams = Math.max(1, Number(document.querySelector("#photoPortionGrams")?.value) || 250);
+      const n = estimatedDishNutrition[dish?.name] || dish;
+      const box = document.querySelector("#photoPortionNutrition");
+      if (box && n) box.innerHTML = `<p>Pentru ${Math.round(grams)} g: <strong>${Math.round(n.kcal*grams/100)} kcal</strong> · Proteine ${(n.protein*grams/100).toFixed(1)} g · Carbohidrați ${(n.carbs*grams/100).toFixed(1)} g · Grăsimi ${(n.fat*grams/100).toFixed(1)} g</p>`;
+    };
+    document.querySelector("#photoPortionGrams")?.addEventListener("input", updatePortion);
+    updatePortion();
+    document.querySelector("#addDetectedDish")?.addEventListener("click", () => {
+      if (!dish) return;
+      const grams = Math.max(1, Math.min(10000, Number(document.querySelector("#photoPortionGrams")?.value) || 250));
+      const n = estimatedDishNutrition[dish.name] || dish;
+      const food = {name:dish.name,kcal:n.kcal,protein:n.protein,carbs:n.carbs,fat:n.fat};
+      nutritionItems.push({name:dish.name,grams,food});
+      renderNutritionFoodList();
+      document.querySelector("#foodAnalysis").innerHTML = "";
+      toast("Preparatul estimat a fost adăugat în calculul mesei.");
+    });
+    status.textContent = "Analiza s-a încheiat. Verifică preparatul și gramajul înainte să folosești valorile.";
   } catch (error) {
-    status.textContent = "Analiza foto nu a putut porni. Verifică conexiunea la internet și încearcă din nou; poți folosi în continuare calculatorul manual.";
-    console.error("Photo analysis error:", error);
+    status.textContent = "Nu am putut încărca modelul de recunoaștere. Verifică internetul sau încearcă din nou. Calculatorul manual rămâne disponibil.";
+    console.error("Food image analysis error:", error);
   } finally { button.disabled = false; }
 });
 
@@ -1997,7 +2065,7 @@ document.querySelector("#analyzeFood")?.addEventListener("click",()=>{
     sum.kcal+=item.food.kcal*factor; sum.protein+=item.food.protein*factor; sum.carbs+=item.food.carbs*factor; sum.fat+=item.food.fat*factor; sum.grams+=item.grams; return sum;
   },{kcal:0,protein:0,carbs:0,fat:0,grams:0});
   const n=value=>Number(value.toFixed(1));
-  result.innerHTML=`<div class="nutrition"><h3>Estimarea mesei</h3><p class="recipe-meta">${n(totals.grams)} g în total${selectedFoodPhoto?" · fotografie încărcată":""}</p><div class="nutrition-grid"><div class="nutrition-item"><strong>${Math.round(totals.kcal)}</strong><small>kcal</small></div><div class="nutrition-item"><strong>${n(totals.protein)} g</strong><small>Proteine</small></div><div class="nutrition-item"><strong>${n(totals.carbs)} g</strong><small>Carbohidrați</small></div><div class="nutrition-item"><strong>${n(totals.fat)} g</strong><small>Grăsimi</small></div></div><h4>Alimente incluse</h4><ul class="list">${nutritionItems.map(item=>`<li>${escapeHtml(item.name)} — ${item.grams} g (${Math.round(item.food.kcal*item.grams/100)} kcal)</li>`).join("")}</ul><p class="recipe-meta">Calcul orientativ folosind valori medii per 100 g. Fotografia nu identifică automat alimentele.</p></div>`;
+  result.innerHTML=`<div class="nutrition"><h3>Estimarea mesei</h3><p class="recipe-meta">${n(totals.grams)} g în total${selectedFoodPhoto?" · fotografie încărcată":""}</p><div class="nutrition-grid"><div class="nutrition-item"><strong>${Math.round(totals.kcal)}</strong><small>kcal</small></div><div class="nutrition-item"><strong>${n(totals.protein)} g</strong><small>Proteine</small></div><div class="nutrition-item"><strong>${n(totals.carbs)} g</strong><small>Carbohidrați</small></div><div class="nutrition-item"><strong>${n(totals.fat)} g</strong><small>Grăsimi</small></div></div><h4>Alimente incluse</h4><ul class="list">${nutritionItems.map(item=>`<li>${escapeHtml(item.name)} — ${item.grams} g (${Math.round(item.food.kcal*item.grams/100)} kcal)</li>`).join("")}</ul><p class="recipe-meta">Calcul orientativ folosind valori medii per 100 g. Dacă ai folosit analiza foto, verifică preparatul și gramajul estimat.</p></div>`;
 });
 renderNutritionFoodList();
 
