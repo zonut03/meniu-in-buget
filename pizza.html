@@ -1,0 +1,380 @@
+
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pizza | Poftim!</title>
+  <meta name="description" content="Descoperă rețete de pizza gustoase și ușor de pregătit pe Poftim!">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --green: #28634e;
+      --green-dark: #194b39;
+      --lime: #d8ef91;
+      --cream: #f7f8f2;
+      --paper: #ffffff;
+      --ink: #202820;
+      --muted: #717a71;
+      --line: #e6e9df;
+      --shadow: 0 14px 40px #26382b12;
+      --radius: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: "DM Sans", sans-serif;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    header {
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .nav {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      background: var(--green);
+      border-radius: 14px;
+      font-size: 22px;
+    }
+
+    .brand-name {
+      font: 800 25px "Playfair Display", serif;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .nav-links a:hover,
+    .nav-links .active {
+      color: var(--green);
+    }
+
+    .nav-links .active {
+      background: #edf3e9;
+      padding: 7px 10px;
+      border-radius: 10px;
+    }
+
+    .hero {
+      padding: 60px 0 40px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      background: var(--lime);
+      color: var(--green-dark);
+      padding: 7px 13px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    h1, h2, h3 {
+      font-family: "Playfair Display", serif;
+      line-height: 1.2;
+    }
+
+    h1 {
+      font-size: clamp(38px, 6vw, 60px);
+      letter-spacing: -1px;
+      margin: 0 0 16px;
+    }
+
+    .hero p {
+      max-width: 650px;
+      color: var(--muted);
+      font-size: 17px;
+      margin: 0;
+    }
+
+    .recipes {
+      padding: 10px 0 70px;
+    }
+
+    .section-heading {
+      margin-bottom: 24px;
+    }
+
+    .section-heading h2 {
+      font-size: 30px;
+      margin: 0 0 6px;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      margin: 0;
+      font-size: 14px;
+    }
+
+    .recipe-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .recipe-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s;
+    }
+
+    .recipe-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .recipe-image {
+      min-height: 175px;
+      display: grid;
+      place-items: center;
+      font-size: 64px;
+      background: #edf3e9;
+    }
+
+    .recipe-card:nth-child(2) .recipe-image {
+      background: #f8eee0;
+    }
+
+    .recipe-card:nth-child(3) .recipe-image {
+      background: #f5e9df;
+    }
+
+    .recipe-content {
+      padding: 22px;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #edf3e9;
+      color: var(--green);
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .recipe-content h3 {
+      font-size: 22px;
+      margin: 0 0 10px;
+    }
+
+    .recipe-content p {
+      font-size: 14px;
+      color: var(--muted);
+      margin: 0 0 18px;
+    }
+
+    .recipe-info {
+      border-top: 1px solid var(--line);
+      padding-top: 14px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .price {
+      color: var(--green);
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 30px;
+      color: var(--green);
+      font-weight: 800;
+    }
+
+    footer {
+      background: var(--green-dark);
+      color: white;
+      padding: 26px 0;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    footer p {
+      margin: 0;
+    }
+
+    @media (max-width: 850px) {
+      .nav {
+        padding: 14px 0;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .recipe-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      .recipe-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 40px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="index.html" aria-label="Poftim! Pagina principală">
+        <span class="brand-mark">🥬</span>
+        <span class="brand-name">Poftim!</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Navigare principală">
+        <a href="index.html">Acasă</a>
+        <a href="mic-dejun.html">Mic dejun</a>
+        <a href="pranz.html">Prânz</a>
+        <a href="cina.html">Cină</a>
+        <a href="deserturi.html">Deserturi</a>
+        <a href="aperitive.html">Aperitive</a>
+        <a href="pizza.html" class="active">Pizza</a>
+        <a href="gogosi.html">Gogoși</a>
+        <a href="torturi.html">Torturi</a>
+        <a href="retete-traditionale.html">Rețete tradiționale</a>
+        <a href="air-fryer.html">Rețete la Air Fryer</a>
+        <a href="ciorbe-si-supe.html">Ciorbe și supe</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <span class="eyebrow">🍕 Pizza făcută acasă</span>
+        <h1>Pizza gustoasă pentru toate poftele</h1>
+        <p>
+          Descoperă rețete de pizza de casă, de la clasica Margherita
+          până la combinații cu legume sau șuncă.
+        </p>
+      </div>
+    </section>
+
+    <section class="recipes">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Ce pizza alegem?</h2>
+          <p>Trei idei delicioase pentru următoarea masă cu familia sau prietenii.</p>
+        </div>
+
+        <div class="recipe-grid">
+
+          <article class="recipe-card">
+            <div class="recipe-image" role="img" aria-label="Pizza Margherita">🍕</div>
+            <div class="recipe-content">
+              <span class="tag">Clasică</span>
+              <h3>Pizza Margherita</h3>
+              <p>Blat de pizza cu sos de roșii, mozzarella și busuioc proaspăt.</p>
+              <div class="recipe-info">
+                <span>⏱ 30 min</span>
+                <span class="price">Buget accesibil</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="recipe-card">
+            <div class="recipe-image" role="img" aria-label="Pizza cu legume">🥦</div>
+            <div class="recipe-content">
+              <span class="tag">Cu legume</span>
+              <h3>Pizza cu legume</h3>
+              <p>O combinație colorată cu ardei, ciuperci, ceapă și mozzarella.</p>
+              <div class="recipe-info">
+                <span>⏱ 35 min</span>
+                <span class="price">Buget accesibil</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="recipe-card">
+            <div class="recipe-image" role="img" aria-label="Pizza cu șuncă">🍕</div>
+            <div class="recipe-content">
+              <span class="tag">Preferata familiei</span>
+              <h3>Pizza cu șuncă</h3>
+              <p>Pizza cu sos de roșii, mozzarella, șuncă și câteva măsline.</p>
+              <div class="recipe-info">
+                <span>⏱ 35 min</span>
+                <span class="price">Buget flexibil</span>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <a class="back-link" href="index.html">← Înapoi la pagina principală</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>© 2026 Poftim! — Idei bune pentru mese gustoase.</p>
+    </div>
+  </footer>
+</body>
+</html>
