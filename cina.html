@@ -40,7 +40,9 @@
       text-decoration: none;
     }
 
-    button {
+    button,
+    input,
+    textarea {
       font: inherit;
     }
 
@@ -349,6 +351,116 @@
       font-size: 14px;
     }
 
+    /* COMENTARII */
+
+    .comments-section {
+      border-top: 1px solid #e7ebdf;
+      margin-top: 28px;
+      padding-top: 8px;
+    }
+
+    .comments-section > p {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+
+    .comment-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .comment-form label {
+      display: block;
+      font-weight: 800;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .comment-form input,
+    .comment-form textarea {
+      display: block;
+      width: 100%;
+      border: 1px solid #dce5d4;
+      border-radius: 10px;
+      background: #fffefa;
+      color: var(--text);
+      padding: 11px 12px;
+      outline: none;
+    }
+
+    .comment-form input:focus,
+    .comment-form textarea:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(82, 122, 67, 0.12);
+    }
+
+    .comment-form textarea {
+      min-height: 95px;
+      resize: vertical;
+    }
+
+    .comment-form button {
+      border: none;
+      border-radius: 11px;
+      padding: 12px 16px;
+      color: white;
+      background: var(--green);
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .comment-form button:hover {
+      background: var(--green-dark);
+    }
+
+    .comment-status {
+      min-height: 22px;
+      color: var(--green-dark);
+      font-size: 13px;
+      margin-top: 2px;
+    }
+
+    .comment-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 17px;
+    }
+
+    .comment-item {
+      background: #fafbf7;
+      border: 1px solid #e7ebdf;
+      border-radius: 12px;
+      padding: 13px 15px;
+      overflow-wrap: anywhere;
+    }
+
+    .comment-author {
+      color: var(--green-dark);
+      font-size: 14px;
+      font-weight: 900;
+      margin-bottom: 4px;
+    }
+
+    .comment-date {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 600;
+      margin-left: 5px;
+    }
+
+    .comment-message {
+      font-size: 14px;
+      white-space: pre-wrap;
+    }
+
+    .no-comments {
+      color: var(--muted);
+      font-size: 14px;
+      padding: 12px 0;
+    }
+
     /* FOOTER */
 
     footer {
@@ -584,7 +696,7 @@
     <p>© 2026 Poftim! · Gătit cu drag acasă</p>
   </footer>
 
-  <!-- MODAL CU INGREDIENTE SI INSTRUCTIUNI -->
+  <!-- MODAL CU INGREDIENTE, INSTRUCTIUNI SI COMENTARII -->
 
   <div
     class="modal"
@@ -613,6 +725,43 @@
       <ol id="modalSteps"></ol>
 
       <div class="modal-tip" id="modalTip"></div>
+
+      <!-- SECTIUNEA DE COMENTARII -->
+      <section class="comments-section" aria-labelledby="commentsTitle">
+        <h3 id="commentsTitle">💬 Comentarii</h3>
+        <p>Ai încercat rețeta? Spune-ne cum ți s-a părut!</p>
+
+        <form class="comment-form" id="commentForm">
+          <div>
+            <label for="commentName">Numele tău</label>
+            <input
+              type="text"
+              id="commentName"
+              name="name"
+              maxlength="40"
+              placeholder="Cum te numești?"
+              autocomplete="nickname"
+              required
+            >
+          </div>
+
+          <div>
+            <label for="commentText">Comentariul tău</label>
+            <textarea
+              id="commentText"
+              name="comment"
+              maxlength="500"
+              placeholder="Scrie aici părerea ta despre rețetă..."
+              required
+            ></textarea>
+          </div>
+
+          <button type="submit">Adaugă comentariul</button>
+          <p class="comment-status" id="commentStatus" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="comment-list" id="commentList" aria-live="polite"></div>
+      </section>
     </div>
   </div>
 
@@ -716,10 +865,16 @@
       }
     };
 
+    /* DESCHIDEREA RETETELOR */
+
+    let activeRecipeId = null;
+
     function openRecipe(id) {
       const recipe = recipes[id];
 
       if (!recipe) return;
+
+      activeRecipeId = id;
 
       document.getElementById("modalTitle").textContent = recipe.title;
       document.getElementById("modalDescription").textContent = recipe.description;
@@ -747,6 +902,9 @@
       });
 
       document.getElementById("modalTip").textContent = recipe.tip;
+      document.getElementById("commentStatus").textContent = "";
+
+      renderComments(id);
 
       document.getElementById("recipeModal").classList.add("open");
       document.body.style.overflow = "hidden";
@@ -768,6 +926,154 @@
       if (event.key === "Escape") {
         closeRecipe();
       }
+    });
+
+    /* FILTRAREA CUVINTELOR VULGARE */
+
+    const vulgarWords = [
+      "pula",
+      "pizda",
+      "muie",
+      "cacat",
+      "căcat",
+      "futut",
+      "futuți",
+      "rahat",
+      "prostule",
+      "idiotule"
+    ];
+
+    function escapeRegex(text) {
+      return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    }
+
+    function censorVulgarWords(text) {
+      let filteredText = text;
+
+      vulgarWords.forEach(function(word) {
+        const pattern = new RegExp(escapeRegex(word), "giu");
+
+        filteredText = filteredText.replace(pattern, function(match) {
+          return "*".repeat(match.length);
+        });
+      });
+
+      return filteredText;
+    }
+
+    /* SALVAREA COMENTARIILOR IN BROWSER */
+
+    function getCommentsKey(recipeId) {
+      return "poftim_comments_" + recipeId;
+    }
+
+    function getRecipeComments(recipeId) {
+      try {
+        const stored = localStorage.getItem(getCommentsKey(recipeId));
+        const comments = stored ? JSON.parse(stored) : [];
+
+        return Array.isArray(comments) ? comments : [];
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function saveRecipeComments(recipeId, comments) {
+      try {
+        localStorage.setItem(
+          getCommentsKey(recipeId),
+          JSON.stringify(comments)
+        );
+
+        return true;
+      } catch (error) {
+        return false;
+      }
+    }
+
+    /* AFISAREA COMENTARIILOR */
+
+    function renderComments(recipeId) {
+      const commentList = document.getElementById("commentList");
+      commentList.replaceChildren();
+
+      const comments = getRecipeComments(recipeId);
+
+      if (comments.length === 0) {
+        const emptyMessage = document.createElement("p");
+        emptyMessage.className = "no-comments";
+        emptyMessage.textContent = "Nu există încă comentarii. Fii primul care scrie!";
+        commentList.appendChild(emptyMessage);
+        return;
+      }
+
+      comments.forEach(function(comment) {
+        const item = document.createElement("article");
+        item.className = "comment-item";
+
+        const author = document.createElement("p");
+        author.className = "comment-author";
+        author.textContent = comment.name || "Vizitator";
+
+        const date = document.createElement("span");
+        date.className = "comment-date";
+        date.textContent = comment.date || "";
+        author.appendChild(date);
+
+        const message = document.createElement("p");
+        message.className = "comment-message";
+        message.textContent = comment.text || "";
+
+        item.appendChild(author);
+        item.appendChild(message);
+        commentList.appendChild(item);
+      });
+    }
+
+    /* ADAUGAREA UNUI COMENTARIU */
+
+    document.getElementById("commentForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const status = document.getElementById("commentStatus");
+      const nameInput = document.getElementById("commentName");
+      const textInput = document.getElementById("commentText");
+
+      if (!activeRecipeId || !recipes[activeRecipeId]) {
+        status.textContent = "Deschide mai întâi o rețetă.";
+        return;
+      }
+
+      const name = censorVulgarWords(nameInput.value.trim());
+      const text = censorVulgarWords(textInput.value.trim());
+
+      if (!name || !text) {
+        status.textContent = "Completează numele și comentariul.";
+        return;
+      }
+
+      const comments = getRecipeComments(activeRecipeId);
+
+      comments.push({
+        name: name,
+        text: text,
+        date: new Date().toLocaleString("ro-RO", {
+          dateStyle: "short",
+          timeStyle: "short"
+        })
+      });
+
+      if (!saveRecipeComments(activeRecipeId, comments)) {
+        status.textContent = "Comentariul nu a putut fi salvat în acest browser.";
+        return;
+      }
+
+      renderComments(activeRecipeId);
+      textInput.value = "";
+      status.textContent = "Comentariul tău a fost adăugat!";
+
+      /* Pastreaza numele pentru urmatorul comentariu. */
+      nameInput.value = name;
     });
   </script>
 
