@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Deserturi | Poftim!</title>
+  <title>Cină | Poftim!</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,7 +16,6 @@
       --green-dark: #365b30;
       --green-light: #edf3e8;
       --cream: #fffaf1;
-      --orange: #e6a35c;
       --text: #30352c;
       --muted: #74796e;
       --white: #ffffff;
@@ -95,9 +94,9 @@
       display: flex;
       align-items: center;
       background:
-        linear-gradient(90deg, rgba(31, 39, 24, 0.78), rgba(31, 39, 24, 0.12)),
-        url('https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=1800&q=85')
-        center 48% / cover;
+        linear-gradient(90deg, rgba(31, 39, 24, 0.80), rgba(31, 39, 24, 0.12)),
+        url('https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1800&q=85')
+        center / cover;
     }
 
     .hero-content {
@@ -131,7 +130,7 @@
       color: #fffdf7;
     }
 
-    /* RECIPE SECTION */
+    /* RETETE */
 
     .recipes-section {
       padding: 0 6% 75px;
@@ -142,7 +141,7 @@
       margin-bottom: 35px;
     }
 
-    .section-heading .small-title {
+    .small-title {
       color: var(--green);
       text-transform: uppercase;
       letter-spacing: 2px;
@@ -247,7 +246,7 @@
       background: var(--green-dark);
     }
 
-    /* MODAL */
+    /* FEREASTRA RETETEI */
 
     .modal {
       display: none;
@@ -370,7 +369,7 @@
       color: #e0e8d9;
     }
 
-    /* RESPONSIVE */
+    /* TELEFON SI TABLETA */
 
     @media (max-width: 1100px) {
       .recipe-grid {
@@ -457,119 +456,119 @@
   <main>
     <section class="hero">
       <div class="hero-content">
-        <span class="eyebrow">Un strop de răsfăț</span>
-        <h1>Deserturi făcute cu drag 🍰</h1>
+        <span class="eyebrow">O cină cu gust</span>
+        <h1>Idei delicioase pentru cină 🍽️</h1>
         <p>
-          De la clătite cu ciocolată la prăjituri de casă,
-          descoperă deserturi delicioase, cu ingrediente simple
-          și rețete ușor de urmat.
+          După o zi lungă, bucură-te de o masă gustoasă.
+          Descoperă rețete de seară simple, accesibile
+          și ușor de pregătit acasă.
         </p>
       </div>
     </section>
 
     <section class="recipes-section">
       <div class="section-heading">
-        <span class="small-title">Ceva dulce?</span>
-        <h2>Deserturi pentru toate gusturile</h2>
+        <span class="small-title">Ce pregătim diseară?</span>
+        <h2>Rețete pentru o seară gustoasă</h2>
         <p>
-          Alege desertul preferat, descoperă ingredientele
-          și urmează pașii pentru a-l pregăti acasă.
+          Alege preparatul preferat și descoperă ingredientele
+          și pașii necesari pentru a-l pregăti.
         </p>
       </div>
 
       <div class="recipe-grid">
 
-        <!-- CLATITE -->
+        <!-- PUI CU CARTOFI -->
 
         <article class="recipe-card">
           <img
             class="recipe-image"
-            src="https://images.unsplash.com/photo-1528207776546-365bb710ee93?auto=format&fit=crop&w=900&q=85"
-            alt="Clătite pufoase servite cu fructe"
+            src="https://images.unsplash.com/photo-1532550907401-a500c9a57435?auto=format&fit=crop&w=900&q=85"
+            alt="Pui rumenit servit cu cartofi"
             loading="lazy"
           >
 
           <div class="recipe-content">
-            <span class="recipe-tag">Preferatul tuturor</span>
-            <h3>Clătite cu ciocolată</h3>
+            <span class="recipe-tag">Clasic de casă</span>
+            <h3>Pui la cuptor cu cartofi</h3>
             <p>
-              Clătite fragede, umplute cu cremă de ciocolată
-              și servite cu fructe proaspete.
+              Pui rumenit, cartofi fragezi și condimente
+              aromate, toate pregătite la cuptor.
             </p>
-            <div class="recipe-meta">⏱ 25 min · 🍽 4 porții</div>
-            <button class="recipe-button" onclick="openRecipe('clatite')">
+            <div class="recipe-meta">⏱ 60 min · 🍽 4 porții</div>
+            <button class="recipe-button" onclick="openRecipe('pui')">
               Vezi rețeta
             </button>
           </div>
         </article>
 
-        <!-- PRAJITURA CU MERE -->
+        <!-- OMLETA -->
 
         <article class="recipe-card">
           <img
             class="recipe-image"
-            src="https://images.unsplash.com/photo-1568571780765-9276ac8b75a2?auto=format&fit=crop&w=900&q=85"
-            alt="Prăjitură de casă cu mere"
+            src="https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=900&q=85"
+            alt="Ouă și preparat pentru mic dejun"
             loading="lazy"
           >
 
           <div class="recipe-content">
-            <span class="recipe-tag">Gust de casă</span>
-            <h3>Prăjitură cu mere</h3>
+            <span class="recipe-tag">Rapid și simplu</span>
+            <h3>Omletă cu legume și brânză</h3>
             <p>
-              Un desert aromat cu mere, scorțișoară și
-              un aluat moale, perfect pentru familie.
+              O combinație gustoasă de ouă, legume
+              proaspete și brânză.
             </p>
-            <div class="recipe-meta">⏱ 55 min · 🍽 8 porții</div>
-            <button class="recipe-button" onclick="openRecipe('mere')">
+            <div class="recipe-meta">⏱ 15 min · 🍽 2 porții</div>
+            <button class="recipe-button" onclick="openRecipe('omleta')">
               Vezi rețeta
             </button>
           </div>
         </article>
 
-        <!-- NEGRESA -->
+        <!-- CHIFTELUTE -->
 
         <article class="recipe-card">
           <img
             class="recipe-image"
-            src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=900&q=85"
-            alt="Negresă cu ciocolată tăiată în bucăți"
+            src="https://images.unsplash.com/photo-1529042410759-befb1204b468?auto=format&fit=crop&w=900&q=85"
+            alt="Chifteluțe rumenite servite pe farfurie"
             loading="lazy"
           >
 
           <div class="recipe-content">
-            <span class="recipe-tag">Pentru iubitorii de cacao</span>
-            <h3>Negresă cu ciocolată</h3>
+            <span class="recipe-tag">Gust tradițional</span>
+            <h3>Chifteluțe cu piure</h3>
             <p>
-              Bucăți moi de prăjitură cu cacao, ideale
-              pentru o pauză dulce.
+              Chifteluțe aromate, alături de un piure
+              cremos de cartofi.
             </p>
-            <div class="recipe-meta">⏱ 40 min · 🍽 9 porții</div>
-            <button class="recipe-button" onclick="openRecipe('negresa')">
+            <div class="recipe-meta">⏱ 45 min · 🍽 4 porții</div>
+            <button class="recipe-button" onclick="openRecipe('chiftelute')">
               Vezi rețeta
             </button>
           </div>
         </article>
 
-        <!-- SALAM DE BISCUITI -->
+        <!-- SANDVIS CALD -->
 
         <article class="recipe-card">
           <img
             class="recipe-image"
-            src="https://images.unsplash.com/photo-1606312619070-d48b4c652a52?auto=format&fit=crop&w=900&q=85"
-            alt="Desert cu ciocolată și biscuiți"
+            src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=900&q=85"
+            alt="Sandviș cu brânză și legume"
             loading="lazy"
           >
 
           <div class="recipe-content">
-            <span class="recipe-tag">Fără coacere</span>
-            <h3>Salam de biscuiți</h3>
+            <span class="recipe-tag">Gata în câteva minute</span>
+            <h3>Sandviș cald cu cașcaval</h3>
             <p>
-              Desert clasic cu biscuiți, cacao și lapte,
-              ușor de pregătit fără cuptor.
+              Pâine crocantă, cașcaval topit și legume,
+              pentru o cină fără prea mult efort.
             </p>
-            <div class="recipe-meta">⏱ 20 min + răcire · 🍽 8 porții</div>
-            <button class="recipe-button" onclick="openRecipe('salam')">
+            <div class="recipe-meta">⏱ 10 min · 🍽 2 porții</div>
+            <button class="recipe-button" onclick="openRecipe('sandvis')">
               Vezi rețeta
             </button>
           </div>
@@ -585,7 +584,7 @@
     <p>© 2026 Poftim! · Gătit cu drag acasă</p>
   </footer>
 
-  <!-- FEREASTRA CU RETETA -->
+  <!-- MODAL CU INGREDIENTE SI INSTRUCTIUNI -->
 
   <div
     class="modal"
@@ -619,103 +618,101 @@
 
   <script>
     const recipes = {
-      clatite: {
-        title: "Clătite cu ciocolată",
-        description: "Clătite fragede, cu o umplutură dulce și fructe.",
-        image: "https://images.unsplash.com/photo-1528207776546-365bb710ee93?auto=format&fit=crop&w=900&q=85",
+      pui: {
+        title: "Pui la cuptor cu cartofi",
+        description: "Pui rumenit și cartofi aromați pentru o cină de casă.",
+        image: "https://images.unsplash.com/photo-1532550907401-a500c9a57435?auto=format&fit=crop&w=900&q=85",
         ingredients: [
-          "250 g făină",
-          "2 ouă",
-          "300 ml lapte",
-          "100 ml apă minerală",
-          "1 lingură de ulei",
-          "Un praf de sare",
-          "Cremă de ciocolată, după gust",
-          "Fructe proaspete, opțional"
+          "4 pulpe de pui",
+          "700 g cartofi",
+          "2 linguri ulei",
+          "3 căței de usturoi",
+          "1 linguriță boia dulce",
+          "Sare și piper, după gust",
+          "Rozmarin sau cimbru, opțional"
         ],
         steps: [
-          "Amestecă ouăle cu laptele și sarea.",
-          "Adaugă făina treptat și amestecă pentru a evita cocoloașele.",
-          "Încorporează apa minerală și uleiul.",
-          "Toarnă puțin aluat într-o tigaie antiaderentă încinsă și coace clătita pe ambele părți.",
-          "Umple clătitele cu cremă de ciocolată și servește-le cu fructe."
+          "Preîncălzește cuptorul la 200°C.",
+          "Curăță cartofii și taie-i în bucăți potrivite.",
+          "Amestecă puiul și cartofii cu uleiul, usturoiul, boiaua și condimentele.",
+          "Așază ingredientele într-o tavă și adaugă puțină apă.",
+          "Coace aproximativ 45–60 de minute, până când puiul este bine pătruns, iar cartofii sunt fragezi.",
+          "Verifică înainte de servire ca puiul să fie gătit complet."
         ],
-        tip: "Sfat: lasă aluatul să se odihnească aproximativ 10 minute înainte de coacere."
+        tip: "Sfat: întoarce cartofii la jumătatea timpului de coacere pentru a se rumeni uniform."
       },
 
-      mere: {
-        title: "Prăjitură cu mere",
-        description: "Prăjitură aromată cu mere și scorțișoară.",
-        image: "https://images.unsplash.com/photo-1568571780765-9276ac8b75a2?auto=format&fit=crop&w=900&q=85",
+      omleta: {
+        title: "Omletă cu legume și brânză",
+        description: "O rețetă simplă, gata în aproximativ 15 minute.",
+        image: "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=900&q=85",
         ingredients: [
-          "3 mere potrivite",
-          "200 g făină",
-          "120 g zahăr",
-          "2 ouă",
+          "4 ouă",
+          "1 ardei gras",
+          "1 roșie mică",
+          "50 g brânză rasă",
+          "1 linguriță ulei",
+          "Sare și piper, după gust",
+          "Pătrunjel proaspăt, opțional"
+        ],
+        steps: [
+          "Spală legumele și taie-le în bucăți mici.",
+          "Bate ouăle într-un bol și adaugă sare și piper.",
+          "Încinge uleiul într-o tigaie și gătește ardeiul câteva minute.",
+          "Adaugă roșia, apoi toarnă ouăle bătute.",
+          "Presară brânza și gătește la foc mic până când ouăle sunt complet închegate.",
+          "Adaugă pătrunjel și servește imediat."
+        ],
+        tip: "Sfat: poți folosi legumele pe care le ai deja în frigider."
+      },
+
+      chiftelute: {
+        title: "Chifteluțe cu piure",
+        description: "Chifteluțe fragede servite cu piure de cartofi.",
+        image: "https://images.unsplash.com/photo-1529042410759-befb1204b468?auto=format&fit=crop&w=900&q=85",
+        ingredients: [
+          "400 g carne tocată",
+          "1 ou",
+          "1 ceapă mică",
+          "2 linguri pesmet",
+          "500 g cartofi",
           "100 ml lapte",
-          "80 ml ulei",
-          "1 linguriță praf de copt",
-          "1 linguriță scorțișoară"
+          "30 g unt",
+          "Sare, piper și pătrunjel",
+          "Puțin ulei"
         ],
         steps: [
-          "Preîncălzește cuptorul la 180°C.",
-          "Curăță merele și taie-le în cubulețe sau felii subțiri.",
-          "Bate ouăle cu zahărul, apoi adaugă laptele și uleiul.",
-          "Încorporează făina amestecată cu praful de copt.",
-          "Adaugă merele și scorțișoara, apoi toarnă compoziția într-o tavă tapetată.",
-          "Coace aproximativ 35–40 de minute, până când prăjitura este rumenită și trece testul scobitorii."
+          "Amestecă într-un bol carnea, oul, ceapa tocată, pesmetul și condimentele.",
+          "Formează chifteluțe de dimensiuni asemănătoare.",
+          "Așază-le într-o tavă unsă ușor și coace-le la 200°C aproximativ 20–25 de minute, până sunt bine pătrunse.",
+          "Curăță cartofii, taie-i bucăți și fierbe-i până devin fragezi.",
+          "Scurge cartofii și pasează-i cu unt și lapte cald.",
+          "Servește chifteluțele cu piureul pregătit."
         ],
-        tip: "Sfat: lasă prăjitura să se răcească înainte de a o tăia."
+        tip: "Sfat: timpul de coacere depinde de mărimea chifteluțelor; verifică să fie gătite complet."
       },
 
-      negresa: {
-        title: "Negresă cu ciocolată",
-        description: "Prăjitură cu cacao, moale și aromată.",
-        image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=900&q=85",
+      sandvis: {
+        title: "Sandviș cald cu cașcaval",
+        description: "O cină rapidă cu pâine crocantă și cașcaval topit.",
+        image: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=900&q=85",
         ingredients: [
-          "180 g făină",
-          "150 g zahăr",
-          "40 g cacao",
-          "2 ouă",
-          "120 ml lapte",
-          "100 ml ulei",
-          "1 linguriță praf de copt",
-          "100 g ciocolată, opțional"
+          "4 felii de pâine",
+          "100 g cașcaval",
+          "1 roșie",
+          "Câteva frunze de salată",
+          "Puțin unt",
+          "Oregano, opțional"
         ],
         steps: [
-          "Preîncălzește cuptorul la 180°C.",
-          "Amestecă ouăle cu zahărul, apoi adaugă laptele și uleiul.",
-          "Într-un alt bol, combină făina, cacaua și praful de copt.",
-          "Încorporează ingredientele uscate în compoziția lichidă.",
-          "Adaugă ciocolata mărunțită, dacă dorești.",
-          "Toarnă aluatul într-o tavă tapetată și coace aproximativ 25–30 de minute.",
-          "Lasă prăjitura să se răcească înainte de porționare."
+          "Unge ușor feliile de pâine cu unt.",
+          "Adaugă cașcavalul și feliile subțiri de roșie.",
+          "Presară puțin oregano, dacă dorești.",
+          "Pune sandvișurile într-o tigaie grill sau într-un aparat de sandvișuri.",
+          "Gătește până când pâinea devine crocantă, iar cașcavalul se topește.",
+          "Adaugă salata și servește cald."
         ],
-        tip: "Sfat: verifică prăjitura cu o scobitoare spre final, ca să nu o coci prea mult."
-      },
-
-      salam: {
-        title: "Salam de biscuiți",
-        description: "Desert fără coacere, cu biscuiți și cacao.",
-        image: "https://images.unsplash.com/photo-1606312619070-d48b4c652a52?auto=format&fit=crop&w=900&q=85",
-        ingredients: [
-          "300 g biscuiți simpli",
-          "100 g unt",
-          "100 g zahăr",
-          "150 ml lapte",
-          "2 linguri cacao",
-          "Esență de rom, opțional",
-          "50 g nucă mărunțită, opțional"
-        ],
-        steps: [
-          "Rupe biscuiții în bucăți mici într-un bol.",
-          "Încălzește laptele împreună cu zahărul, untul și cacaua, amestecând până se omogenizează.",
-          "Lasă amestecul să se răcorească puțin și adaugă esența de rom, dacă dorești.",
-          "Toarnă amestecul peste biscuiți și încorporează nuca.",
-          "Așază compoziția pe folie alimentară și rulează într-o formă de salam.",
-          "Pune la frigider cel puțin 3–4 ore, apoi taie felii."
-        ],
-        tip: "Sfat: păstrează desertul la frigider și taie-l după ce s-a întărit bine."
+        tip: "Sfat: servește sandvișul cu o salată simplă de legume pentru o masă completă."
       }
     };
 
@@ -751,10 +748,8 @@
 
       document.getElementById("modalTip").textContent = recipe.tip;
 
-      const modal = document.getElementById("recipeModal");
-      modal.classList.add("open");
+      document.getElementById("recipeModal").classList.add("open");
       document.body.style.overflow = "hidden";
-
       document.querySelector(".modal-close").focus();
     }
 
