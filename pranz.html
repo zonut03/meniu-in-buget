@@ -1178,13 +1178,231 @@
       afiseazaComentarii(retetaCurenta);
     });
 
-    // Încarcă comentariile rețetei deschise
+    
+    // Comentarii online cu Supabase
+    let retetaCurenta = null;
+    let cerereComentarii = 0;
+
+    const SUPABASE_URL = "https://mzimxhirbzsiilcvpkjj.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_kGOlHv5ZWGogVQHW5ieaGQ_HWgUf62-";
+
+    const formularComentarii = document.getElementById("formular-comentarii");
+    const campNume = document.getElementById("nume-comentariu");
+    const campComentariu = document.getElementById("text-comentariu");
+    const listaComentarii = document.getElementById("lista-comentarii");
+    const mesajFiltru = document.getElementById("mesaj-filtru");
+
+    const cuvinteInterzise = [
+      "prostule",
+      "idiotule",
+      "tampitule",
+      "nenorocitule"
+    ];
+
+    function contineCuvinteInterzise(text) {
+      const normalizat = text
+        .toLocaleLowerCase("ro")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+
+      return cuvinteInterzise.some(cuvant => {
+        const cuvantNormalizat = cuvant
+          .toLocaleLowerCase("ro")
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "");
+
+        return new RegExp(
+          `(^|[^a-z0-9])${cuvantNormalizat}([^a-z0-9]|$)`,
+          "i"
+        ).test(normalizat);
+      });
+    }
+
+    function afiseazaMesajLista(text) {
+      listaComentarii.replaceChildren();
+      const mesaj = document.createElement("p");
+      mesaj.className = "fara-comentarii";
+      mesaj.textContent = text;
+      listaComentarii.appendChild(mesaj);
+    }
+
+    function creeazaCardComentariu(comentariu) {
+      const card = document.createElement("article");
+      card.className = "comentariu";
+
+      const autor = document.createElement("div");
+      autor.className = "comentariu-autor";
+      autor.textContent = comentariu.nume;
+
+      const text = document.createElement("p");
+      text.className = "comentariu-text";
+      text.textContent = comentariu.continut;
+
+      card.append(autor, text);
+
+      if (comentariu.created_at) {
+        const data = new Date(comentariu.created_at);
+
+        if (!Number.isNaN(data.getTime())) {
+          const dataText = document.createElement("small");
+          dataText.style.color = "var(--gri)";
+          dataText.textContent = data.toLocaleString("ro-RO", {
+            dateStyle: "short",
+            timeStyle: "short"
+          });
+          card.appendChild(dataText);
+        }
+      }
+
+      return card;
+    }
+
+    async function cereSupabase(cale, optiuni = {}) {
+      const raspuns = await fetch(
+        `${SUPABASE_URL}/rest/v1/${cale}`,
+        {
+          ...optiuni,
+          headers: {
+            "apikey": SUPABASE_PUBLISHABLE_KEY,
+            "Authorization": `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
+            "Content-Type": "application/json",
+            ...optiuni.headers
+          }
+        }
+      );
+
+      if (!raspuns.ok) {
+        const detalii = await raspuns.text();
+        throw new Error(`Supabase (${raspuns.status}): ${detalii}`);
+      }
+
+      if (raspuns.status === 204) return null;
+
+      const tip = raspuns.headers.get("content-type") || "";
+      return tip.includes("application/json")
+        ? await raspuns.json()
+        : null;
+    }
+
+    async function afiseazaComentarii(id) {
+      const numarCerere = ++cerereComentarii;
+
+      afiseazaMesajLista("Se încarcă comentariile...");
+
+      try {
+        const cale =
+          `comentarii?select=id,reteta_id,nume,continut,created_at` +
+          `&reteta_id=eq.${encodeURIComponent(id)}` +
+          `&order=created_at.desc&limit=100`;
+
+        const comentarii = await cereSupabase(cale);
+
+        // Nu afișa rezultatele unei rețete în alta dacă utilizatorul
+        // a schimbat rețeta înainte de terminarea cererii.
+        if (
+          numarCerere !== cerereComentarii ||
+          retetaCurenta !== id
+        ) return;
+
+        listaComentarii.replaceChildren();
+
+        if (!Array.isArray(comentarii) || comentarii.length === 0) {
+          afiseazaMesajLista(
+            "Nu există comentarii încă. Poți fi primul!"
+          );
+          return;
+        }
+
+        comentarii.forEach(comentariu => {
+          listaComentarii.appendChild(
+            creeazaCardComentariu(comentariu)
+          );
+        });
+      } catch (eroare) {
+        console.error("Eroare la încărcarea comentariilor:", eroare);
+
+        if (
+          numarCerere === cerereComentarii &&
+          retetaCurenta === id
+        ) {
+          afiseazaMesajLista(
+            "Comentariile nu au putut fi încărcate. Verifică conexiunea și configurarea Supabase."
+          );
+        }
+      }
+    }
+
+    formularComentarii.addEventListener("submit", async event => {
+      event.preventDefault();
+
+      if (!retetaCurenta) return;
+
+      const id = retetaCurenta;
+      const nume = campNume.value.trim();
+      const continut = campComentariu.value.trim();
+
+      mesajFiltru.textContent = "";
+
+      if (!nume || !continut) {
+        mesajFiltru.textContent =
+          "Completează numele și comentariul.";
+        return;
+      }
+
+      if (nume.length > 40 || continut.length > 500) {
+        mesajFiltru.textContent =
+          "Numele poate avea maximum 40 de caractere, iar comentariul 500.";
+        return;
+      }
+
+      if (contineCuvinteInterzise(nume + " " + continut)) {
+        mesajFiltru.textContent =
+          "Comentariul conține cuvinte nepotrivite. Te rugăm să îl reformulezi.";
+        return;
+      }
+
+      const butonTrimitere = formularComentarii.querySelector(
+        'button[type="submit"]'
+      );
+      butonTrimitere.disabled = true;
+      butonTrimitere.textContent = "Se trimite...";
+
+      try {
+        await cereSupabase("comentarii", {
+          method: "POST",
+          headers: {
+            "Prefer": "return=minimal"
+          },
+          body: JSON.stringify({
+            reteta_id: id,
+            nume: nume,
+            continut: continut
+          })
+        });
+
+        formularComentarii.reset();
+        mesajFiltru.textContent = "Comentariul a fost publicat!";
+        await afiseazaComentarii(id);
+      } catch (eroare) {
+        console.error("Eroare la publicarea comentariului:", eroare);
+        mesajFiltru.textContent =
+          "Comentariul nu a putut fi publicat. Verifică setările tabelului și încearcă din nou.";
+      } finally {
+        butonTrimitere.disabled = false;
+        butonTrimitere.textContent = "Adaugă comentariul";
+      }
+    });
+
+    // Încarcă comentariile când se deschide o rețetă.
     document.querySelectorAll("[data-reteta]").forEach(buton => {
       buton.addEventListener("click", () => {
         retetaCurenta = buton.dataset.reteta;
         mesajFiltru.textContent = "";
         formularComentarii.reset();
         afiseazaComentarii(retetaCurenta);
+      });
+    });
+
       });
     });
   </script>
