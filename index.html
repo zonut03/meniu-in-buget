@@ -132,25 +132,29 @@
 
     header {
 
- 
+      position: sticky; top: 0; z-index: 1000; background: #fff;
 
-      position: sticky; top: 0; z-index: 1000; background: #f7f8f2ed;
+      border-bottom: 1px solid #e8e8e8;
 
- 
-
-      backdrop-filter: blur(14px); border-bottom: 1px solid var(--line);
-
- 
+      box-shadow: 0 5px 14px #0000000b;
 
     }
 
  
 
-    .nav { min-height: 74px; display: flex; align-items: center; gap: 18px; }
+    /* Meniu pe mai multe randuri, inspirat de bara de navigare din referinta */
+
+    .nav {
+
+      min-height: 0; display: flex; align-items: center; flex-wrap: wrap;
+
+      gap: 0 18px; padding-top: 12px;
+
+    }
 
  
 
-    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; margin-right: auto; }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; margin-right: auto; padding: 8px 0 12px; }
 
  
 
@@ -174,27 +178,51 @@
 
  
 
-    .nav-links { display: flex; align-items: center; gap: 8px; }
+    .nav-links {
 
- 
+      display: flex; align-items: stretch; justify-content: flex-start; flex-wrap: wrap;
 
-    .nav-links a, .nav-links button {
+      gap: 0; flex: 0 0 100%; order: 3; border-top: 1px solid #f0f0f0;
 
- 
-
-      text-decoration: none; color: var(--ink); background: transparent;
-
- 
-
-      border: 0; padding: 10px 12px; border-radius: 12px; font-weight: 600;
-
- 
+      margin-top: 0;
 
     }
 
  
 
-    .nav-links a:hover, .nav-links button:hover { background: #e9eee4; }
+    .nav-links a, .nav-links button {
+
+      position: relative; display: inline-flex; align-items: center;
+
+      min-height: 48px; text-decoration: none; color: #454545; background: transparent;
+
+      border: 0; border-radius: 0; padding: 13px 14px 12px;
+
+      font-size: 13px; font-weight: 700; text-transform: uppercase;
+
+      white-space: nowrap; transition: color .18s ease, background .18s ease;
+
+    }
+
+ 
+
+    .nav-links a::after, .nav-links button::after {
+
+      content: ""; position: absolute; left: 12px; right: 12px; bottom: 0;
+
+      height: 3px; background: #cf1760; transform: scaleX(0); transform-origin: left;
+
+      transition: transform .18s ease;
+
+    }
+
+    .nav-links a:hover, .nav-links button:hover { color: #c2185b; background: #fff7fa; }
+
+    .nav-links a:hover::after, .nav-links button:hover::after,
+
+    .nav-links a:focus-visible::after { transform: scaleX(1); }
+
+    .nav-links a:focus-visible, .nav-links button:focus-visible { outline: 2px solid #cf1760; outline-offset: -3px; }
 
  
 
@@ -496,9 +524,7 @@
 
       .nav-links { gap: 0; }
 
- 
-
-      .nav-links a, .nav-links button { padding: 8px; font-size: 13px; }
+      .nav-links a, .nav-links button { padding: 10px 11px; font-size: 12px; min-height: 42px; }
 
  
 
@@ -514,23 +540,15 @@
 
  
 
-      .nav { flex-wrap: wrap; padding: 10px 0; gap: 8px; }
+      .nav { flex-wrap: wrap; padding: 8px 0 0; gap: 0 8px; }
 
- 
+      .brand { margin-right: auto; padding-bottom: 10px; }
 
-      .brand { margin-right: auto; }
-
- 
-
-      .nav-links { width: 100%; overflow-x: auto; order: 2; }
-
- 
+      .nav-links { width: 100%; flex-basis: 100%; overflow-x: auto; flex-wrap: nowrap; order: 3; }
 
       .nav-links a, .nav-links button { white-space: nowrap; }
 
- 
-
-      .lang-select { order: 1; }
+      .lang-select { order: 1; max-width: 145px; padding: 8px; font-size: 12px; }
 
  
 
@@ -928,6 +946,20 @@
 
       <a href="#deserturi">Deserturi</a>
 
+      <a href="#aperitive">Aperitive</a>
+
+      <a href="#pizza">Pizza</a>
+
+      <a href="#gogosi">Gogoși</a>
+
+      <a href="#torturi">Torturi</a>
+
+      <a href="#retete-traditionale">Rețete tradiționale</a>
+
+      <a href="#air-fryer">Rețete la air fryer</a>
+
+      <a href="#ciorbe-supe">Ciorbe și supe</a>
+
  
 
       <a href="#lista" data-i18n="shopping">Cumpărături</a>
@@ -1114,7 +1146,15 @@
 
  
 
-  <section id="retete" class="section">
+  <div class="nav-category-anchors" aria-hidden="true" style="height:0;overflow:hidden;">
+
+  <span id="aperitive"></span><span id="pizza"></span><span id="gogosi"></span><span id="torturi"></span><span id="retete-traditionale"></span><span id="air-fryer"></span><span id="ciorbe-supe"></span>
+
+</div>
+
+ 
+
+<section id="retete" class="section">
 
  
 
