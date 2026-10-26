@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ro">
 <head>
@@ -503,6 +504,86 @@
 
     .buton-secundar:hover { color: white; }
 
+    /* Comentarii pentru fiecare rețetă */
+    .sectiune-comentarii {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--linie);
+    }
+
+    .sectiune-comentarii h3 {
+      color: var(--verde-inchis);
+      margin-bottom: 12px;
+    }
+
+    .formular-comentarii {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .formular-comentarii input,
+    .formular-comentarii textarea {
+      width: 100%;
+      padding: 11px 13px;
+      border: 1px solid #cbd8c4;
+      border-radius: 9px;
+      background: var(--alb);
+      color: var(--text);
+      font: inherit;
+      font-size: 14px;
+    }
+
+    .formular-comentarii textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .formular-comentarii input:focus,
+    .formular-comentarii textarea:focus {
+      outline: 2px solid var(--verde);
+      outline-offset: 2px;
+    }
+
+    .mesaj-filtru {
+      color: #a12d2d;
+      font-size: 13px;
+      margin: 0;
+    }
+
+    .lista-comentarii {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .comentariu {
+      padding: 12px 14px;
+      background: var(--alb);
+      border: 1px solid var(--linie);
+      border-radius: 10px;
+      overflow-wrap: anywhere;
+    }
+
+    .comentariu-autor {
+      color: var(--verde);
+      font-size: 13px;
+      font-weight: 700;
+      margin: 0 0 5px;
+    }
+
+    .comentariu-text {
+      font-size: 14px;
+      white-space: pre-wrap;
+      margin: 0;
+    }
+
+    .fara-comentarii {
+      color: var(--gri);
+      font-size: 13px;
+    }
+
     /* Adaptare pentru tabletă */
     @media (max-width: 760px) {
       .pagina { padding: 0 18px; }
@@ -774,6 +855,39 @@
         </div>
       </div>
 
+      <!-- Comentarii pentru rețeta selectată -->
+      <section class="sectiune-comentarii" aria-labelledby="titlu-comentarii">
+        <h3 id="titlu-comentarii">💬 Comentarii</h3>
+
+        <form class="formular-comentarii" id="formular-comentarii">
+          <input
+            type="text"
+            id="nume-comentariu"
+            placeholder="Numele tău"
+            maxlength="40"
+            required
+            aria-label="Numele tău"
+          >
+
+          <textarea
+            id="text-comentariu"
+            placeholder="Scrie un comentariu despre rețetă..."
+            maxlength="500"
+            required
+            aria-label="Comentariul tău"
+          ></textarea>
+
+          <p class="mesaj-filtru" id="mesaj-filtru" role="status" hidden></p>
+
+          <button class="buton" type="submit">
+            Adaugă comentariul
+          </button>
+        </form>
+
+        <div class="lista-comentarii" id="lista-comentarii"
+             aria-live="polite"></div>
+      </section>
+
       <div class="actiuni-reteta">
         <button class="buton buton-secundar" type="button" id="inapoi-retete">
           ← Înapoi la rețete
@@ -867,6 +981,7 @@
       const reteta = retete[id];
       if (!reteta) return;
 
+      retetaCurenta = id;
       ultimulButon = buton || document.activeElement;
 
       document.getElementById("titlu-reteta-modal").textContent = reteta.titlu;
@@ -927,6 +1042,145 @@
     document.addEventListener("keydown", event => {
       if (event.key === "Escape" && overlay.classList.contains("activ")) {
         inchideReteta();
+      }
+    });
+
+    // Sistemul de comentarii
+    let retetaCurenta = null;
+
+    const formularComentarii = document.getElementById("formular-comentarii");
+    const numeComentariu = document.getElementById("nume-comentariu");
+    const textComentariu = document.getElementById("text-comentariu");
+    const listaComentarii = document.getElementById("lista-comentarii");
+    const mesajFiltru = document.getElementById("mesaj-filtru");
+
+    // Filtru simplu pentru expresii vulgare
+    const cuvinteInterzise = [
+      "prost", "proasta", "proști", "proaste",
+      "idiot", "idioata", "idiota", "idioți", "idioate",
+      "tâmpit", "tampit", "tâmpită", "tampita",
+      "pula", "pulă", "pizda", "pizdă",
+      "muie", "futut", "futuți", "cacat", "căcat"
+    ];
+
+    function contineCuvinteInterzise(text) {
+      const textNormalizat = text
+        .toLocaleLowerCase("ro")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+
+      return cuvinteInterzise.some(cuvant => {
+        const cuvantNormalizat = cuvant
+          .toLocaleLowerCase("ro")
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "");
+
+        const expresie = new RegExp(
+          `(^|[^a-z0-9])${cuvantNormalizat.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}([^a-z0-9]|$)`,
+          "i"
+        );
+
+        return expresie.test(textNormalizat);
+      });
+    }
+
+    // Citește comentariile salvate pentru o rețetă
+    function citesteComentarii(id) {
+      try {
+        const salvate = localStorage.getItem("poftim-comentarii-" + id);
+        if (!salvate) return [];
+
+        const comentarii = JSON.parse(salvate);
+        return Array.isArray(comentarii) ? comentarii : [];
+      } catch (eroare) {
+        return [];
+      }
+    }
+
+    // Afișează numai comentariile rețetei deschise
+    function afiseazaComentarii(id) {
+      listaComentarii.replaceChildren();
+
+      const comentarii = citesteComentarii(id);
+
+      if (comentarii.length === 0) {
+        const mesaj = document.createElement("p");
+        mesaj.className = "fara-comentarii";
+        mesaj.textContent = "Nu există încă comentarii. Poți scrie primul comentariu!";
+        listaComentarii.appendChild(mesaj);
+        return;
+      }
+
+      comentarii.forEach(comentariu => {
+        const articol = document.createElement("article");
+        articol.className = "comentariu";
+
+        const autor = document.createElement("p");
+        autor.className = "comentariu-autor";
+        autor.textContent = comentariu.nume;
+
+        const text = document.createElement("p");
+        text.className = "comentariu-text";
+        text.textContent = comentariu.text;
+
+        articol.append(autor, text);
+        listaComentarii.appendChild(articol);
+      });
+    }
+
+    // Încarcă comentariile când se deschide o rețetă
+    document.querySelectorAll("[data-reteta]").forEach(buton => {
+      buton.addEventListener("click", () => {
+        const id = buton.dataset.reteta;
+        retetaCurenta = id;
+        afiseazaComentarii(id);
+        mesajFiltru.hidden = true;
+        formularComentarii.reset();
+      });
+    });
+
+    // Salvează comentariul pentru rețeta curentă
+    formularComentarii.addEventListener("submit", event => {
+      event.preventDefault();
+
+      if (!retetaCurenta || !retete[retetaCurenta]) return;
+
+      const nume = numeComentariu.value.trim();
+      const text = textComentariu.value.trim();
+
+      if (!nume || !text) return;
+
+      if (
+        contineCuvinteInterzise(nume) ||
+        contineCuvinteInterzise(text)
+      ) {
+        mesajFiltru.textContent =
+          "Comentariul conține cuvinte nepotrivite. Te rugăm să îl reformulezi.";
+        mesajFiltru.hidden = false;
+        return;
+      }
+
+      const comentarii = citesteComentarii(retetaCurenta);
+
+      comentarii.push({
+        nume: nume,
+        text: text,
+        data: new Date().toISOString()
+      });
+
+      try {
+        localStorage.setItem(
+          "poftim-comentarii-" + retetaCurenta,
+          JSON.stringify(comentarii)
+        );
+
+        mesajFiltru.hidden = true;
+        formularComentarii.reset();
+        afiseazaComentarii(retetaCurenta);
+      } catch (eroare) {
+        mesajFiltru.textContent =
+          "Comentariul nu a putut fi salvat în acest browser.";
+        mesajFiltru.hidden = false;
       }
     });
   </script>
