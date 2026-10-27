@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ro">
 <head>
@@ -663,12 +662,136 @@
         transition-duration: .01ms !important;
       }
     }
+
+    /* Interfață modernizată; funcțiile originale rămân neschimbate */
+    .bara-sus {
+      max-width: 1180px;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .link-inapoi {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      border: 1px solid #dfe6d8;
+      border-radius: 30px;
+      padding: 9px 15px;
+      color: var(--verde-inchis);
+      background: var(--alb);
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+      transition: background .2s ease, transform .2s ease;
+    }
+
+    .link-inapoi:hover {
+      background: var(--verde-deschis);
+      transform: translateY(-1px);
+    }
+
+    body {
+      background:
+        radial-gradient(ellipse at top left, rgba(233,240,226,.55), transparent 38%),
+        var(--crem);
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(12px);
+    }
+
+    .hero {
+      min-height: 260px;
+      border: 1px solid rgba(210,224,201,.7);
+      box-shadow: 0 12px 32px rgba(38,55,38,.07);
+      background: var(--verde-deschis);
+    }
+
+    .hero-text { padding: 36px; }
+
+    .hero h1 { max-width: 560px; }
+
+    .hero-imagine img {
+      filter: saturate(.9);
+    }
+
+    .titlu-sectiune { margin-top: 4px; }
+
+    .mini-eticheta {
+      background: rgba(255,254,250,.75);
+      white-space: nowrap;
+    }
+
+    .card {
+      border-radius: 17px;
+      box-shadow: 0 7px 22px rgba(38,55,38,.08);
+      border-color: #e8eadf;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(38,55,38,.13);
+    }
+
+    .poza { transition: transform .35s ease; }
+
+    .card:hover .poza { transform: scale(1.025); }
+
+    .poza-wrap { overflow: hidden; }
+
+    .categorie {
+      box-shadow: 0 3px 12px rgba(0,0,0,.08);
+    }
+
+    .buton {
+      box-shadow: 0 4px 10px rgba(36,88,63,.12);
+    }
+
+    .nota {
+      margin-top: 25px;
+      border-radius: 16px;
+      padding: 20px 23px;
+    }
+
+    .overlay {
+      backdrop-filter: blur(5px);
+    }
+
+    .fereastra-reteta {
+      border: 1px solid rgba(255,255,255,.5);
+    }
+
+    .sectiune-comentarii {
+      scroll-margin-top: 20px;
+    }
+
+    .formular-comentarii input,
+    .formular-comentarii textarea {
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+
+    .formular-comentarii input:focus,
+    .formular-comentarii textarea:focus {
+      border-color: var(--verde);
+      box-shadow: 0 0 0 3px rgba(36,88,63,.1);
+    }
+
+    @media (max-width: 520px) {
+      .bara-sus { gap: 10px; padding: 11px 13px; }
+      .link-inapoi { padding: 8px 10px; font-size: 11px; }
+      .logo { font-size: 25px; }
+      .hero { min-height: auto; }
+      .hero-text { padding: 23px 19px; }
+    }
   </style>
 </head>
-
 <body>
   <header>
     <div class="bara-sus">
+      <a class="link-inapoi" href="index.html">← Pagina principală</a>
       <a class="logo" href="index.html" aria-label="Poftim! - pagina principală">
         <span class="logo-leguma" aria-hidden="true">🥬</span>
         <span>Poftim!</span>
@@ -895,8 +1018,7 @@
       </div>
     </div>
   </div>
-
-  <script>
+    <script>
     const retete = {
       toast: {
         titlu: "Toast cu ou",
