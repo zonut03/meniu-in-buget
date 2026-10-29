@@ -637,18 +637,97 @@
         transition-duration: .01ms !important;
       }
     }
+    
+/* Bara de navigare cu toate categoriile */
+.bara-sus {
+  max-width: 1180px;
+  margin: auto;
+  padding: 14px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.meniu-navigare {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.meniu-navigare a {
+  text-decoration: none;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.meniu-navigare a:hover,
+.meniu-navigare a.activ {
+  color: var(--verde);
+}
+
+.meniu-navigare a.activ {
+  background: var(--verde-deschis);
+  padding: 7px 10px;
+  border-radius: 10px;
+}
+
+@media (max-width: 1050px) {
+  .bara-sus {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 14px 18px;
+  }
+
+  .meniu-navigare {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 520px) {
+  .bara-sus {
+    padding: 12px 13px;
+  }
+
+  .meniu-navigare {
+    gap: 9px 12px;
+    font-size: 12px;
+  }
+}
+
   </style>
 </head>
 
 <body>
-  <header>
-    <div class="bara-sus">
-      <a class="logo" href="index.html" aria-label="Poftim! - pagina principală">
-        <span class="logo-leguma" aria-hidden="true">🥬</span>
-        <span>Poftim!</span>
-      </a>
-    </div>
-  </header>
+
+<header>
+  <div class="bara-sus">
+    <a class="logo" href="index.html" aria-label="Poftim! - pagina principală">
+      <span class="logo-leguma" aria-hidden="true">🥬</span>
+      <span>Poftim!</span>
+    </a>
+
+    <nav class="meniu-navigare" aria-label="Navigare principală">
+      <a href="index.html">Acasă</a>
+      <a href="mic-dejun.html">Mic dejun</a>
+      <a href="pranz.html" class="activ" aria-current="page">Prânz</a>
+      <a href="cina.html">Cină</a>
+      <a href="deserturi.html">Deserturi</a>
+      <a href="aperitive.html">Aperitive</a>
+      <a href="pizza.html">Pizza</a>
+      <a href="gogosi.html">Gogoși</a>
+      <a href="torturi.html">Torturi</a>
+      <a href="retete-traditionale.html">Tradiționale</a>
+      <a href="air-fryer.html">Air Fryer</a>
+      <a href="ciorbe-si-supe.html">Ciorbe și supe</a>
+    </nav>
+  </div>
+</header>
+
 
   <main class="pagina">
     <section class="hero">
