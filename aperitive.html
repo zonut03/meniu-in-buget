@@ -2,379 +2,520 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aperitive | Poftim!</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aperitive | Poftim!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
-
-  <style>
-    :root {
-      --green: #28634e;
-      --green-dark: #194b39;
-      --lime: #d8ef91;
-      --cream: #f7f8f2;
-      --paper: #ffffff;
-      --ink: #202820;
-      --muted: #717a71;
-      --line: #e6e9df;
-      --shadow: 0 14px 40px #26382b12;
-      --radius: 20px;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      background: var(--cream);
-      color: var(--ink);
-      font-family: "DM Sans", sans-serif;
-      line-height: 1.6;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .container {
-      width: min(1120px, calc(100% - 32px));
-      margin: 0 auto;
-    }
-
-    header {
-      background: var(--paper);
-      border-bottom: 1px solid var(--line);
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    .nav {
-      min-height: 76px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-shrink: 0;
-    }
-
-    .brand-mark {
-      display: grid;
-      place-items: center;
-      width: 42px;
-      height: 42px;
-      background: var(--green);
-      border-radius: 14px;
-      font-size: 22px;
-    }
-
-    .brand-name {
-      font: 800 25px "Playfair Display", serif;
-      letter-spacing: -0.5px;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .nav-links a:hover,
-    .nav-links .active {
-      color: var(--green);
-    }
-
-    .nav-links .active {
-      background: #edf3e9;
-      padding: 7px 10px;
-      border-radius: 10px;
-    }
-
-    .hero {
-      padding: 60px 0 40px;
-    }
-
-    .eyebrow {
-      display: inline-block;
-      background: var(--lime);
-      color: var(--green-dark);
-      padding: 7px 13px;
-      border-radius: 999px;
-      font-size: 13px;
-      font-weight: 800;
-      margin-bottom: 16px;
-    }
-
-    h1, h2, h3 {
-      font-family: "Playfair Display", serif;
-      line-height: 1.2;
-    }
-
-    h1 {
-      font-size: clamp(38px, 6vw, 60px);
-      letter-spacing: -1px;
-      margin: 0 0 16px;
-    }
-
-    .hero p {
-      max-width: 650px;
-      color: var(--muted);
-      font-size: 17px;
-      margin: 0;
-    }
-
-    .recipes {
-      padding: 10px 0 70px;
-    }
-
-    .section-heading {
-      margin-bottom: 24px;
-    }
-
-    .section-heading h2 {
-      font-size: 30px;
-      margin: 0 0 6px;
-    }
-
-    .section-heading p {
-      color: var(--muted);
-      margin: 0;
-      font-size: 14px;
-    }
-
-    .recipe-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 22px;
-    }
-
-    .recipe-card {
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      transition: transform 0.2s;
-    }
-
-    .recipe-card:hover {
-      transform: translateY(-4px);
-    }
-
-    .recipe-image {
-      min-height: 175px;
-      display: grid;
-      place-items: center;
-      font-size: 64px;
-      background: #edf3e9;
-    }
-
-    .recipe-card:nth-child(2) .recipe-image {
-      background: #f8eee0;
-    }
-
-    .recipe-card:nth-child(3) .recipe-image {
-      background: #f5e9df;
-    }
-
-    .recipe-content {
-      padding: 22px;
-    }
-
-    .tag {
-      display: inline-block;
-      background: #edf3e9;
-      color: var(--green);
-      padding: 5px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 800;
-      margin-bottom: 10px;
-    }
-
-    .recipe-content h3 {
-      font-size: 22px;
-      margin: 0 0 10px;
-    }
-
-    .recipe-content p {
-      font-size: 14px;
-      color: var(--muted);
-      margin: 0 0 18px;
-    }
-
-    .recipe-info {
-      border-top: 1px solid var(--line);
-      padding-top: 14px;
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .price {
-      color: var(--green);
-    }
-
-    .back-link {
-      display: inline-block;
-      margin-top: 30px;
-      color: var(--green);
-      font-weight: 800;
-    }
-
-    footer {
-      background: var(--green-dark);
-      color: white;
-      padding: 26px 0;
-      text-align: center;
-      font-size: 13px;
-    }
-
-    footer p {
-      margin: 0;
-    }
-
-    @media (max-width: 850px) {
-      .nav {
-        padding: 14px 0;
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
-      .recipe-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    @media (max-width: 560px) {
-      .recipe-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .hero {
-        padding-top: 40px;
-      }
-    }
-  </style>
+<style>
+:root {
+  --verde:#527a43;
+  --verde-inchis:#365b30;
+  --verde-deschis:#edf3e8;
+  --crem:#fffaf1;
+  --text:#30352c;
+  --gri:#74796e;
+  --alb:#fff;
+  --linie:#e7ebdf;
+  --umbra:0 8px 25px rgba(45,60,35,.09);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--crem);color:var(--text);font-family:'Nunito',sans-serif;line-height:1.6}
+body.modal-deschis{overflow:hidden}
+a{color:inherit;text-decoration:none}
+button,input,textarea{font:inherit}
+header{background:rgba(255,255,255,.96);border-bottom:1px solid var(--linie)}
+.bara-sus{max-width:1180px;margin:auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.logo{display:flex;align-items:center;gap:7px;color:var(--verde);font-size:30px;font-weight:900;white-space:nowrap}
+.navigare{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:9px 13px;font-size:13px;font-weight:800}
+.navigare a{white-space:nowrap}
+.navigare a:hover,.navigare a.activ{color:var(--verde)}
+.navigare a.activ{padding:7px 10px;border-radius:10px;background:var(--verde-deschis)}
+.pagina{max-width:1120px;margin:auto;padding:0 28px}
+.hero{display:grid;grid-template-columns:1.05fr .95fr;align-items:stretch;min-height:220px;margin:20px 0 28px;overflow:hidden;border-radius:22px;background:var(--verde-deschis)}
+.hero-text{padding:30px 34px;align-self:center}
+.eticheta-sus{color:var(--verde);font-size:12px;font-weight:900;letter-spacing:1.2px;text-transform:uppercase}
+.hero h1{margin:8px 0 12px;color:var(--verde-inchis);font-size:clamp(32px,4.5vw,46px);line-height:1.12}
+.hero p{max-width:500px;margin:0;color:#45564a;font-size:15px}
+.hero-imagine{position:relative;min-height:220px}
+.hero-imagine img{display:block;width:100%;height:100%;min-height:220px;object-fit:cover}
+.hero-imagine:before{position:absolute;inset:0;content:"";pointer-events:none;background:linear-gradient(90deg,var(--verde-deschis),rgba(237,243,232,.25) 25%,transparent 60%)}
+.titlu-sectiune{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 2px 16px}
+.titlu-stanga{display:flex;align-items:center;gap:10px}
+.frunza{font-size:25px}
+h2{margin:0;color:var(--verde);font-size:clamp(22px,3vw,27px);line-height:1.25}
+.pastila{padding:7px 14px;border:1px solid #cddbc5;border-radius:30px;color:var(--verde);font-size:12px;font-weight:800;white-space:nowrap}
+.grila-retete{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.card-reteta{display:flex;min-width:0;flex-direction:column;overflow:hidden;border:1px solid rgba(220,225,214,.55);border-radius:20px;background:var(--alb);box-shadow:var(--umbra);transition:transform .2s,box-shadow .2s}
+.card-reteta:hover{transform:translateY(-5px);box-shadow:0 12px 28px rgba(38,55,38,.14)}
+.imagine-card{position:relative}
+.imagine-card img{display:block;width:100%;height:175px;object-fit:cover;background:var(--verde-deschis)}
+.categorie{position:absolute;top:12px;left:12px;padding:5px 12px;border-radius:20px;background:#e5efcf;color:var(--verde-inchis);font-size:11px;font-weight:800}
+.continut-card{display:flex;flex:1;flex-direction:column;padding:16px 17px 18px}
+.continut-card h3{margin:0 0 6px;color:var(--verde-inchis);font-size:19px;line-height:1.25}
+.descriere-card{min-height:42px;margin:0 0 13px;color:var(--gri);font-size:13px}
+.detalii{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:auto;color:var(--verde);font-size:12px;font-weight:800}
+.buton{display:inline-flex;width:100%;align-items:center;justify-content:center;gap:8px;margin-top:14px;padding:12px 17px;border:0;border-radius:12px;background:var(--verde);color:white;font-size:14px;font-weight:900;cursor:pointer;transition:background .2s,transform .2s}
+.buton:hover{transform:translateY(-1px);background:var(--verde-inchis)}
+.buton:disabled{opacity:.65;cursor:wait}
+.sfat{display:flex;align-items:center;gap:15px;margin:20px 0 14px;padding:17px 20px;border:1px solid #dfe8d6;border-radius:16px;background:var(--verde-deschis)}
+.sfat-icon{font-size:28px}
+.sfat h2{margin-bottom:2px;font-size:17px}
+.sfat p{margin:0;color:#45564a;font-size:13px}
+.sfat-decor{margin-left:auto;font-size:26px}
+footer{margin-top:14px;padding:16px 22px;background:var(--verde);color:white;font-size:12px}
+.subsol-interior{display:flex;max-width:1120px;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin:auto}
+footer p{margin:0}
+footer a{text-decoration:underline;text-underline-offset:3px}
+.overlay-reteta{position:fixed;z-index:100;inset:0;display:none;align-items:center;justify-content:center;overflow-y:auto;padding:22px;background:rgba(25,32,27,.68)}
+.overlay-reteta.activ{display:flex}
+.fereastra-reteta{position:relative;width:min(680px,100%);max-height:calc(100vh - 44px);overflow-y:auto;padding:30px;border-radius:23px;background:white;box-shadow:0 22px 70px rgba(0,0,0,.3)}
+.inchide{position:absolute;z-index:2;top:13px;right:14px;width:36px;height:36px;border:0;border-radius:50%;background:var(--verde-deschis);color:var(--verde-inchis);font-size:25px;cursor:pointer}
+.imagine-detaliu{display:block;width:100%;height:230px;border-radius:15px;object-fit:cover;background:var(--verde-deschis)}
+.categorie-detaliu{display:inline-block;margin:14px 0 7px;padding:4px 11px;border-radius:20px;background:var(--verde-deschis);color:var(--verde);font-size:11px;font-weight:900}
+.text-detaliu h2{margin:0 40px 10px 0;color:var(--verde-inchis);font-size:27px}
+.descriere-detaliu{margin:13px 0 17px;color:var(--gri);font-size:14px}
+.coloane-reteta{display:grid;grid-template-columns:.9fr 1.1fr;gap:20px}
+.coloane-reteta h3{margin:0 0 10px;padding-bottom:8px;border-bottom:1px solid var(--linie);color:var(--verde-inchis);font-size:15px}
+.lista-ingrediente,.lista-pasi{margin:0;padding:0;list-style:none}
+.lista-ingrediente li{display:flex;gap:7px;padding:4px 0;font-size:13px}
+.lista-ingrediente li:before{content:"•";color:var(--verde);font-weight:900}
+.lista-pasi{counter-reset:pas}
+.lista-pasi li{display:grid;grid-template-columns:23px 1fr;gap:8px;margin:0 0 10px;font-size:13px;counter-increment:pas}
+.lista-pasi li:before{display:flex;width:22px;height:22px;align-items:center;justify-content:center;border-radius:50%;background:var(--verde);color:white;content:counter(pas);font-size:11px;font-weight:900}
+.sectiune-comentarii{margin-top:24px;padding-top:20px;border-top:1px solid var(--linie)}
+.sectiune-comentarii h3{margin:0 0 12px;color:var(--verde)}
+.formular-comentarii{display:grid;gap:10px;margin-bottom:18px}
+.formular-comentarii input,.formular-comentarii textarea{width:100%;padding:11px 12px;border:1px solid #dce5d4;border-radius:10px;background:#fffefa;color:var(--text);font-size:14px}
+.formular-comentarii textarea{min-height:90px;resize:vertical}
+.mesaj-filtru{margin:0;color:#9b342c;font-size:13px}
+.lista-comentarii{display:grid;gap:12px}
+.comentariu{padding:12px 14px;border:1px solid var(--linie);border-radius:12px;background:#fffefa}
+.autor-comentariu{margin-bottom:4px;color:var(--verde);font-size:13px;font-weight:900}
+.text-comentariu{margin:0;overflow-wrap:anywhere;white-space:pre-wrap;font-size:14px}
+.comentariu-gol{margin:0;color:var(--gri);font-size:13px}
+@media(max-width:1050px){.bara-sus{align-items:flex-start;flex-direction:column;padding:14px 18px}.navigare{justify-content:flex-start}}
+@media(max-width:760px){.pagina{padding:0 18px}.hero{grid-template-columns:1fr}.hero-text{padding:25px 23px 20px}.hero-imagine{min-height:150px;max-height:180px}.hero-imagine img{min-height:150px;max-height:180px}.hero-imagine:before{background:linear-gradient(180deg,var(--verde-deschis),transparent 45%)}.grila-retete{grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.imagine-card img{height:155px}}
+@media(max-width:600px){.pagina{padding:0 13px}.bara-sus{padding:12px 13px}.logo{font-size:28px}.navigare{gap:9px 12px;font-size:12px}.hero{margin-top:13px}.hero-text{padding:22px 19px}.hero p{font-size:14px}.titlu-sectiune{align-items:flex-start}.grila-retete{grid-template-columns:1fr;gap:16px}.imagine-card img{height:205px}.continut-card{padding:16px}.descriere-card{min-height:0}.sfat{align-items:flex-start;gap:10px;padding:15px}.sfat-decor{display:none}.overlay-reteta{align-items:flex-start;padding:10px}.fereastra-reteta{max-height:calc(100vh - 20px);margin:auto 0;padding:21px;border-radius:18px}.imagine-detaliu{height:200px}.coloane-reteta{grid-template-columns:1fr;gap:15px}.text-detaliu h2{font-size:24px}.subsol-interior{justify-content:center;text-align:center}}
+</style>
 </head>
 
 <body>
-  <header>
-    <div class="container nav">
-      <a class="brand" href="index.html" aria-label="Poftim! Pagina principală">
-        <span class="brand-mark">🥬</span>
-        <span class="brand-name">Poftim!</span>
-      </a>
+<header>
+  <div class="bara-sus">
+    <a class="logo" href="index.html">🥬 Poftim!</a>
+    <nav class="navigare" aria-label="Navigare principală">
+      <a href="index.html">Acasă</a>
+      <a href="mic-dejun.html">Mic dejun</a>
+      <a href="pranz.html">Prânz</a>
+      <a href="cina.html">Cină</a>
+      <a href="deserturi.html">Deserturi</a>
+      <a href="aperitive.html" class="activ">Aperitive</a>
+      <a href="pizza.html">Pizza</a>
+      <a href="gogosi.html">Gogoși</a>
+      <a href="torturi.html">Torturi</a>
+      <a href="retete-traditionale.html">Tradiționale</a>
+      <a href="air-fryer.html">Air Fryer</a>
+      <a href="ciorbe-si-supe.html">Ciorbe și supe</a>
+    </nav>
+  </div>
+</header>
 
-      <nav class="nav-links" aria-label="Navigare principală">
-        <a href="index.html">Acasă</a>
-        <a href="mic-dejun.html">Mic dejun</a>
-        <a href="pranz.html">Prânz</a>
-        <a href="cina.html">Cină</a>
-        <a href="deserturi.html">Deserturi</a>
-        <a href="aperitive.html" class="active">Aperitive</a>
-        <a href="pizza.html">Pizza</a>
-        <a href="gogosi.html">Gogoși</a>
-        <a href="torturi.html">Torturi</a>
-        <a href="retete-traditionale.html">Tradiționale</a>
-        <a href="air-fryer.html">Air Fryer</a>
-        <a href="ciorbe-si-supe.html">Ciorbe și supe</a>
-      </nav>
+<main class="pagina">
+  <section class="hero">
+    <div class="hero-text">
+      <span class="eticheta-sus">Gustări pentru orice ocazie</span>
+      <h1>Idei de aperitive</h1>
+      <p>Descoperă aperitive gustoase, ușor de pregătit și potrivite pentru mesele în familie sau pentru momentele petrecute cu prietenii.</p>
     </div>
-  </header>
+    <div class="hero-imagine">
+      <img src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1200&q=85" alt="Platou cu aperitive">
+    </div>
+  </section>
 
-  <main>
-    <section class="hero">
-      <div class="container">
-        <span class="eyebrow">🥨 Idei pentru orice masă</span>
-        <h1>Aperitive gustoase și ușor de pregătit</h1>
-        <p>
-          De la gustări rapide la platouri pentru musafiri,
-          descoperă aperitive simple, colorate și accesibile.
-        </p>
+  <section>
+    <div class="titlu-sectiune">
+      <div class="titlu-stanga"><span class="frunza">🌿</span><h2>Rețete de aperitive</h2></div>
+      <span class="pastila">4 rețete</span>
+    </div>
+
+    <div class="grila-retete">
+      <article class="card-reteta">
+        <div class="imagine-card">
+          <img src="https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?auto=format&fit=crop&w=900&q=85" alt="Bruschete cu roșii și busuioc" loading="lazy">
+          <span class="categorie">Proaspăt și aromat</span>
+        </div>
+        <div class="continut-card">
+          <h3>Bruschete cu roșii</h3>
+          <p class="descriere-card">Felii crocante de pâine cu roșii, usturoi și busuioc proaspăt.</p>
+          <div class="detalii"><span>◷ 15 minute</span><span>▤ Buget redus</span></div>
+          <button class="buton" data-reteta="bruschete">Vezi rețeta →</button>
+        </div>
+      </article>
+
+      <article class="card-reteta">
+        <div class="imagine-card">
+          <img src="https://images.unsplash.com/photo-1525459818-6b7c4f6b6c3b?auto=format&fit=crop&w=900&q=85" alt="Ouă umplute" loading="lazy">
+          <span class="categorie">Clasic de sărbătoare</span>
+        </div>
+        <div class="continut-card">
+          <h3>Ouă umplute</h3>
+          <p class="descriere-card">Ouă fierte umplute cu o cremă fină de gălbenuș și muștar.</p>
+          <div class="detalii"><span>◷ 25 minute</span><span>▤ Ușor de făcut</span></div>
+          <button class="buton" data-reteta="oua">Vezi rețeta →</button>
+        </div>
+      </article>
+
+      <article class="card-reteta">
+        <div class="imagine-card">
+          <img src="https://images.unsplash.com/photo-1504545102780-26774c1bb073?auto=format&fit=crop&w=900&q=85" alt="Ciuperci umplute cu brânză" loading="lazy">
+          <span class="categorie">Cald și gustos</span>
+        </div>
+        <div class="continut-card">
+          <h3>Ciuperci umplute</h3>
+          <p class="descriere-card">Ciuperci la cuptor cu brânză, usturoi și verdeață.</p>
+          <div class="detalii"><span>◷ 30 minute</span><span>▤ Ingrediente simple</span></div>
+          <button class="buton" data-reteta="ciuperci">Vezi rețeta →</button>
+        </div>
+      </article>
+
+      <article class="card-reteta">
+        <div class="imagine-card">
+          <img src="https://images.unsplash.com/photo-1608039829572-78524f79c4c7?auto=format&fit=crop&w=900&q=85" alt="Mini frigărui Caprese" loading="lazy">
+          <span class="categorie">Colorat și proaspăt</span>
+        </div>
+        <div class="continut-card">
+          <h3>Mini frigărui Caprese</h3>
+          <p class="descriere-card">Roșii cherry, mozzarella și busuioc, într-o gustare ușoară.</p>
+          <div class="detalii"><span>◷ 10 minute</span><span>▤ Fără gătire</span></div>
+          <button class="buton" data-reteta="caprese">Vezi rețeta →</button>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="sfat">
+    <span class="sfat-icon">💡</span>
+    <div>
+      <h2>Un sfat pentru aperitive</h2>
+      <p>Pregătește ingredientele din timp și adaugă verdeața sau sosurile înainte de servire, pentru ca aperitivele să rămână proaspete.</p>
+    </div>
+    <span class="sfat-decor">🌱</span>
+  </section>
+</main>
+
+<footer>
+  <div class="subsol-interior">
+    <p>© 2026 Poftim! — Idei gustoase, pe înțelesul tuturor.</p>
+    <a href="index.html">Înapoi la pagina principală</a>
+  </div>
+</footer>
+
+<div class="overlay-reteta" id="overlay-reteta" aria-hidden="true">
+  <section class="fereastra-reteta" role="dialog" aria-modal="true" aria-labelledby="titlu-reteta-modal">
+    <button class="inchide" id="inchide-reteta" aria-label="Închide rețeta">×</button>
+    <img class="imagine-detaliu" id="imagine-reteta-modal" src="" alt="">
+    <span class="categorie-detaliu" id="categorie-reteta-modal"></span>
+    <div class="text-detaliu">
+      <h2 id="titlu-reteta-modal"></h2>
+      <div class="detalii"><span id="timp-reteta-modal"></span><span id="buget-reteta-modal"></span></div>
+      <p class="descriere-detaliu" id="descriere-reteta-modal"></p>
+    </div>
+    <div class="coloane-reteta">
+      <section>
+        <h3>Ingrediente</h3>
+        <ul class="lista-ingrediente" id="ingrediente-reteta-modal"></ul>
+      </section>
+      <section>
+        <h3>Mod de preparare</h3>
+        <ol class="lista-pasi" id="pasi-reteta-modal"></ol>
+      </section>
+    </div>
+
+    <section class="sectiune-comentarii">
+      <h3>💬 Comentarii</h3>
+      <form class="formular-comentarii" id="formular-comentarii">
+        <input id="nume-comentariu" type="text" maxlength="40" placeholder="Numele tău" required>
+        <textarea id="text-comentariu" maxlength="500" placeholder="Scrie un comentariu despre rețetă..." required></textarea>
+        <p class="mesaj-filtru" id="mesaj-filtru" aria-live="polite"></p>
+        <button class="buton" type="submit">Adaugă comentariul</button>
+      </form>
+      <div class="lista-comentarii" id="lista-comentarii" aria-live="polite">
+        <p class="comentariu-gol">Deschide o rețetă pentru a vedea comentariile.</p>
       </div>
     </section>
+    <button class="buton" id="inapoi-retete">Înapoi la rețete</button>
+  </section>
+</div>
 
-    <section class="recipes">
-      <div class="container">
-        <div class="section-heading">
-          <h2>Ce punem pe masă?</h2>
-          <p>Alege o idee pentru următoarea gustare sau întâlnire cu familia.</p>
-        </div>
+<script>
+const retete = {
+  bruschete: {
+    titlu:"Bruschete cu roșii",
+    categorie:"Proaspăt și aromat",
+    timp:"◷ 15 minute",
+    buget:"▤ Buget redus",
+    descriere:"Pâine rumenită, acoperită cu roșii proaspete, usturoi și busuioc.",
+    imagine:"https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?auto=format&fit=crop&w=1000&q=85",
+    ingrediente:["4 felii de pâine","2 roșii coapte","1 cățel de usturoi","Câteva frunze de busuioc","1 lingură ulei de măsline","Sare și piper"],
+    pasi:[
+      "Taie roșiile cubulețe și pune-le într-un bol.",
+      "Adaugă busuiocul tocat, uleiul, sarea și piperul.",
+      "Prăjește feliile de pâine într-o tigaie sau în cuptor până devin crocante.",
+      "Freacă ușor pâinea caldă cu usturoiul.",
+      "Pune amestecul de roșii pe pâine și servește imediat."
+    ]
+  },
+  oua: {
+    titlu:"Ouă umplute",
+    categorie:"Clasic de sărbătoare",
+    timp:"◷ 25 minute",
+    buget:"▤ Ușor de făcut",
+    descriere:"Ouă fierte umplute cu o cremă fină de gălbenuș, muștar și verdeață.",
+    imagine:"https://images.unsplash.com/photo-1525459818-6b7c4f6b6c3b?auto=format&fit=crop&w=1000&q=85",
+    ingrediente:["4 ouă","1 lingură maioneză sau iaurt grecesc","1 linguriță muștar","Sare și piper","Pătrunjel pentru decor","Puțină boia dulce, opțional"],
+    pasi:[
+      "Fierbe ouăle aproximativ 9–10 minute, apoi răcește-le în apă rece.",
+      "Curăță ouăle și taie-le în jumătăți pe lungime.",
+      "Scoate gălbenușurile și pasează-le cu muștarul și maioneza sau iaurtul.",
+      "Asezonează crema cu sare și piper.",
+      "Umple albușurile cu crema și decorează cu verdeață.",
+      "Păstrează la frigider până la servire."
+    ]
+  },
+  ciuperci: {
+    titlu:"Ciuperci umplute",
+    categorie:"Cald și gustos",
+    timp:"◷ 30 minute",
+    buget:"▤ Ingrediente simple",
+    descriere:"Ciuperci rumenite la cuptor, umplute cu brânză, usturoi și verdeață.",
+    imagine:"https://images.unsplash.com/photo-1504545102780-26774c1bb073?auto=format&fit=crop&w=1000&q=85",
+    ingrediente:["8 ciuperci champignon mari","100 g mozzarella sau cașcaval ras","1 cățel de usturoi","1 lingură pătrunjel tocat","1 lingură ulei de măsline","Sare și piper"],
+    pasi:[
+      "Încălzește cuptorul la 190°C.",
+      "Curăță ciupercile și îndepărtează cu grijă codițele.",
+      "Toacă mărunt codițele și amestecă-le cu brânza, usturoiul și pătrunjelul.",
+      "Așază pălăriile într-o tavă unsă ușor cu ulei.",
+      "Umple ciupercile și coace 15–20 de minute, până când sunt fragede și brânza s-a topit.",
+      "Lasă-le puțin să se răcorească înainte de servire."
+    ]
+  },
+  caprese: {
+    titlu:"Mini frigărui Caprese",
+    categorie:"Colorat și proaspăt",
+    timp:"◷ 10 minute",
+    buget:"▤ Fără gătire",
+    descriere:"Roșii cherry, mozzarella și busuioc proaspăt, combinate într-un aperitiv simplu.",
+    imagine:"https://images.unsplash.com/photo-1608039829572-78524f79c4c7?auto=format&fit=crop&w=1000&q=85",
+    ingrediente:["12 roșii cherry","12 mini bile de mozzarella","12 frunze mici de busuioc","1 lingură ulei de măsline","Puțin oțet balsamic, opțional","Scobitori"],
+    pasi:[
+      "Spală roșiile și frunzele de busuioc și usucă-le ușor.",
+      "Înfige pe fiecare scobitoare o roșie cherry, o frunză de busuioc și o bilă de mozzarella.",
+      "Așază frigăruile pe un platou.",
+      "Stropește cu puțin ulei de măsline și, dacă dorești, cu oțet balsamic.",
+      "Servește proaspete."
+    ]
+  }
+};
 
-        <div class="recipe-grid">
+const SUPABASE_URL = "https://mzimxhirbzsiilcvpkjj.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_kGOlHv5ZWogVQHW5ieaGQ_HWgUf62-";
 
-          <article class="recipe-card">
-             <img
-            class="recipe-image"
-            src="https://images.unsplash.com/photo-1506280754576-f6fa8a873550?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D"
-            alt="Bruschete cu roșii"
-            loading="lazy"
-          >
-           
-              <span class="tag">Rapid și simplu</span>
-              <h3>Bruschete cu roșii</h3>
-              <p>Felii de pâine prăjită cu roșii, usturoi, ulei de măsline și busuioc.</p>
-              <div class="recipe-info">
-                <span>⏱ 15 min</span>
-                <span class="price">Buget redus</span>
-              </div>
-            </div>
-          </article>
+const overlay = document.getElementById("overlay-reteta");
+const formular = document.getElementById("formular-comentarii");
+const listaComentarii = document.getElementById("lista-comentarii");
+const mesajFiltru = document.getElementById("mesaj-filtru");
+const butonTrimitere = formular.querySelector('button[type="submit"]');
+let retetaCurenta = null;
+let ultimulButon = null;
+let numarCerere = 0;
 
-          <article class="recipe-card">
-            <div class="recipe-image" role="img" aria-label="Rulouri cu brânză">🧀</div>
-            <div class="recipe-content">
-              <span class="tag">Pentru musafiri</span>
-              <h3>Rulouri cu brânză</h3>
-              <p>Rulouri ușor de pregătit, cu brânză cremoasă și verdeață proaspătă.</p>
-              <div class="recipe-info">
-                <span>⏱ 20 min</span>
-                <span class="price">Buget accesibil</span>
-              </div>
-            </div>
-          </article>
+const cuvinteBlocate = ["prostule","idiotule","tampitule","nenorocitule"];
 
-          <article class="recipe-card">
-            <div class="recipe-image" role="img" aria-label="Ouă umplute">🥚</div>
-            <div class="recipe-content">
-              <span class="tag">Rețetă clasică</span>
-              <h3>Ouă umplute</h3>
-              <p>Ouă fierte cu o umplutură cremoasă și puțină verdeață pentru decor.</p>
-              <div class="recipe-info">
-                <span>⏱ 25 min</span>
-                <span class="price">Buget redus</span>
-              </div>
-            </div>
-          </article>
+function normalizeaza(text) {
+  return text.toLocaleLowerCase("ro").normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+}
 
-        </div>
+function contineCuvinteBlocate(text) {
+  const textNormalizat = normalizeaza(text);
+  return cuvinteBlocate.some(cuvant => {
+    const c = normalizeaza(cuvant);
+    return new RegExp(`(^|[^a-z0-9])${c}([^a-z0-9]|$)`,"i").test(textNormalizat);
+  });
+}
 
-        <a class="back-link" href="index.html">← Înapoi la pagina principală</a>
-      </div>
-    </section>
-  </main>
+function mesajGol(text) {
+  listaComentarii.replaceChildren();
+  const p = document.createElement("p");
+  p.className = "comentariu-gol";
+  p.textContent = text;
+  listaComentarii.appendChild(p);
+}
 
-  <footer>
-    <div class="container">
-      <p>© 2026 Poftim! — Idei bune pentru mese gustoase.</p>
-    </div>
-  </footer>
+async function cerereSupabase(cale, optiuni={}) {
+  const raspuns = await fetch(`${SUPABASE_URL}/rest/v1/${cale}`,{
+    ...optiuni,
+    headers:{
+      apikey:SUPABASE_PUBLISHABLE_KEY,
+      Authorization:`Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
+      "Content-Type":"application/json",
+      ...optiuni.headers
+    }
+  });
+  if(!raspuns.ok) throw new Error(await raspuns.text());
+  if(raspuns.status===204) return null;
+  const tip=raspuns.headers.get("content-type")||"";
+  return tip.includes("application/json") ? raspuns.json() : null;
+}
+
+function creeazaComentariu(c) {
+  const card=document.createElement("article");
+  card.className="comentariu";
+  const autor=document.createElement("div");
+  autor.className="autor-comentariu";
+  autor.textContent=c.nume;
+  const text=document.createElement("p");
+  text.className="text-comentariu";
+  text.textContent=c.continut;
+  card.append(autor,text);
+  if(c.created_at) {
+    const data=new Date(c.created_at);
+    if(!Number.isNaN(data.getTime())) {
+      const timp=document.createElement("small");
+      timp.style.color="var(--gri)";
+      timp.textContent=data.toLocaleString("ro-RO",{dateStyle:"short",timeStyle:"short"});
+      card.appendChild(timp);
+    }
+  }
+  return card;
+}
+
+async function incarcaComentarii(id) {
+  const cerere=++numarCerere;
+  mesajGol("Se încarcă comentariile...");
+  try {
+    const cale=`comentarii?select=id,reteta_id,nume,continut,created_at&reteta_id=eq.${encodeURIComponent(id)}&order=created_at.desc&limit=100`;
+    const comentarii=await cerereSupabase(cale);
+    if(cerere!==numarCerere||retetaCurenta!==id) return;
+    listaComentarii.replaceChildren();
+    if(!Array.isArray(comentarii)||comentarii.length===0) {
+      mesajGol("Nu există comentarii încă. Poți fi primul!");
+      return;
+    }
+    comentarii.forEach(c=>listaComentarii.appendChild(creeazaComentariu(c)));
+  } catch(e) {
+    console.error(e);
+    if(cerere===numarCerere&&retetaCurenta===id) {
+      mesajGol("Comentariile nu au putut fi încărcate. Verifică setările Supabase.");
+    }
+  }
+}
+
+function deschideReteta(id,buton) {
+  const r=retete[id];
+  if(!r) return;
+  ultimulButon=buton||document.activeElement;
+  retetaCurenta=id;
+  document.getElementById("titlu-reteta-modal").textContent=r.titlu;
+  document.getElementById("categorie-reteta-modal").textContent=r.categorie;
+  document.getElementById("timp-reteta-modal").textContent=r.timp;
+  document.getElementById("buget-reteta-modal").textContent=r.buget;
+  document.getElementById("descriere-reteta-modal").textContent=r.descriere;
+
+  const img=document.getElementById("imagine-reteta-modal");
+  img.src=r.imagine;
+  img.alt=r.titlu;
+
+  const ingrediente=document.getElementById("ingrediente-reteta-modal");
+  ingrediente.replaceChildren();
+  r.ingrediente.forEach(item=>{
+    const li=document.createElement("li");
+    li.textContent=item;
+    ingrediente.appendChild(li);
+  });
+
+  const pasi=document.getElementById("pasi-reteta-modal");
+  pasi.replaceChildren();
+  r.pasi.forEach(item=>{
+    const li=document.createElement("li");
+    li.textContent=item;
+    pasi.appendChild(li);
+  });
+
+  formular.reset();
+  mesajFiltru.textContent="";
+  overlay.classList.add("activ");
+  overlay.setAttribute("aria-hidden","false");
+  document.body.classList.add("modal-deschis");
+  document.getElementById("inchide-reteta").focus();
+  incarcaComentarii(id);
+}
+
+function inchideReteta() {
+  overlay.classList.remove("activ");
+  overlay.setAttribute("aria-hidden","true");
+  document.body.classList.remove("modal-deschis");
+  numarCerere++;
+  retetaCurenta=null;
+  if(ultimulButon) ultimulButon.focus();
+}
+
+document.querySelectorAll("[data-reteta]").forEach(buton=>{
+  buton.addEventListener("click",()=>deschideReteta(buton.dataset.reteta,buton));
+});
+document.getElementById("inchide-reteta").addEventListener("click",inchideReteta);
+document.getElementById("inapoi-retete").addEventListener("click",inchideReteta);
+
+overlay.addEventListener("click",e=>{
+  if(e.target===overlay) inchideReteta();
+});
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape"&&overlay.classList.contains("activ")) inchideReteta();
+});
+
+formular.addEventListener("submit",async e=>{
+  e.preventDefault();
+  if(!retetaCurenta) return;
+
+  const id=retetaCurenta;
+  const nume=document.getElementById("nume-comentariu").value.trim();
+  const continut=document.getElementById("text-comentariu").value.trim();
+  mesajFiltru.textContent="";
+
+  if(!nume||!continut) {
+    mesajFiltru.textContent="Completează numele și comentariul.";
+    return;
+  }
+  if(nume.length>40||continut.length>500) {
+    mesajFiltru.textContent="Numele poate avea maximum 40 de caractere, iar comentariul 500.";
+    return;
+  }
+  if(contineCuvinteBlocate(`${nume} ${continut}`)) {
+    mesajFiltru.textContent="Comentariul conține cuvinte nepotrivite. Te rugăm să îl reformulezi.";
+    return;
+  }
+
+  butonTrimitere.disabled=true;
+  butonTrimitere.textContent="Se trimite...";
+  try {
+    await cerereSupabase("comentarii",{
+      method:"POST",
+      headers:{Prefer:"return=minimal"},
+      body:JSON.stringify({reteta_id:id,nume,continut})
+    });
+    formular.reset();
+    mesajFiltru.textContent="Comentariul a fost publicat!";
+    if(retetaCurenta===id) await incarcaComentarii(id);
+  } catch(e) {
+    console.error(e);
+    mesajFiltru.textContent="Comentariul nu a putut fi publicat. Verifică setările Supabase.";
+  } finally {
+    butonTrimitere.disabled=false;
+    butonTrimitere.textContent="Adaugă comentariul";
+  }
+});
+</script>
 </body>
 </html>
