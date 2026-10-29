@@ -551,19 +551,89 @@
         font-size: 24px;
       }
     }
+    
+/* BARA DE NAVIGARE */
+.site-header {
+  background: #ffffff;
+  border-bottom: 1px solid #e6e9df;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 0 6%;
+}
+
+.nav {
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: #28634e;
+}
+
+.nav-links a.active {
+  background: #edf3e9;
+  padding: 7px 10px;
+  border-radius: 10px;
+}
+
+@media (max-width: 1100px) {
+  .nav {
+    padding: 14px 0;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
+  .nav-links {
+    gap: 10px;
+    font-size: 12px;
+  }
+}
+
   </style>
 </head>
 
 <body>
 
-  <header class="site-header">
+<header class="site-header">
+  <div class="nav">
     <a class="logo" href="index.html" aria-label="Poftim - pagina principală">
       <span class="logo-leaf" aria-hidden="true">🥬</span>
       <span>Poftim!</span>
     </a>
 
-    <a class="back-link" href="index.html">← Pagina principală</a>
-  </header>
+    <nav class="nav-links" aria-label="Navigare principală">
+      <a href="index.html">Acasă</a>
+      <a href="mic-dejun.html">Mic dejun</a>
+      <a href="pranz.html">Prânz</a>
+      <a href="cina.html" class="active" aria-current="page">Cină</a>
+      <a href="deserturi.html">Deserturi</a>
+      <a href="aperitive.html">Aperitive</a>
+      <a href="pizza.html">Pizza</a>
+      <a href="gogosi.html">Gogoși</a>
+      <a href="torturi.html">Torturi</a>
+      <a href="retete-traditionale.html">Tradiționale</a>
+      <a href="air-fryer.html">Air Fryer</a>
+      <a href="ciorbe-si-supe.html">Ciorbe și supe</a>
+    </nav>
+  </div>
+</header>
+
 
   <main>
     <section class="hero">
