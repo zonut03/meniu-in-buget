@@ -1166,7 +1166,15 @@
         inchideReteta();
       }
     });
+ // Conectarea la Supabase
+    // Înlocuiește textul de mai jos cu cheia PUBLICĂ din proiectul tău.
+    const SUPABASE_URL = "https://mzimxhirbzsiilcvpkjj.supabase.co";
+    const SUPABASE_PUBLIC_KEY = "sb_publishable_kGOlHv5ZWGogVQHW5ieaGQ_HWgUf62-";
 
+    const clientSupabase = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLIC_KEY
+    );
     // Sistemul de comentarii
     let retetaCurenta = null;
 
