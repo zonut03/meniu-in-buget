@@ -7,692 +7,38 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
-
   <style>
-    :root {
-      --verde: #527a43;
-      --verde-inchis: #365b30;
-      --verde-deschis: #edf3e8;
-      --crem: #fffaf1;
-      --text: #30352c;
-      --gri: #74796e;
-      --alb: #ffffff;
-      --linie: #e7ebdf;
-      --umbra: 0 8px 25px rgba(45, 60, 35, .09);
-    }
-
-    * { box-sizing: border-box; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      margin: 0;
-      background: var(--crem);
-      color: var(--text);
-      font-family: 'Nunito', sans-serif;
-      line-height: 1.6;
-    }
-
-    body.modal-deschis { overflow: hidden; }
-
-    a { color: inherit; text-decoration: none; }
-
-    button, input, textarea { font: inherit; }
-
-    header {
-      background: rgba(255,255,255,.96);
-      border-bottom: 1px solid var(--linie);
-    }
-
-    .bara-sus {
-      max-width: 1180px;
-      margin: auto;
-      padding: 14px 28px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .logo {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      color: var(--verde);
-      font-size: 30px;
-      font-weight: 900;
-      letter-spacing: -1px;
-      white-space: nowrap;
-    }
-
-    .logo-frunza { font-size: 27px; }
-
-    .navigare {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      flex-wrap: wrap;
-      gap: 9px 13px;
-      font-size: 13px;
-      font-weight: 800;
-    }
-
-    .navigare a { white-space: nowrap; }
-
-    .navigare a:hover,
-    .navigare a.activ { color: var(--verde); }
-
-    .navigare a.activ {
-      padding: 7px 10px;
-      border-radius: 10px;
-      background: var(--verde-deschis);
-    }
-
-    .pagina {
-      max-width: 1120px;
-      margin: auto;
-      padding: 0 28px;
-    }
-
-    .hero {
-      display: grid;
-      grid-template-columns: 1.05fr .95fr;
-      align-items: stretch;
-      min-height: 220px;
-      margin: 20px 0 28px;
-      overflow: hidden;
-      border-radius: 22px;
-      background: var(--verde-deschis);
-    }
-
-    .hero-text {
-      padding: 30px 34px;
-      align-self: center;
-    }
-
-    .eticheta-sus {
-      color: var(--verde);
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-    }
-
-    .hero h1 {
-      margin: 8px 0 12px;
-      color: var(--verde-inchis);
-      font-size: clamp(32px, 4.5vw, 46px);
-      line-height: 1.12;
-      letter-spacing: -.8px;
-    }
-
-    .hero p {
-      max-width: 500px;
-      margin: 0;
-      color: #45564a;
-      font-size: 15px;
-    }
-
-    .hero-imagine {
-      position: relative;
-      min-height: 220px;
-    }
-
-    .hero-imagine img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      min-height: 220px;
-      object-fit: cover;
-    }
-
-    .hero-imagine::before {
-      position: absolute;
-      inset: 0;
-      content: "";
-      pointer-events: none;
-      background: linear-gradient(
-        90deg,
-        var(--verde-deschis),
-        rgba(237,243,232,.25) 25%,
-        transparent 60%
-      );
-    }
-
-    .titlu-sectiune {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin: 0 2px 16px;
-    }
-
-    .titlu-stanga {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .frunza { font-size: 25px; }
-
-    h2 {
-      margin: 0;
-      color: var(--verde);
-      font-size: clamp(22px, 3vw, 27px);
-      line-height: 1.25;
-    }
-
-    .pastila {
-      padding: 7px 14px;
-      border: 1px solid #cddbc5;
-      border-radius: 30px;
-      color: var(--verde);
-      font-size: 12px;
-      font-weight: 800;
-      white-space: nowrap;
-    }
-
-    .grila-retete {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0,1fr));
-      gap: 20px;
-    }
-
-    .card-reteta {
-      display: flex;
-      min-width: 0;
-      flex-direction: column;
-      overflow: hidden;
-      border: 1px solid rgba(220,225,214,.55);
-      border-radius: 20px;
-      background: var(--alb);
-      box-shadow: var(--umbra);
-      transition: transform .2s, box-shadow .2s;
-    }
-
-    .card-reteta:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 28px rgba(38,55,38,.14);
-    }
-
-    .imagine-card { position: relative; }
-
-    .imagine-card img {
-      display: block;
-      width: 100%;
-      height: 175px;
-      object-fit: cover;
-      background: var(--verde-deschis);
-    }
-
-    .categorie {
-      position: absolute;
-      top: 12px;
-      left: 12px;
-      padding: 5px 12px;
-      border-radius: 20px;
-      background: #e5efcf;
-      color: var(--verde-inchis);
-      font-size: 11px;
-      font-weight: 800;
-    }
-
-    .continut-card {
-      display: flex;
-      flex: 1;
-      flex-direction: column;
-      padding: 16px 17px 18px;
-    }
-
-    .continut-card h3 {
-      margin: 0 0 6px;
-      color: var(--verde-inchis);
-      font-size: 19px;
-      line-height: 1.25;
-    }
-
-    .descriere-card {
-      min-height: 42px;
-      margin: 0 0 13px;
-      color: var(--gri);
-      font-size: 13px;
-    }
-
-    .detalii {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 12px;
-      margin-top: auto;
-      color: var(--verde);
-      font-size: 12px;
-      font-weight: 800;
-    }
-
-    .buton {
-      display: inline-flex;
-      width: 100%;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 14px;
-      padding: 12px 17px;
-      border: 0;
-      border-radius: 12px;
-      background: var(--verde);
-      color: white;
-      font-size: 14px;
-      font-weight: 900;
-      cursor: pointer;
-      transition: background .2s, transform .2s;
-    }
-
-    .buton:hover {
-      transform: translateY(-1px);
-      background: var(--verde-inchis);
-    }
-
-    .buton:disabled {
-      opacity: .65;
-      cursor: wait;
-      transform: none;
-    }
-
-    .sfat {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      margin: 20px 0 14px;
-      padding: 17px 20px;
-      border: 1px solid #dfe8d6;
-      border-radius: 16px;
-      background: var(--verde-deschis);
-    }
-
-    .sfat-icon { font-size: 28px; }
-
-    .sfat h2 {
-      margin-bottom: 2px;
-      font-size: 17px;
-    }
-
-    .sfat p {
-      margin: 0;
-      color: #45564a;
-      font-size: 13px;
-    }
-
-    .sfat-decor {
-      margin-left: auto;
-      font-size: 26px;
-    }
-
-    footer {
-      margin-top: 14px;
-      padding: 16px 22px;
-      background: var(--verde);
-      color: white;
-      font-size: 12px;
-    }
-
-    .subsol-interior {
-      display: flex;
-      max-width: 1120px;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin: auto;
-    }
-
-    footer p { margin: 0; }
-
-    footer a {
-      text-decoration: underline;
-      text-underline-offset: 3px;
-    }
-
-    .overlay-reteta {
-      position: fixed;
-      z-index: 100;
-      inset: 0;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      overflow-y: auto;
-      padding: 22px;
-      background: rgba(25,32,27,.68);
-    }
-
-    .overlay-reteta.activ { display: flex; }
-
-    .fereastra-reteta {
-      position: relative;
-      width: min(680px, 100%);
-      max-height: calc(100vh - 44px);
-      overflow-y: auto;
-      padding: 30px;
-      border-radius: 23px;
-      background: var(--alb);
-      box-shadow: 0 22px 70px rgba(0,0,0,.3);
-      animation: aparitie .18s ease-out;
-    }
-
-    @keyframes aparitie {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .inchide {
-      position: absolute;
-      z-index: 2;
-      top: 13px;
-      right: 14px;
-      display: grid;
-      width: 36px;
-      height: 36px;
-      place-items: center;
-      border: 0;
-      border-radius: 50%;
-      background: var(--verde-deschis);
-      color: var(--verde-inchis);
-      font-size: 25px;
-      line-height: 1;
-      cursor: pointer;
-    }
-
-    .detaliu-reteta {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 18px;
-    }
-
-    .imagine-detaliu {
-      display: block;
-      width: 100%;
-      height: 230px;
-      border-radius: 15px;
-      object-fit: cover;
-      background: var(--verde-deschis);
-    }
-
-    .categorie-detaliu {
-      display: inline-block;
-      margin-bottom: 7px;
-      padding: 4px 11px;
-      border-radius: 20px;
-      background: var(--verde-deschis);
-      color: var(--verde);
-      font-size: 11px;
-      font-weight: 900;
-    }
-
-    .text-detaliu h2 {
-      margin: 0 40px 10px 0;
-      color: var(--verde-inchis);
-      font-size: 27px;
-    }
-
-    .descriere-detaliu {
-      margin: 13px 0 17px;
-      color: var(--gri);
-      font-size: 14px;
-    }
-
-    .coloane-reteta {
-      display: grid;
-      grid-template-columns: .9fr 1.1fr;
-      gap: 20px;
-    }
-
-    .coloane-reteta h3 {
-      margin: 0 0 10px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--linie);
-      color: var(--verde-inchis);
-      font-size: 15px;
-    }
-
-    .lista-ingrediente, .lista-pasi {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    .lista-ingrediente li {
-      display: flex;
-      align-items: flex-start;
-      gap: 7px;
-      padding: 4px 0;
-      font-size: 13px;
-    }
-
-    .lista-ingrediente li::before {
-      content: "•";
-      color: var(--verde);
-      font-weight: 900;
-    }
-
-    .lista-pasi { counter-reset: pas; }
-
-    .lista-pasi li {
-      display: grid;
-      grid-template-columns: 23px 1fr;
-      gap: 8px;
-      align-items: start;
-      margin: 0 0 10px;
-      font-size: 13px;
-      counter-increment: pas;
-    }
-
-    .lista-pasi li::before {
-      display: flex;
-      width: 22px;
-      height: 22px;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      background: var(--verde);
-      color: white;
-      content: counter(pas);
-      font-size: 11px;
-      font-weight: 900;
-    }
-
-    .sectiune-comentarii {
-      margin-top: 24px;
-      padding-top: 20px;
-      border-top: 1px solid var(--linie);
-    }
-
-    .sectiune-comentarii h3 {
-      margin: 0 0 12px;
-      color: var(--verde);
-    }
-
-    .formular-comentarii {
-      display: grid;
-      gap: 10px;
-      margin-bottom: 18px;
-    }
-
-    .formular-comentarii input,
-    .formular-comentarii textarea {
-      width: 100%;
-      padding: 11px 12px;
-      border: 1px solid #dce5d4;
-      border-radius: 10px;
-      background: #fffefa;
-      color: var(--text);
-      font-size: 14px;
-    }
-
-    .formular-comentarii textarea {
-      min-height: 90px;
-      resize: vertical;
-    }
-
-    .formular-comentarii input:focus,
-    .formular-comentarii textarea:focus {
-      outline: 2px solid var(--verde);
-      outline-offset: 2px;
-    }
-
-    .mesaj-filtru {
-      margin: 0;
-      color: #9b342c;
-      font-size: 13px;
-    }
-
-    .lista-comentarii {
-      display: grid;
-      gap: 12px;
-    }
-
-    .comentariu {
-      padding: 12px 14px;
-      border: 1px solid var(--linie);
-      border-radius: 12px;
-      background: #fffefa;
-    }
-
-    .autor-comentariu {
-      margin-bottom: 4px;
-      color: var(--verde);
-      font-size: 13px;
-      font-weight: 900;
-    }
-
-    .text-comentariu {
-      margin: 0;
-      overflow-wrap: anywhere;
-      white-space: pre-wrap;
-      font-size: 14px;
-    }
-
-    .comentariu-gol {
-      margin: 0;
-      color: var(--gri);
-      font-size: 13px;
-    }
-
-    .actiuni-modal {
-      display: flex;
-      justify-content: center;
-      margin-top: 18px;
-    }
-
-    .buton-secundar {
-      border: 1px solid #cbd8c4;
-      background: transparent;
-      color: var(--verde);
-    }
-
-    .buton-secundar:hover {
-      background: var(--verde);
-      color: white;
-    }
-
-    @media (max-width: 1050px) {
-      .bara-sus {
-        align-items: flex-start;
-        flex-direction: column;
-        padding: 14px 18px;
-      }
-
-      .navigare { justify-content: flex-start; }
-    }
-
-    @media (max-width: 760px) {
-      .pagina { padding: 0 18px; }
-      .hero { grid-template-columns: 1fr; }
-      .hero-text { padding: 25px 23px 20px; }
-
-      .hero-imagine {
-        min-height: 150px;
-        max-height: 180px;
-      }
-
-      .hero-imagine img {
-        min-height: 150px;
-        max-height: 180px;
-      }
-
-      .hero-imagine::before {
-        background: linear-gradient(180deg, var(--verde-deschis), transparent 45%);
-      }
-
-      .grila-retete {
-        grid-template-columns: repeat(2, minmax(0,1fr));
-        gap: 15px;
-      }
-
-      .imagine-card img { height: 155px; }
-    }
-
-    @media (max-width: 600px) {
-      .pagina { padding: 0 13px; }
-      .bara-sus { padding: 12px 13px; }
-      .logo { font-size: 28px; }
-      .navigare { gap: 9px 12px; font-size: 12px; }
-      .hero { margin-top: 13px; }
-      .hero-text { padding: 22px 19px; }
-      .hero p { font-size: 14px; }
-      .titlu-sectiune { align-items: flex-start; }
-
-      .grila-retete {
-        grid-template-columns: 1fr;
-        gap: 16px;
-      }
-
-      .imagine-card img { height: 205px; }
-      .continut-card { padding: 16px; }
-      .descriere-card { min-height: 0; }
-
-      .sfat {
-        align-items: flex-start;
-        gap: 10px;
-        padding: 15px;
-      }
-
-      .sfat-decor { display: none; }
-
-      .overlay-reteta {
-        align-items: flex-start;
-        padding: 10px;
-      }
-
-      .fereastra-reteta {
-        max-height: calc(100vh - 20px);
-        margin: auto 0;
-        padding: 21px;
-        border-radius: 18px;
-      }
-
-      .imagine-detaliu { height: 200px; }
-      .coloane-reteta { grid-template-columns: 1fr; gap: 15px; }
-      .text-detaliu h2 { font-size: 24px; }
-      .subsol-interior { justify-content: center; text-align: center; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        scroll-behavior: auto !important;
-        animation-duration: .01ms !important;
-        transition-duration: .01ms !important;
-      }
-    }
+    :root{--verde:#527a43;--verde-inchis:#365b30;--verde-deschis:#edf3e8;--crem:#fffaf1;--text:#30352c;--gri:#74796e;--alb:#fff;--linie:#e7ebdf;--umbra:0 8px 25px rgba(45,60,35,.09)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--crem);color:var(--text);font-family:'Nunito',sans-serif;line-height:1.6}body.modal-deschis{overflow:hidden}a{color:inherit;text-decoration:none}button,input,textarea{font:inherit}
+    header{background:rgba(255,255,255,.96);border-bottom:1px solid var(--linie)}
+    .bara-sus{max-width:1180px;margin:auto;padding:12px 22px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px 16px}
+    .logo{display:inline-flex;align-items:center;gap:7px;color:var(--verde);font-size:30px;font-weight:900;letter-spacing:-1px;white-space:nowrap}.logo-frunza{font-size:27px}
+    .navigare{display:flex;flex:1 1 650px;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:6px 8px;font-size:11px;font-weight:800}
+    .navigare a{position:relative;white-space:nowrap;padding:7px 7px 10px;border-radius:9px 9px 4px 4px;transition:background .2s,color .2s}
+    .navigare a::after{position:absolute;right:7px;bottom:4px;left:7px;height:3px;border-radius:4px;background:var(--accent,var(--verde));content:"";transform:scaleX(0);transform-origin:left;transition:transform .2s ease}
+    .navigare a:hover,.navigare a.activ{color:var(--verde-inchis);background:var(--verde-deschis)}.navigare a:hover::after,.navigare a.activ::after{transform:scaleX(1)}
+    .navigare a:nth-child(1){--accent:#e5a33b}.navigare a:nth-child(2){--accent:#e69a35}.navigare a:nth-child(3){--accent:#d96b4a}.navigare a:nth-child(4){--accent:#8c6bc1}.navigare a:nth-child(5){--accent:#d65d83}.navigare a:nth-child(6){--accent:#e2a23a}.navigare a:nth-child(7){--accent:#d65b4a}.navigare a:nth-child(8){--accent:#9a6ac0}.navigare a:nth-child(9){--accent:#c65e82}.navigare a:nth-child(10){--accent:#7b9b48}.navigare a:nth-child(11){--accent:#e08b43}.navigare a:nth-child(12){--accent:#4d9a9a}.navigare a:nth-child(13){--accent:#6486b8}
+    .pagina{max-width:1120px;margin:auto;padding:0 28px}.hero{display:grid;grid-template-columns:1.05fr .95fr;align-items:stretch;min-height:220px;margin:20px 0 28px;overflow:hidden;border-radius:22px;background:var(--verde-deschis)}.hero-text{padding:30px 34px;align-self:center}.eticheta-sus{color:var(--verde);font-size:12px;font-weight:900;letter-spacing:1.2px;text-transform:uppercase}.hero h1{margin:8px 0 12px;color:var(--verde-inchis);font-size:clamp(32px,4.5vw,46px);line-height:1.12;letter-spacing:-.8px}.hero p{max-width:500px;margin:0;color:#45564a;font-size:15px}.hero-imagine{position:relative;min-height:220px}.hero-imagine img{display:block;width:100%;height:100%;min-height:220px;object-fit:cover}.hero-imagine::before{position:absolute;inset:0;content:"";pointer-events:none;background:linear-gradient(90deg,var(--verde-deschis),rgba(237,243,232,.25) 25%,transparent 60%)}
+    .titlu-sectiune{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 2px 16px}.titlu-stanga{display:flex;align-items:center;gap:10px}.frunza{font-size:25px}h2{margin:0;color:var(--verde);font-size:clamp(22px,3vw,27px);line-height:1.25}.pastila{padding:7px 14px;border:1px solid #cddbc5;border-radius:30px;color:var(--verde);font-size:12px;font-weight:800;white-space:nowrap}
+    .grila-retete{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}.card-reteta{display:flex;min-width:0;flex-direction:column;overflow:hidden;border:1px solid rgba(220,225,214,.55);border-radius:20px;background:var(--alb);box-shadow:var(--umbra);transition:transform .2s,box-shadow .2s}.card-reteta:hover{transform:translateY(-5px);box-shadow:0 12px 28px rgba(38,55,38,.14)}.imagine-card{position:relative}.imagine-card img{display:block;width:100%;height:175px;object-fit:cover;background:var(--verde-deschis)}.categorie{position:absolute;top:12px;left:12px;padding:5px 12px;border-radius:20px;background:#e5efcf;color:var(--verde-inchis);font-size:11px;font-weight:800}.continut-card{display:flex;flex:1;flex-direction:column;padding:16px 17px 18px}.continut-card h3{margin:0 0 6px;color:var(--verde-inchis);font-size:19px;line-height:1.25}.descriere-card{min-height:42px;margin:0 0 13px;color:var(--gri);font-size:13px}.detalii{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:auto;color:var(--verde);font-size:12px;font-weight:800}
+    .buton{display:inline-flex;width:100%;align-items:center;justify-content:center;gap:8px;margin-top:14px;padding:12px 17px;border:0;border-radius:12px;background:var(--verde);color:white;font-size:14px;font-weight:900;cursor:pointer;transition:background .2s,transform .2s}.buton:hover{transform:translateY(-1px);background:var(--verde-inchis)}.buton:disabled{opacity:.65;cursor:wait;transform:none}
+    .incarca-mai-multe-wrap{display:grid;justify-items:center;gap:8px;margin:24px 0 10px}.buton-mai-multe{width:auto;min-width:230px;padding-inline:24px}.progres-retete{margin:0;color:var(--gri);font-size:13px;font-weight:700}
+    .sfat{display:flex;align-items:center;gap:15px;margin:20px 0 14px;padding:17px 20px;border:1px solid #dfe8d6;border-radius:16px;background:var(--verde-deschis)}.sfat-icon{font-size:28px}.sfat h2{margin-bottom:2px;font-size:17px}.sfat p{margin:0;color:#45564a;font-size:13px}.sfat-decor{margin-left:auto;font-size:26px}
+    footer{margin-top:14px;padding:16px 22px;background:var(--verde);color:white;font-size:12px}.subsol-interior{display:flex;max-width:1120px;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin:auto}footer p{margin:0}footer a{text-decoration:underline;text-underline-offset:3px}
+    .overlay-reteta{position:fixed;z-index:100;inset:0;display:none;align-items:center;justify-content:center;overflow-y:auto;padding:22px;background:rgba(25,32,27,.68)}.overlay-reteta.activ{display:flex}.fereastra-reteta{position:relative;width:min(680px,100%);max-height:calc(100vh - 44px);overflow-y:auto;padding:30px;border-radius:23px;background:var(--alb);box-shadow:0 22px 70px rgba(0,0,0,.3);animation:aparitie .18s ease-out}@keyframes aparitie{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    .inchide{position:absolute;z-index:2;top:13px;right:14px;display:grid;width:36px;height:36px;place-items:center;border:0;border-radius:50%;background:var(--verde-deschis);color:var(--verde-inchis);font-size:25px;line-height:1;cursor:pointer}.detaliu-reteta{display:grid;grid-template-columns:1fr;gap:18px}.imagine-detaliu{display:block;width:100%;height:230px;border-radius:15px;object-fit:cover;background:var(--verde-deschis)}.categorie-detaliu{display:inline-block;margin-bottom:7px;padding:4px 11px;border-radius:20px;background:var(--verde-deschis);color:var(--verde);font-size:11px;font-weight:900}.text-detaliu h2{margin:0 40px 10px 0;color:var(--verde-inchis);font-size:27px}.descriere-detaliu{margin:13px 0 17px;color:var(--gri);font-size:14px}
+    .coloane-reteta{display:grid;grid-template-columns:.9fr 1.1fr;gap:20px}.coloane-reteta h3{margin:0 0 10px;padding-bottom:8px;border-bottom:1px solid var(--linie);color:var(--verde-inchis);font-size:15px}.lista-ingrediente,.lista-pasi{margin:0;padding:0;list-style:none}.lista-ingrediente li{display:flex;align-items:flex-start;gap:7px;padding:4px 0;font-size:13px}.lista-ingrediente li::before{content:"•";color:var(--verde);font-weight:900}.lista-pasi{counter-reset:pas}.lista-pasi li{display:grid;grid-template-columns:23px 1fr;gap:8px;align-items:start;margin:0 0 10px;font-size:13px;counter-increment:pas}.lista-pasi li::before{display:flex;width:22px;height:22px;align-items:center;justify-content:center;border-radius:50%;background:var(--verde);color:white;content:counter(pas);font-size:11px;font-weight:900}
+    .sectiune-comentarii{margin-top:24px;padding-top:20px;border-top:1px solid var(--linie)}.sectiune-comentarii h3{margin:0 0 12px;color:var(--verde)}.formular-comentarii{display:grid;gap:10px;margin-bottom:18px}.formular-comentarii input,.formular-comentarii textarea{width:100%;padding:11px 12px;border:1px solid #dce5d4;border-radius:10px;background:#fffefa;color:var(--text);font-size:14px}.formular-comentarii textarea{min-height:90px;resize:vertical}.formular-comentarii input:focus,.formular-comentarii textarea:focus{outline:2px solid var(--verde);outline-offset:2px}.mesaj-filtru{margin:0;color:#9b342c;font-size:13px}.lista-comentarii{display:grid;gap:10px}.comentariu{padding:12px 14px;border:1px solid var(--linie);border-radius:12px;background:#fffefa}.autor-comentariu{color:var(--verde-inchis);font-size:13px;font-weight:900}.text-comentariu{margin:4px 0;font-size:14px;overflow-wrap:anywhere;white-space:pre-wrap}.comentariu-gol{color:var(--gri);font-size:13px}.actiuni-modal{display:flex;justify-content:center;margin-top:18px}.buton-secundar{width:auto;border:1px solid #cbd8c4;background:transparent;color:var(--verde)}.buton-secundar:hover{background:var(--verde);color:white}
+    @media(max-width:1050px){.bara-sus{align-items:flex-start;flex-direction:column}.navigare{justify-content:flex-start}}
+    @media(max-width:760px){.pagina{padding:0 18px}.hero{grid-template-columns:1fr}.hero-text{padding:25px 23px 20px}.hero-imagine{min-height:150px;max-height:180px}.hero-imagine img{min-height:150px;max-height:180px}.hero-imagine::before{background:linear-gradient(180deg,var(--verde-deschis),transparent 45%)}.grila-retete{grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.imagine-card img{height:155px}}
+    @media(max-width:600px){.pagina{padding:0 13px}.bara-sus{padding:12px 13px}.logo{font-size:28px}.navigare{gap:9px 12px;font-size:12px}.hero{margin-top:13px}.hero-text{padding:22px 19px}.hero p{font-size:14px}.titlu-sectiune{align-items:flex-start}.grila-retete{grid-template-columns:1fr;gap:16px}.imagine-card img{height:205px}.continut-card{padding:16px}.descriere-card{min-height:0}.sfat{align-items:flex-start;gap:10px;padding:15px}.sfat-decor{display:none}.overlay-reteta{align-items:flex-start;padding:10px}.fereastra-reteta{max-height:calc(100vh - 20px);margin:auto 0;padding:21px;border-radius:18px}.imagine-detaliu{height:200px}.coloane-reteta{grid-template-columns:1fr;gap:15px}.text-detaliu h2{font-size:24px}.subsol-interior{justify-content:center;text-align:center}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
   </style>
 </head>
-
 <body>
 <header>
   <div class="bara-sus">
-    <a class="logo" href="index.html" aria-label="Poftim! - pagina principală">
-      <span class="logo-frunza" aria-hidden="true">🥬</span>
-      <span>Poftim!</span>
-    </a>
-
+    <a class="logo" href="index.html" aria-label="Poftim! - pagina principală"><span class="logo-frunza" aria-hidden="true">🥬</span><span>Poftim!</span></a>
     <nav class="navigare" aria-label="Navigare principală">
       <a href="index.html">Acasă</a>
       <a href="mic-dejun.html">Mic dejun</a>
@@ -706,254 +52,1368 @@
       <a href="retete-traditionale.html">Tradiționale</a>
       <a href="air-fryer.html">Air Fryer</a>
       <a href="ciorbe-si-supe.html">Ciorbe și supe</a>
+      <a href="contact.html">Contact</a>
     </nav>
   </div>
 </header>
-
 <main class="pagina">
   <section class="hero">
-    <div class="hero-text">
-      <span class="eticheta-sus">Gust bun, buget echilibrat</span>
-      <h1>Idei de prânz</h1>
-      <p>Descoperă rețete de prânz gustoase, simple și accesibile, perfecte pentru mesele de zi cu zi.</p>
-    </div>
-
-    <div class="hero-imagine" aria-hidden="true">
-      <img src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1200&q=85" alt="">
-    </div>
+    <div class="hero-text"><span class="eticheta-sus">Gust bun, buget echilibrat</span><h1>Idei de prânz</h1><p>Descoperă rețete de prânz gustoase, simple și accesibile, perfecte pentru mesele de zi cu zi.</p></div>
+    <div class="hero-imagine" aria-hidden="true"><img src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1200&q=85" alt=""></div>
   </section>
-
   <section aria-labelledby="titlu-retete">
-    <div class="titlu-sectiune">
-      <div class="titlu-stanga">
-        <span class="frunza" aria-hidden="true">🌿</span>
-        <h2 id="titlu-retete">Rețete pentru prânz</h2>
-      </div>
-      <span class="pastila">4 rețete</span>
-    </div>
-
-    <div class="grila-retete">
-      <article class="card-reteta">
-        <div class="imagine-card">
-          <img src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=85" alt="Bol cu supă și legume" loading="lazy">
-          <span class="categorie">Ca la bunica</span>
-        </div>
-        <div class="continut-card">
-          <h3>Ciorbă de pui cu legume</h3>
-          <p class="descriere-card">Ciorbă aromată cu pui, morcovi, ardei și verdeață.</p>
-          <div class="detalii"><span>◷ 50 minute</span><span>▤ Buget redus</span></div>
-          <button class="buton" type="button" data-reteta="ciorba">Vezi rețeta →</button>
-        </div>
-      </article>
-
-      <article class="card-reteta">
-        <div class="imagine-card">
-          <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=900&q=85" alt="Paste cu sos de roșii" loading="lazy">
-          <span class="categorie">Preferata tuturor</span>
-        </div>
-        <div class="continut-card">
-          <h3>Paste Bolognese</h3>
-          <p class="descriere-card">Paste cu sos de roșii, carne tocată și ierburi aromatice.</p>
-          <div class="detalii"><span>◷ 30 minute</span><span>▤ Buget redus</span></div>
-          <button class="buton" type="button" data-reteta="paste">Vezi rețeta →</button>
-        </div>
-      </article>
-
-      <article class="card-reteta">
-        <div class="imagine-card">
-          <img src="https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=900&q=85" alt="Pui servit cu orez și legume" loading="lazy">
-          <span class="categorie">Simplu și gustos</span>
-        </div>
-        <div class="continut-card">
-          <h3>Pui cu orez și legume</h3>
-          <p class="descriere-card">Orez pufos, bucăți de pui și legume colorate.</p>
-          <div class="detalii"><span>◷ 35 minute</span><span>▤ Ingrediente simple</span></div>
-          <button class="buton" type="button" data-reteta="pui">Vezi rețeta →</button>
-        </div>
-      </article>
-
-      <article class="card-reteta">
-        <div class="imagine-card">
-          <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=900&q=85" alt="Ardei umpluți gătiți în sos" loading="lazy">
-          <span class="categorie">Rețetă tradițională</span>
-        </div>
-        <div class="continut-card">
-          <h3>Ardei umpluți</h3>
-          <p class="descriere-card">Ardei umpluți cu carne, orez și sos de roșii.</p>
-          <div class="detalii"><span>◷ 70 minute</span><span>▤ Pentru familie</span></div>
-          <button class="buton" type="button" data-reteta="ardei">Vezi rețeta →</button>
-        </div>
-      </article>
-    </div>
+    <div class="titlu-sectiune"><div class="titlu-stanga"><span class="frunza" aria-hidden="true">🌿</span><h2 id="titlu-retete">Rețete pentru prânz</h2></div><span class="pastila">50 de rețete</span></div>
+    <div class="grila-retete" id="grila-retete" aria-live="polite"></div>
+    <div class="incarca-mai-multe-wrap"><button class="buton buton-mai-multe" id="buton-mai-multe" type="button">Vezi mai multe rețete</button><p class="progres-retete" id="progres-retete" aria-live="polite">Se afișează 5 din 50 de rețete.</p></div>
   </section>
-
-  <section class="sfat">
-    <span class="sfat-icon" aria-hidden="true">♧</span>
-    <div>
-      <h2>Un sfat pentru bugetul tău</h2>
-      <p>Planifică mesele pentru câteva zile și folosește legumele de sezon. Poți transforma ingredientele rămase într-un prânz gustos.</p>
-    </div>
-    <span class="sfat-decor" aria-hidden="true">🌱</span>
-  </section>
+  <section class="sfat"><span class="sfat-icon" aria-hidden="true">💡</span><div><h2>Un sfat pentru bugetul tău</h2><p>Planifică mesele pentru câteva zile și folosește legumele de sezon. Poți transforma ingredientele rămase într-un prânz gustos.</p></div><span class="sfat-decor" aria-hidden="true">🌱</span></section>
 </main>
-
-<footer>
-  <div class="subsol-interior">
-    <p>© 2026 Poftim! — Idei gustoase, pe înțelesul tuturor.</p>
-    <a href="index.html">Înapoi la pagina principală</a>
-  </div>
-</footer>
-
+<footer><div class="subsol-interior"><p>© 2026 Poftim! — Idei gustoase, pe înțelesul tuturor.</p><a href="contact.html">Contactează-ne</a></div></footer>
 <div class="overlay-reteta" id="overlay-reteta" role="dialog" aria-modal="true" aria-labelledby="titlu-reteta-modal" aria-hidden="true">
   <div class="fereastra-reteta">
     <button class="inchide" type="button" id="inchide-reteta" aria-label="Închide rețeta">×</button>
-
-    <div class="detaliu-reteta">
-      <img class="imagine-detaliu" id="imagine-reteta-modal" src="" alt="">
-      <div class="text-detaliu">
-        <span class="categorie-detaliu" id="categorie-reteta-modal"></span>
-        <h2 id="titlu-reteta-modal"></h2>
-        <div class="detalii">
-          <span id="timp-reteta-modal"></span>
-          <span id="buget-reteta-modal"></span>
-        </div>
-        <p class="descriere-detaliu" id="descriere-reteta-modal"></p>
-      </div>
-    </div>
-
-    <div class="coloane-reteta">
-      <section>
-        <h3>🧺 Ingrediente</h3>
-        <ul class="lista-ingrediente" id="ingrediente-reteta-modal"></ul>
-      </section>
-      <section>
-        <h3>♨️ Mod de preparare</h3>
-        <ol class="lista-pasi" id="pasi-reteta-modal"></ol>
-      </section>
-    </div>
-
-    <section class="sectiune-comentarii" aria-labelledby="titlu-comentarii">
-      <h3 id="titlu-comentarii">💬 Comentarii</h3>
-      <form class="formular-comentarii" id="formular-comentarii">
-        <input id="nume-comentariu" type="text" maxlength="40" placeholder="Numele tău" aria-label="Numele tău" required>
-        <textarea id="text-comentariu" maxlength="500" placeholder="Scrie un comentariu despre rețetă..." aria-label="Comentariul tău" required></textarea>
-        <p class="mesaj-filtru" id="mesaj-filtru" aria-live="polite"></p>
-        <button class="buton" type="submit">Adaugă comentariul</button>
-      </form>
-
-      <div class="lista-comentarii" id="lista-comentarii" aria-live="polite">
-        <p class="comentariu-gol">Deschide o rețetă pentru a vedea comentariile.</p>
-      </div>
-    </section>
-
-    <div class="actiuni-modal">
-      <button class="buton buton-secundar" type="button" id="inapoi-retete">← Înapoi la rețete</button>
-    </div>
+    <div class="detaliu-reteta"><img class="imagine-detaliu" id="imagine-reteta-modal" src="" alt=""><div class="text-detaliu"><span class="categorie-detaliu" id="categorie-reteta-modal"></span><h2 id="titlu-reteta-modal"></h2><div class="detalii"><span id="timp-reteta-modal"></span><span id="buget-reteta-modal"></span></div><p class="descriere-detaliu" id="descriere-reteta-modal"></p></div></div>
+    <div class="coloane-reteta"><section><h3>🧺 Ingrediente</h3><ul class="lista-ingrediente" id="ingrediente-reteta-modal"></ul></section><section><h3>♨️ Mod de preparare</h3><ol class="lista-pasi" id="pasi-reteta-modal"></ol></section></div>
+    <section class="sectiune-comentarii" aria-labelledby="titlu-comentarii"><h3 id="titlu-comentarii">💬 Comentarii</h3><form class="formular-comentarii" id="formular-comentarii"><input id="nume-comentariu" type="text" maxlength="40" placeholder="Numele tău" aria-label="Numele tău" required><textarea id="text-comentariu" maxlength="500" placeholder="Scrie un comentariu despre rețetă..." aria-label="Comentariul tău" required></textarea><p class="mesaj-filtru" id="mesaj-filtru" aria-live="polite"></p><button class="buton" type="submit">Adaugă comentariul</button></form><div class="lista-comentarii" id="lista-comentarii" aria-live="polite"><p class="comentariu-gol">Deschide o rețetă pentru a vedea comentariile.</p></div></section>
+    <div class="actiuni-modal"><button class="buton buton-secundar" type="button" id="inapoi-retete">← Înapoi la rețete</button></div>
   </div>
 </div>
-
 <script>
 "use strict";
-
-const retete = {
-  ciorba: {
-    titlu: "Ciorbă de pui cu legume",
-    categorie: "Ca la bunica",
-    timp: "◷ 50 minute",
-    buget: "▤ Buget redus",
-    descriere: "O ciorbă aromată, cu pui și legume proaspete, potrivită pentru prânz.",
-    imagine: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1000&q=85",
-    alt: "Bol cu supă și legume",
-    ingrediente: [
-      "400 g carne de pui", "2 morcovi", "1 ceapă", "1 ardei",
-      "2 cartofi", "2 roșii", "2 linguri ulei", "Sare și piper",
-      "Pătrunjel proaspăt", "Borș sau zeamă de lămâie, după gust"
+const retete =
+[  {
+    "id": "pranz01",
+    "titlu": "Ciorbă de pui cu legume",
+    "categorie": "Ca la bunica",
+    "timp": "◷ 50 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Ciorbă aromată cu pui, morcovi, ardei și verdeață.",
+    "imagine": "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Ciorbă de pui cu legume",
+    "ingrediente": [
+      "400 g carne de pui",
+      "2 morcovi",
+      "1 ceapă",
+      "1 ardei gras",
+      "2 cartofi",
+      "2 roșii",
+      "2 linguri ulei",
+      "1,5 l apă",
+      "Sare, piper și pătrunjel",
+      "Borș sau zeamă de lămâie, după gust"
     ],
-    pasi: [
-      "Spală legumele și taie-le în cubulețe.",
-      "Pune puiul într-o oală cu apă și fierbe-l, îndepărtând spuma dacă este nevoie.",
-      "Adaugă ceapa, morcovii, ardeiul și cartofii.",
-      "Când carnea și legumele sunt aproape fierte, adaugă roșiile.",
-      "Acrește după gust, potrivește de sare și mai lasă să fiarbă câteva minute.",
-      "Presară pătrunjel proaspăt înainte de servire."
+    "pasi": [
+      "Spală legumele și taie-le în cubulețe potrivite.",
+      "Pune carnea într-o oală cu apă; cu ajutorul unui adult, adu la fierbere și îndepărtează spuma formată.",
+      "Adaugă ceapa, morcovii și ardeiul și fierbe la foc potrivit aproximativ 15 minute.",
+      "Pune cartofii și roșiile și continuă fierberea până când carnea și legumele sunt bine pătrunse.",
+      "Acrește după gust, potrivește de sare și presară pătrunjel înainte de servire."
     ]
   },
-
-  paste: {
-    titlu: "Paste Bolognese",
-    categorie: "Preferata tuturor",
-    timp: "◷ 30 minute",
-    buget: "▤ Buget redus",
-    descriere: "Paste cu sos bogat de roșii și carne tocată, perfecte pentru un prânz consistent.",
-    imagine: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=1000&q=85",
-    alt: "Paste cu sos de roșii",
-    ingrediente: [
-      "250 g paste", "250 g carne tocată", "1 ceapă",
-      "2 căței de usturoi", "400 g roșii tocate sau passata",
-      "1 lingură ulei", "Sare și piper", "Busuioc sau oregano",
+  {
+    "id": "pranz02",
+    "titlu": "Paste Bolognese",
+    "categorie": "Preferata tuturor",
+    "timp": "◷ 30 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Paste cu sos de roșii, carne tocată și ierburi aromatice.",
+    "imagine": "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Paste cu sos Bolognese",
+    "ingrediente": [
+      "250 g paste",
+      "250 g carne tocată de vită sau curcan",
+      "1 ceapă mică",
+      "1 morcov mic",
+      "2 căței usturoi",
+      "400 g passata de roșii",
+      "1 lingură ulei",
+      "Sare, piper și oregano",
       "Parmezan, opțional"
     ],
-    pasi: [
-      "Fierbe pastele conform instrucțiunilor de pe ambalaj.",
-      "Toacă ceapa și usturoiul, apoi călește-le în puțin ulei.",
-      "Adaugă carnea tocată și gătește până își schimbă culoarea și este bine făcută.",
-      "Pune roșiile și condimentele, apoi fierbe sosul la foc mic 15–20 de minute.",
-      "Scurge pastele și amestecă-le cu sosul.",
-      "Servește cu busuioc sau parmezan, dacă dorești."
+    "pasi": [
+      "Fierbe pastele în apă cu sare, conform instrucțiunilor de pe ambalaj.",
+      "Toacă ceapa, morcovul și usturoiul foarte mărunt.",
+      "Cu supravegherea unui adult, gătește legumele în ulei 3–4 minute, apoi adaugă carnea.",
+      "Amestecă și gătește până când carnea este complet pătrunsă; adaugă passata și oregano.",
+      "Fierbe sosul la foc mic 12–15 minute, apoi amestecă-l cu pastele scurse și servește."
     ]
   },
-
-  pui: {
-    titlu: "Pui cu orez și legume",
-    categorie: "Simplu și gustos",
-    timp: "◷ 35 minute",
-    buget: "▤ Ingrediente simple",
-    descriere: "Un preparat ușor de pregătit, cu pui fraged, orez și legume colorate.",
-    imagine: "https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=1000&q=85",
-    alt: "Pui cu orez și legume",
-    ingrediente: [
-      "300 g piept de pui", "180 g orez", "1 morcov",
-      "1 ardei", "1 ceapă mică", "2 linguri ulei",
-      "450 ml apă sau supă", "Sare și piper", "Pătrunjel, opțional"
+  {
+    "id": "pranz03",
+    "titlu": "Pui cu orez și legume",
+    "categorie": "Simplu și gustos",
+    "timp": "◷ 35 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Orez pufos, bucăți de pui și legume colorate.",
+    "imagine": "https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Pui cu orez și legume",
+    "ingrediente": [
+      "300 g piept de pui",
+      "180 g orez",
+      "1 morcov",
+      "1 ardei",
+      "1 ceapă mică",
+      "450 ml supă sau apă",
+      "2 linguri ulei",
+      "Sare, piper și pătrunjel"
     ],
-    pasi: [
+    "pasi": [
       "Taie puiul în bucăți mici și legumele în cubulețe.",
-      "Într-o tigaie adâncă, călește ceapa și morcovul în ulei.",
-      "Adaugă puiul și gătește-l până se rumenește ușor la exterior.",
-      "Pune ardeiul și orezul spălat, apoi amestecă.",
-      "Adaugă apa sau supa, asezonează și fierbe la foc mic până când orezul este fraged și puiul complet gătit.",
-      "Lasă preparatul câteva minute să se odihnească și presară pătrunjel."
+      "Clătește orezul în apă rece până când apa este mai limpede.",
+      "Cu ajutorul unui adult, călește ceapa și morcovul în ulei, apoi adaugă puiul și gătește-l complet.",
+      "Adaugă ardeiul și orezul și amestecă timp de un minut.",
+      "Toarnă supa sau apa, asezonează și fierbe acoperit la foc mic până când orezul este fraged. Lasă 5 minute înainte de servire."
     ]
   },
-
-  ardei: {
-    titlu: "Ardei umpluți",
-    categorie: "Rețetă tradițională",
-    timp: "◷ 70 minute",
-    buget: "▤ Pentru familie",
-    descriere: "Ardei umpluți cu carne și orez, gătiți într-un sos aromat de roșii.",
-    imagine: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=1000&q=85",
-    alt: "Ardei umpluți gătiți în sos",
-    ingrediente: [
-      "4 ardei grași", "300 g carne tocată", "80 g orez",
-      "1 ceapă", "400 ml passata de roșii", "2 linguri ulei",
-      "Sare și piper", "Mărar sau pătrunjel", "Apă cât este necesar"
+  {
+    "id": "pranz04",
+    "titlu": "Ardei umpluți",
+    "categorie": "Rețetă tradițională",
+    "timp": "◷ 75 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Ardei umpluți cu carne, orez și sos de roșii.",
+    "imagine": "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Ardei umpluți în sos",
+    "ingrediente": [
+      "4 ardei grași",
+      "300 g carne tocată",
+      "70 g orez",
+      "1 ceapă",
+      "400 ml passata de roșii",
+      "1 lingură ulei",
+      "150 ml apă",
+      "Sare, piper și mărar"
     ],
-    pasi: [
-      "Spală ardeii și îndepărtează cotoarele și semințele.",
-      "Toacă ceapa și călește-o ușor în ulei.",
-      "Amestecă ceapa cu carnea tocată, orezul spălat și condimentele.",
-      "Umple ardeii fără să presezi prea tare compoziția.",
-      "Așază ardeii într-o oală și adaugă sosul de roșii și suficientă apă.",
-      "Fierbe la foc mic, cu capac, până când ardeii și umplutura sunt bine gătite.",
-      "Presară verdeață și servește cald."
+    "pasi": [
+      "Spală ardeii, taie capacele și îndepărtează semințele.",
+      "Clătește orezul și toacă ceapa; amestecă-le cu carnea, sarea, piperul și mărarul.",
+      "Umple ardeii fără să presezi prea tare compoziția și așază-i într-o cratiță.",
+      "Amestecă passata cu apa și uleiul și toarnă sosul în jurul ardeilor.",
+      "Cu supravegherea unui adult, fierbe acoperit la foc mic aproximativ 50–60 de minute, până când umplutura este bine gătită."
     ]
-  }
-};
+  },
+  {
+    "id": "pranz05",
+    "titlu": "Ciorbă de perișoare",
+    "categorie": "Tradițional",
+    "timp": "◷ 60 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Ciorbă cu perișoare fragede și legume.",
+    "imagine": "https://images.unsplash.com/photo-1476124369491-e7addf5db371?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Ciorbă de perișoare",
+    "ingrediente": [
+      "300 g carne tocată",
+      "50 g orez",
+      "1 ou",
+      "1 morcov",
+      "1 ceapă",
+      "1 ardei",
+      "2 linguri passata",
+      "1,5 l apă",
+      "Borș după gust",
+      "Sare, leuștean și pătrunjel"
+    ],
+    "pasi": [
+      "Amestecă într-un bol carnea cu orezul spălat, oul și puțină sare.",
+      "Formează perișoare mici cu mâinile umezite.",
+      "Taie morcovul, ceapa și ardeiul și pune-le la fiert în apă.",
+      "Adaugă perișoarele una câte una în supa care fierbe ușor și gătește până sunt pătrunse.",
+      "Pune passata și borșul după gust, mai fierbe câteva minute și adaugă verdeața."
+    ]
+  },
+   {
+    "id": "pranz06",
+    "titlu": "Supă cremă de legume",
+    "categorie": "Ușor și hrănitor",
+    "timp": "◷ 35 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Supă fină din morcovi, cartofi și dovlecel.",
+    "imagine": "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Supă cremă de legume",
+    "ingrediente": [
+      "2 morcovi",
+      "2 cartofi",
+      "1 dovlecel mic",
+      "1 ceapă",
+      "700 ml apă sau supă de legume",
+      "1 lingură ulei de măsline",
+      "2 linguri iaurt",
+      "Sare și crutoane"
+    ],
+    "pasi": [
+      "Spală, curăță și taie legumele în bucăți aproximativ egale.",
+      "Pune legumele într-o oală și adaugă apa sau supa.",
+      "Cu supravegherea unui adult, fierbe la foc mediu 20–25 de minute, până când legumele sunt moi.",
+      "Lasă puțin să se răcorească și pasează cu blenderul până obții o cremă fină.",
+      "Adaugă uleiul și servește cu iaurt și crutoane."
+    ]
+  },
+  {
+    "id": "pranz07",
+    "titlu": "Pui la cuptor cu cartofi",
+    "categorie": "Pentru toată familia",
+    "timp": "◷ 55 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Bucăți de pui rumenite cu cartofi și ierburi.",
+    "imagine": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Pui la cuptor cu cartofi",
+    "ingrediente": [
+      "500 g pulpe dezosate de pui",
+      "500 g cartofi",
+      "1 ceapă roșie",
+      "2 linguri ulei",
+      "1 linguriță boia dulce",
+      "1 linguriță oregano",
+      "Sare și piper",
+      "100 ml apă"
+    ],
+    "pasi": [
+      "Spală cartofii și taie-i în cuburi potrivite; feliază ceapa.",
+      "Așază puiul și legumele într-o tavă și adaugă uleiul și condimentele.",
+      "Amestecă pentru a distribui uniform condimentele și toarnă apa în tavă.",
+      "Cu ajutorul unui adult, coace la 190°C aproximativ 40–45 de minute, până când puiul este complet gătit și cartofii sunt moi.",
+      "Lasă preparatul 5 minute să se odihnească și servește cu salată."
+    ]
+  },
+  {
+    "id": "pranz08",
+    "titlu": "Musaca de cartofi",
+    "categorie": "Mâncare de familie",
+    "timp": "◷ 65 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Straturi de cartofi și carne într-un preparat rumenit la cuptor.",
+    "imagine": "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Musaca de cartofi",
+    "ingrediente": [
+      "600 g cartofi",
+      "300 g carne tocată",
+      "1 ceapă",
+      "200 ml passata",
+      "1 ou",
+      "100 g iaurt",
+      "1 lingură ulei",
+      "Sare, piper și cimbru"
+    ],
+    "pasi": [
+      "Spală cartofii și fierbe-i în coajă până se înmoaie, apoi lasă-i să se răcorească și curăță-i.",
+      "Toacă ceapa și gătește-o cu ulei; adaugă carnea și gătește până este pătrunsă.",
+      "Pune passata și condimentele peste carne și fierbe sosul 5 minute.",
+      "Taie cartofii rondele și așază într-un vas un strat de cartofi, unul de carne, apoi repetă.",
+      "Amestecă oul cu iaurtul, toarnă deasupra și coace la 180°C aproximativ 25 de minute, cu ajutorul unui adult."
+    ]
+  },
+  {
+    "id": "pranz09",
+    "titlu": "Pilaf cu ciuperci",
+    "categorie": "Vegetarian",
+    "timp": "◷ 30 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Orez cremos cu ciuperci și verdeață.",
+    "imagine": "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Pilaf cu ciuperci",
+    "ingrediente": [
+      "180 g orez",
+      "250 g ciuperci",
+      "1 ceapă",
+      "1 morcov",
+      "450 ml supă de legume",
+      "1 lingură ulei",
+      "Sare și piper",
+      "Pătrunjel"
+    ],
+    "pasi": [
+      "Curăță ciupercile cu un prosop umed și feliază-le.",
+      "Toacă ceapa și morcovul și gătește-le în ulei 3 minute.",
+      "Adaugă ciupercile și gătește până când scade lichidul lăsat de ele.",
+      "Pune orezul spălat și supa de legume, apoi amestecă și asezonează.",
+      "Fierbe acoperit la foc mic până când orezul absoarbe lichidul; presară pătrunjel."
+    ]
+  },
+  {
+    "id": "pranz10",
+    "titlu": "Chiftele la cuptor cu piure",
+    "categorie": "Clasic",
+    "timp": "◷ 45 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Chiftele coapte, servite cu piure fin de cartofi.",
+    "imagine": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Chiftele cu piure",
+    "ingrediente": [
+      "400 g carne tocată de curcan",
+      "1 ou",
+      "1 felie pâine",
+      "2 linguri lapte",
+      "1 ceapă mică",
+      "500 g cartofi",
+      "100 ml lapte pentru piure",
+      "1 lingură unt",
+      "Sare, piper și pătrunjel"
+    ],
+    "pasi": [
+      "Înmoaie pâinea în lapte și apoi stoarce-o ușor.",
+      "Amestecă pâinea cu carnea, oul, ceapa tocată, pătrunjelul și condimentele.",
+      "Formează chiftele și așază-le într-o tavă cu hârtie de copt.",
+      "Cu ajutorul unui adult, coace la 190°C aproximativ 20–25 de minute, până sunt complet gătite.",
+      "Fierbe cartofii curățați, scurge-i și pasează-i cu unt și laptele încălzit. Servește împreună."
+    ]
+  },
+   {
+    "id": "pranz11",
+    "titlu": "Somon la cuptor cu legume",
+    "categorie": "Pește",
+    "timp": "◷ 25 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "File de somon cu broccoli și morcov copt.",
+    "imagine": "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Somon cu legume",
+    "ingrediente": [
+      "2 fileuri somon, aproximativ 300 g",
+      "1 broccoli mic",
+      "1 morcov",
+      "1 lămâie",
+      "1 lingură ulei de măsline",
+      "Sare și piper",
+      "Mărar"
+    ],
+    "pasi": [
+      "Spală broccoli și morcovul și taie-le în bucăți mici.",
+      "Așază legumele într-o tavă, stropește cu jumătate din ulei și amestecă.",
+      "Pune fileurile de somon în tavă și adaugă restul de ulei și puțină lămâie.",
+      "Cu ajutorul unui adult, coace la 190°C aproximativ 12–15 minute, până când peștele este gătit complet și se desface ușor.",
+      "Presară mărar și servește cu felii de lămâie."
+    ]
+  },
+  {
+    "id": "pranz12",
+    "titlu": "Lasagna cu carne",
+    "categorie": "Preferata familiei",
+    "timp": "◷ 70 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Foi de lasagna, sos de carne și sos alb cremos.",
+    "imagine": "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Lasagna cu carne",
+    "ingrediente": [
+      "8–10 foi lasagna",
+      "300 g carne tocată",
+      "400 g passata",
+      "1 ceapă",
+      "30 g unt",
+      "30 g făină",
+      "400 ml lapte",
+      "80 g mozzarella",
+      "Sare, piper și oregano"
+    ],
+    "pasi": [
+      "Toacă ceapa și gătește-o cu carnea într-o tigaie până când carnea este pătrunsă.",
+      "Adaugă passata, oregano și puțină sare și fierbe sosul 10 minute.",
+      "Pentru sosul alb, topește untul, încorporează făina și adaugă laptele treptat, amestecând până se îngroașă.",
+      "Într-un vas, alternează foi de lasagna, sos de carne și sos alb; repetă straturile și încheie cu mozzarella.",
+      "Cu ajutorul unui adult, coace conform instrucțiunilor foilor, aproximativ 35–40 de minute la 180°C; lasă să stea 10 minute înainte de tăiere."
+    ]
+  },
+  {
+    "id": "pranz13",
+    "titlu": "Tocăniță de cartofi",
+    "categorie": "Tradițional",
+    "timp": "◷ 40 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Cartofi gătiți în sos de roșii cu ceapă și boia dulce.",
+    "imagine": "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Tocăniță de cartofi",
+    "ingrediente": [
+      "600 g cartofi",
+      "1 ceapă",
+      "1 ardei",
+      "250 ml passata",
+      "1 lingură ulei",
+      "350 ml apă",
+      "1 linguriță boia dulce",
+      "Sare, piper și pătrunjel"
+    ],
+    "pasi": [
+      "Curăță cartofii și taie-i în cuburi mari.",
+      "Toacă ceapa și ardeiul și gătește-le în ulei până se înmoaie.",
+      "Adaugă boiaua și passata, apoi toarnă apa.",
+      "Pune cartofii, acoperă și fierbe la foc mic până sunt fragezi, amestecând din când în când.",
+      "Potrivește gustul și adaugă pătrunjel tocat la final."
+    ]
+  },
+  {
+    "id": "pranz14",
+    "titlu": "Mâncare de mazăre cu pui",
+    "categorie": "De zi cu zi",
+    "timp": "◷ 35 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Mazăre fragedă cu pui și sos de roșii.",
+    "imagine": "https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Mâncare de mazăre cu pui",
+    "ingrediente": [
+      "300 g piept de pui",
+      "400 g mazăre congelată",
+      "1 ceapă",
+      "1 morcov",
+      "200 ml passata",
+      "1 lingură ulei",
+      "250 ml apă",
+      "Sare, piper și mărar"
+    ],
+    "pasi": [
+      "Taie puiul în cuburi și legumele în bucăți mici.",
+      "Gătește ceapa și morcovul în ulei, apoi adaugă puiul.",
+      "Amestecă până când puiul este gătit la exterior și nu mai este crud.",
+      "Adaugă mazărea, passata și apa și fierbe acoperit până când mazărea este fragedă și puiul complet gătit.",
+      "Potrivește de sare și presară mărar înainte de servire."
+    ]
+  },
+  {
+    "id": "pranz15",
+    "titlu": "Fasole verde cu usturoi și roșii",
+    "categorie": "Vegetarian",
+    "timp": "◷ 25 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Fasole verde fragedă într-un sos simplu de roșii.",
+    "imagine": "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Fasole verde cu roșii",
+    "ingrediente": [
+      "400 g fasole verde",
+      "2 roșii",
+      "2 căței usturoi",
+      "1 lingură ulei",
+      "100 ml apă",
+      "Sare și piper",
+      "Mărar"
+    ],
+    "pasi": [
+      "Spală fasolea și taie capetele păstăilor.",
+      "Opărește fasolea 5 minute în apă clocotită, apoi scurge-o.",
+      "Toacă usturoiul și gătește-l foarte puțin în ulei, fără să se rumenească.",
+      "Adaugă roșiile tocate și apa, apoi pune fasolea și fierbe până devine fragedă.",
+      "Asezonează și presară mărar înainte de servire."
+    ]
+  },
+   {
+    "id": "pranz16",
+    "titlu": "Ghiveci de legume",
+    "categorie": "De post",
+    "timp": "◷ 40 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Amestec colorat de legume gătite lent.",
+    "imagine": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Ghiveci de legume",
+    "ingrediente": [
+      "1 vânătă mică",
+      "1 dovlecel",
+      "1 ardei",
+      "2 morcovi",
+      "1 ceapă",
+      "2 roșii",
+      "2 linguri ulei",
+      "150 ml apă",
+      "Sare, piper și pătrunjel"
+    ],
+    "pasi": [
+      "Spală toate legumele și taie-le în cuburi potrivite.",
+      "Gătește ceapa și morcovul în ulei 4 minute.",
+      "Adaugă ardeiul, vânăta și dovlecelul și amestecă ușor.",
+      "Pune roșiile și apa, acoperă și gătește la foc mic până când legumele sunt fragede.",
+      "Potrivește de sare și piper și presară pătrunjel."
+    ]
+  },
+  {
+    "id": "pranz17",
+    "titlu": "Paste cu ton și porumb",
+    "categorie": "Rapid",
+    "timp": "◷ 20 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Paste cu ton, porumb și sos ușor de roșii.",
+    "imagine": "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Paste cu ton și porumb",
+    "ingrediente": [
+      "200 g paste",
+      "1 conservă ton în suc propriu, scursă",
+      "100 g porumb",
+      "200 ml passata",
+      "1 cățel usturoi",
+      "1 lingură ulei",
+      "Sare, piper și pătrunjel"
+    ],
+    "pasi": [
+      "Fierbe pastele conform instrucțiunilor de pe ambalaj și păstrează puțină apă de la paste.",
+      "Toacă usturoiul și gătește-l scurt în ulei.",
+      "Adaugă passata și fierbe sosul 5 minute.",
+      "Pune tonul scurs și porumbul și încălzește bine compoziția.",
+      "Amestecă sosul cu pastele și puțină apă păstrată, apoi presară pătrunjel."
+    ]
+  },
+  {
+    "id": "pranz18",
+    "titlu": "Paste cu pesto și roșii cherry",
+    "categorie": "Rapid și aromat",
+    "timp": "◷ 18 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Paste cu pesto, roșii dulci și parmezan.",
+    "imagine": "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Paste cu pesto și roșii",
+    "ingrediente": [
+      "220 g paste",
+      "2 linguri pesto",
+      "150 g roșii cherry",
+      "30 g parmezan",
+      "1 linguriță ulei de măsline",
+      "Sare și piper"
+    ],
+    "pasi": [
+      "Fierbe pastele în apă cu sare conform instrucțiunilor.",
+      "Spală roșiile cherry și taie-le în jumătăți.",
+      "Pune roșiile într-o tigaie și încălzește-le 2–3 minute cu ulei, la foc mic.",
+      "Adaugă pastele scurse și pesto; amestecă și subțiază cu puțină apă de la paste.",
+      "Servește cu parmezan ras."
+    ]
+  },
+  {
+    "id": "pranz19",
+    "titlu": "Salată grecească cu lipie",
+    "categorie": "Proaspăt",
+    "timp": "◷ 15 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Salată cu roșii, castraveți, măsline și feta.",
+    "imagine": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Salată grecească",
+    "ingrediente": [
+      "2 roșii",
+      "1 castravete",
+      "½ ceapă roșie",
+      "80 g brânză feta",
+      "10 măsline",
+      "1 lingură ulei de măsline",
+      "Oregano",
+      "2 lipii"
+    ],
+    "pasi": [
+      "Spală roșiile și castravetele și taie-le bucăți.",
+      "Feliază ceapa subțire și scurge măslinele.",
+      "Pune legumele într-un bol și adaugă măslinele.",
+      "Fărâmițează feta deasupra și presară oregano.",
+      "Adaugă uleiul și servește salata cu lipie."
+    ]
+  },
+  {
+    "id": "pranz20",
+    "titlu": "Salată cu pui și crutoane",
+    "categorie": "Sățios",
+    "timp": "◷ 20 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Salată crocantă cu pui gătit și dressing de iaurt.",
+    "imagine": "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Salată cu pui și crutoane",
+    "ingrediente": [
+      "250 g piept de pui gătit",
+      "1 salată verde",
+      "1 roșie",
+      "½ castravete",
+      "2 felii pâine pentru crutoane",
+      "100 g iaurt",
+      "1 linguriță zeamă de lămâie",
+      "Sare și piper"
+    ],
+    "pasi": [
+      "Folosește pui gătit complet și taie-l fâșii după ce s-a răcit puțin.",
+      "Spală salata și legumele și rupe salata în bucăți.",
+      "Taie pâinea cubulețe și rumenește crutoanele într-o tigaie uscată, cu ajutorul unui adult.",
+      "Amestecă iaurtul cu lămâia, sarea și piperul.",
+      "Pune legumele și puiul într-un bol, adaugă dressingul și crutoanele chiar înainte de servire."
+    ]
+  },
+   {
+    "id": "pranz21",
+    "titlu": "Quesadilla cu pui și cașcaval",
+    "categorie": "Rapid",
+    "timp": "◷ 15 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Lipie rumenită cu pui, ardei și cașcaval topit.",
+    "imagine": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Quesadilla cu pui",
+    "ingrediente": [
+      "2 lipii tortilla",
+      "150 g pui gătit",
+      "80 g cașcaval ras",
+      "½ ardei",
+      "2 linguri porumb",
+      "2 linguri iaurt"
+    ],
+    "pasi": [
+      "Taie puiul gătit și ardeiul în bucăți mici.",
+      "Așază puiul, ardeiul, porumbul și cașcavalul pe jumătate din fiecare lipie.",
+      "Îndoaie lipiile în semicerc și presează ușor.",
+      "Cu ajutorul unui adult, rumenește-le într-o tigaie antiaderentă la foc mic, pe ambele părți, până se topește brânza.",
+      "Taie triunghiuri și servește cu iaurt."
+    ]
+  },
+  {
+    "id": "pranz22",
+    "titlu": "Wrap cu legume și hummus",
+    "categorie": "Vegetarian",
+    "timp": "◷ 12 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Lipie cu hummus, legume proaspete și frunze verzi.",
+    "imagine": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Wrap cu legume și hummus",
+    "ingrediente": [
+      "2 lipii",
+      "4 linguri hummus",
+      "1 morcov",
+      "½ castravete",
+      "1 ardei",
+      "4 frunze salată",
+      "Zeamă de lămâie"
+    ],
+    "pasi": [
+      "Spală legumele și salata.",
+      "Taie morcovul și castravetele în fâșii subțiri, iar ardeiul în bețișoare.",
+      "Unge fiecare lipie cu hummus.",
+      "Așază salata și legumele în mijloc și stropește cu puțină lămâie.",
+      "Rulează strâns și taie fiecare wrap în două."
+    ]
+  },
+  {
+    "id": "pranz23",
+    "titlu": "Orez prăjit cu legume și ou",
+    "categorie": "Inspirat asiatic",
+    "timp": "◷ 20 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Orez gătit cu legume și ou, într-o tigaie.",
+    "imagine": "https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Orez cu legume și ou",
+    "ingrediente": [
+      "300 g orez fiert și răcit",
+      "2 ouă",
+      "1 morcov",
+      "100 g mazăre",
+      "2 fire ceapă verde",
+      "1 lingură ulei",
+      "1 lingură sos de soia, opțional"
+    ],
+    "pasi": [
+      "Folosește orez fiert în prealabil și răcit complet, păstrat la frigider.",
+      "Taie morcovul cubulețe și ceapa verde rondele.",
+      "Cu ajutorul unui adult, gătește morcovul și mazărea în ulei până se înmoaie.",
+      "Adaugă ouăle bătute și amestecă până sunt complet gătite.",
+      "Pune orezul rece și sosul de soia și amestecă până se încălzește uniform."
+    ]
+  },
+  {
+    "id": "pranz24",
+    "titlu": "Curry blând de năut",
+    "categorie": "Vegetarian",
+    "timp": "◷ 25 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Năut fraged într-un sos cremos de roșii și lapte de cocos.",
+    "imagine": "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Curry de năut",
+    "ingrediente": [
+      "1 conservă năut, aproximativ 240 g scurs",
+      "200 ml lapte de cocos",
+      "200 ml passata",
+      "1 ceapă",
+      "1 linguriță curry blând",
+      "1 lingură ulei",
+      "150 g orez",
+      "Sare"
+    ],
+    "pasi": [
+      "Clătește și scurge năutul.",
+      "Toacă ceapa și gătește-o în ulei până devine moale.",
+      "Adaugă pudra de curry și amestecă scurt, apoi pune passata și laptele de cocos.",
+      "Adaugă năutul și fierbe la foc mic 12–15 minute, până când sosul se îngroașă ușor.",
+      "Servește cu orez fiert separat."
+    ]
+  },
+  {
+    "id": "pranz25",
+    "titlu": "Chili blând cu fasole și carne",
+    "categorie": "Consistent",
+    "timp": "◷ 35 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Tocăniță cu fasole, carne tocată și roșii, fără iuțeală.",
+    "imagine": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Chili cu fasole",
+    "ingrediente": [
+      "250 g carne tocată",
+      "1 conservă fasole roșie, scursă",
+      "1 ceapă",
+      "1 ardei",
+      "400 g roșii tocate",
+      "1 linguriță boia dulce",
+      "1 lingură ulei",
+      "Sare și piper"
+    ],
+    "pasi": [
+      "Toacă ceapa și ardeiul în cubulețe.",
+      "Gătește ceapa în ulei, apoi adaugă carnea și amestecă până este complet pătrunsă.",
+      "Adaugă ardeiul, roșiile și boiaua dulce.",
+      "Pune fasolea clătită și fierbe la foc mic 15 minute, amestecând periodic.",
+      "Potrivește gustul și servește cu orez sau pâine."
+    ]
+  },
+   {
+    "id": "pranz26",
+    "titlu": "Cartofi gratinați cu brânză",
+    "categorie": "La cuptor",
+    "timp": "◷ 50 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Felii de cartofi coapte într-un sos cremos cu brânză.",
+    "imagine": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Cartofi gratinați",
+    "ingrediente": [
+      "600 g cartofi",
+      "200 ml lapte",
+      "100 ml smântână pentru gătit",
+      "100 g cașcaval",
+      "1 cățel usturoi",
+      "Sare, piper și nucșoară"
+    ],
+    "pasi": [
+      "Curăță cartofii și taie-i în felii subțiri.",
+      "Unge un vas termorezistent și freacă interiorul cu usturoi.",
+      "Așază cartofii în straturi și presară puțin cașcaval între ele.",
+      "Amestecă laptele cu smântâna și condimentele și toarnă peste cartofi.",
+      "Cu ajutorul unui adult, coace la 180°C aproximativ 40 de minute, până când cartofii sunt fragezi și suprafața rumenită."
+    ]
+  },
+  {
+    "id": "pranz27",
+    "titlu": "Dovlecei umpluți cu orez și legume",
+    "categorie": "Vegetarian",
+    "timp": "◷ 45 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Dovlecei copți, umpluți cu orez, roșii și verdeață.",
+    "imagine": "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Dovlecei umpluți",
+    "ingrediente": [
+      "2 dovlecei mici",
+      "80 g orez",
+      "1 ceapă",
+      "1 morcov",
+      "1 roșie",
+      "150 ml passata",
+      "1 lingură ulei",
+      "Sare, piper și mărar"
+    ],
+    "pasi": [
+      "Spală dovleceii, taie-i pe lung și scobește cu grijă mijlocul.",
+      "Toacă miezul, ceapa și morcovul și gătește-le în ulei câteva minute.",
+      "Adaugă orezul spălat, roșia tocată și condimentele; amestecă.",
+      "Umple jumătățile de dovlecel și așază-le într-un vas cu passata și puțină apă.",
+      "Cu ajutorul unui adult, coace la 180°C aproximativ 30–35 de minute, până când orezul este fiert."
+    ]
+  },
+  {
+    "id": "pranz28",
+    "titlu": "Vinete umplute cu legume",
+    "categorie": "Vegetarian",
+    "timp": "◷ 45 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Jumătăți de vinete coapte cu umplutură de legume.",
+    "imagine": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Vinete umplute",
+    "ingrediente": [
+      "2 vinete mici",
+      "1 ceapă",
+      "1 ardei",
+      "1 roșie",
+      "100 g ciuperci",
+      "50 g cașcaval",
+      "1 lingură ulei",
+      "Sare, piper și oregano"
+    ],
+    "pasi": [
+      "Spală vinetele, taie-le în jumătăți și crestează miezul fără să străpungi coaja.",
+      "Cu ajutorul unui adult, coace jumătățile la 190°C aproximativ 15 minute, până se înmoaie puțin.",
+      "Toacă ceapa, ardeiul, ciupercile și miezul scos din vinete; gătește-le în ulei până se înmoaie.",
+      "Adaugă roșia și condimentele și umple vinetele cu amestecul.",
+      "Presară cașcaval și mai coace 10–15 minute, până se rumenește ușor."
+    ]
+  },
+  {
+    "id": "pranz29",
+    "titlu": "Burger de curcan la tigaie",
+    "categorie": "De casă",
+    "timp": "◷ 30 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Burger cu chiftea de curcan bine gătită și salată proaspătă.",
+    "imagine": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Burger de curcan",
+    "ingrediente": [
+      "300 g carne tocată de curcan",
+      "2 chifle",
+      "2 frunze salată",
+      "1 roșie",
+      "2 felii cașcaval",
+      "1 lingură iaurt",
+      "1 linguriță muștar",
+      "Sare și piper"
+    ],
+    "pasi": [
+      "Amestecă bine carnea de curcan cu sare și piper și formează două chiftele plate.",
+      "Cu supravegherea unui adult, gătește chiftelele într-o tigaie până sunt complet pătrunse în centru.",
+      "Spală salata și roșia și taie roșia felii.",
+      "Amestecă iaurtul cu muștarul și unge baza chiflelor cu sos.",
+      "Asamblează burgerii cu salată, chiftea, cașcaval și roșie."
+    ]
+  },
+  {
+    "id": "pranz30",
+    "titlu": "Pizza rapidă pe lipie",
+    "categorie": "Rapid",
+    "timp": "◷ 15 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Lipie crocantă cu sos de roșii, mozzarella și legume.",
+    "imagine": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Pizza pe lipie",
+    "ingrediente": [
+      "2 lipii tortilla",
+      "4 linguri passata",
+      "100 g mozzarella",
+      "½ ardei",
+      "6 roșii cherry",
+      "Oregano"
+    ],
+    "pasi": [
+      "Așază lipiile într-o tavă tapetată cu hârtie de copt.",
+      "Unge fiecare lipie cu passata și presară oregano.",
+      "Adaugă mozzarella, ardeiul cubulețe și roșiile tăiate în jumătăți.",
+      "Cu ajutorul unui adult, coace la 200°C aproximativ 8–10 minute, până când brânza se topește.",
+      "Lasă puțin să se răcorească și taie felii."
+    ]
+  },
+   {
+    "id": "pranz31",
+    "titlu": "Tartă sărată cu legume",
+    "categorie": "La cuptor",
+    "timp": "◷ 45 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Tartă cu bază crocantă și umplutură de legume.",
+    "imagine": "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Tartă cu legume",
+    "ingrediente": [
+      "1 foaie aluat foietaj",
+      "1 dovlecel mic",
+      "1 ardei",
+      "1 roșie",
+      "2 ouă",
+      "100 ml smântână pentru gătit",
+      "80 g cașcaval",
+      "Sare și oregano"
+    ],
+    "pasi": [
+      "Așază foaia de aluat într-o tavă de tartă și înțeap-o cu furculița.",
+      "Spală legumele și taie-le felii subțiri.",
+      "Bate ouăle cu smântâna, cașcavalul și condimentele.",
+      "Așază legumele peste aluat și toarnă amestecul de ouă.",
+      "Cu ajutorul unui adult, coace la 180°C aproximativ 30 de minute, până când umplutura este închegată."
+    ]
+  },
+  {
+    "id": "pranz32",
+    "titlu": "Quiche cu spanac și brânză",
+    "categorie": "La cuptor",
+    "timp": "◷ 45 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Tartă franțuzească simplă cu spanac și brânză.",
+    "imagine": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Quiche cu spanac",
+    "ingrediente": [
+      "1 foaie aluat pentru tartă",
+      "150 g spanac",
+      "3 ouă",
+      "150 ml lapte",
+      "100 g telemea",
+      "1 linguriță ulei",
+      "Piper și nucșoară"
+    ],
+    "pasi": [
+      "Așază aluatul într-o formă de tartă și înțeapă baza cu furculița.",
+      "Spală spanacul și gătește-l scurt într-o tigaie cu ulei, până se înmoaie.",
+      "Bate ouăle cu laptele și adaugă telemeaua fărâmițată și piperul.",
+      "Pune spanacul peste aluat și toarnă amestecul de ouă.",
+      "Cu ajutorul unui adult, coace la 180°C 30–35 de minute, până când centrul este închegat."
+    ]
+  },
+  {
+    "id": "pranz33",
+    "titlu": "Couscous cu pui și legume",
+    "categorie": "Rapid",
+    "timp": "◷ 25 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Couscous pufos cu pui și legume sotate.",
+    "imagine": "https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Couscous cu pui",
+    "ingrediente": [
+      "160 g couscous",
+      "250 g piept de pui",
+      "1 dovlecel mic",
+      "1 ardei",
+      "200 ml supă fierbinte",
+      "1 lingură ulei",
+      "Sare, piper și pătrunjel"
+    ],
+    "pasi": [
+      "Pune couscousul într-un bol termorezistent și toarnă supa fierbinte; acoperă 5 minute.",
+      "Taie puiul și legumele cubulețe.",
+      "Cu ajutorul unui adult, gătește puiul în ulei până este complet pătruns.",
+      "Adaugă legumele și gătește până se înmoaie ușor, dar rămân ferme.",
+      "Afânează couscousul cu o furculiță, amestecă-l cu puiul și legumele și presară pătrunjel."
+    ]
+  },
+  {
+    "id": "pranz34",
+    "titlu": "Bulgur cu legume",
+    "categorie": "Vegetarian",
+    "timp": "◷ 25 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Bulgur aromat cu legume și verdeață.",
+    "imagine": "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Bulgur cu legume",
+    "ingrediente": [
+      "160 g bulgur",
+      "1 morcov",
+      "1 ardei",
+      "1 ceapă mică",
+      "300 ml supă de legume",
+      "1 lingură ulei",
+      "Sare, piper și pătrunjel"
+    ],
+    "pasi": [
+      "Clătește bulgurul într-o sită fină.",
+      "Toacă legumele cubulețe mici.",
+      "Gătește ceapa și morcovul în ulei 3 minute, apoi adaugă ardeiul.",
+      "Pune bulgurul și supa și fierbe conform timpului indicat pe ambalaj, până absoarbe lichidul.",
+      "Lasă acoperit 5 minute, afânează cu furculița și adaugă pătrunjel."
+    ]
+  },
+  {
+    "id": "pranz35",
+    "titlu": "Mămăligă cu brânză și iaurt",
+    "categorie": "Tradițional",
+    "timp": "◷ 20 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Mămăligă caldă cu brânză și iaurt cremos.",
+    "imagine": "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Mămăligă cu brânză",
+    "ingrediente": [
+      "150 g mălai",
+      "600 ml apă",
+      "½ linguriță sare",
+      "120 g brânză de vaci sau telemea",
+      "150 g iaurt",
+      "1 lingură unt, opțional"
+    ],
+    "pasi": [
+      "Pune apa și sarea într-o cratiță încăpătoare.",
+      "Cu ajutorul unui adult, adu apa la fierbere și adaugă mălaiul treptat, amestecând cu telul.",
+      "Fierbe la foc mic, amestecând des, până când mămăliga se îngroașă și se desprinde de vas.",
+      "Adaugă untul, dacă folosești, și amestecă.",
+      "Servește cu brânză fărâmițată și iaurt."
+    ]
+  },
+   {
+    "id": "pranz36",
+    "titlu": "Pește alb la cuptor cu lămâie",
+    "categorie": "Pește",
+    "timp": "◷ 25 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "File de pește alb cu lămâie și cartofi natur.",
+    "imagine": "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Pește la cuptor cu lămâie",
+    "ingrediente": [
+      "2 fileuri pește alb, aproximativ 300 g",
+      "300 g cartofi",
+      "1 lămâie",
+      "1 lingură ulei de măsline",
+      "Sare și piper",
+      "Mărar"
+    ],
+    "pasi": [
+      "Spală cartofii și taie-i în bucăți potrivite.",
+      "Cu ajutorul unui adult, fierbe cartofii până sunt fragezi, apoi scurge-i.",
+      "Așază peștele într-o tavă, stropește cu ulei și zeamă de lămâie și asezonează.",
+      "Coace la 190°C aproximativ 12–15 minute, până când peștele este complet gătit și se desface ușor.",
+      "Servește cu cartofii și mărar proaspăt."
+    ]
+  },
+  {
+    "id": "pranz37",
+    "titlu": "Cod crocant la cuptor",
+    "categorie": "Pește",
+    "timp": "◷ 30 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "File de cod în crustă de pesmet, copt fără prăjire.",
+    "imagine": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Cod cu crustă la cuptor",
+    "ingrediente": [
+      "300 g file de cod",
+      "1 ou",
+      "50 g pesmet",
+      "20 g parmezan",
+      "1 lingură iaurt",
+      "300 g cartofi",
+      "Sare și piper"
+    ],
+    "pasi": [
+      "Taie cartofii wedges și așază-i pe o tavă cu hârtie de copt.",
+      "Cu ajutorul unui adult, coace cartofii la 200°C aproximativ 25 de minute.",
+      "Taie codul în două porții și verifică să nu aibă oase.",
+      "Trece peștele prin ou bătut, apoi prin pesmet amestecat cu parmezan.",
+      "Așază codul pe o tavă și coace 12–15 minute, până când este complet gătit; servește cu iaurt."
+    ]
+  },
+  {
+    "id": "pranz38",
+    "titlu": "Fasole bătută cu ceapă",
+    "categorie": "Tradițional de post",
+    "timp": "◷ 35 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Pastă fină de fasole cu ceapă călită ușor.",
+    "imagine": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Fasole bătută cu ceapă",
+    "ingrediente": [
+      "400 g fasole albă fiartă și scursă",
+      "2 căței usturoi",
+      "2 linguri ulei",
+      "1 ceapă mare",
+      "1 lingură pastă de roșii",
+      "Sare și piper"
+    ],
+    "pasi": [
+      "Clătește fasolea fiartă și păstrează puțin din lichid.",
+      "Pasează fasolea cu usturoiul, o lingură de ulei și puțin lichid până devine cremoasă.",
+      "Toacă ceapa mărunt.",
+      "Cu ajutorul unui adult, gătește ceapa în restul de ulei până devine moale, apoi adaugă pasta de roșii.",
+      "Pune fasolea într-un bol și adaugă ceapa deasupra; servește cu pâine."
+    ]
+  },
+  {
+    "id": "pranz39",
+    "titlu": "Gulaș de vită cu legume",
+    "categorie": "Consistent",
+    "timp": "◷ 90 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Tocăniță lentă cu vită, cartofi și boia dulce.",
+    "imagine": "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Gulaș de vită",
+    "ingrediente": [
+      "500 g carne de vită pentru tocăniță",
+      "1 ceapă",
+      "1 ardei",
+      "2 morcovi",
+      "400 g cartofi",
+      "1 lingură boia dulce",
+      "2 linguri passata",
+      "700 ml apă",
+      "1 lingură ulei",
+      "Sare și piper"
+    ],
+    "pasi": [
+      "Taie carnea în cuburi potrivite și legumele în bucăți.",
+      "Cu ajutorul unui adult, rumenește ușor carnea în ulei, în tranșe dacă este nevoie.",
+      "Adaugă ceapa, morcovii și ardeiul și gătește câteva minute.",
+      "Pune boiaua, passata și apa; acoperă și fierbe la foc mic până când carnea începe să se frăgezească.",
+      "Adaugă cartofii și continuă fierberea până când carnea și cartofii sunt moi. Potrivește de sare."
+    ]
+  },
+  {
+    "id": "pranz40",
+    "titlu": "Pui cu sos de smântână și ciuperci",
+    "categorie": "Cremos",
+    "timp": "◷ 35 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Pui fraged cu ciuperci într-un sos delicat.",
+    "imagine": "https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Pui cu ciuperci și smântână",
+    "ingrediente": [
+      "300 g piept de pui",
+      "200 g ciuperci",
+      "1 ceapă mică",
+      "150 ml smântână pentru gătit",
+      "1 lingură ulei",
+      "100 ml apă",
+      "Sare, piper și pătrunjel"
+    ],
+    "pasi": [
+      "Taie puiul în fâșii și ciupercile în felii.",
+      "Toacă ceapa și gătește-o în ulei până se înmoaie.",
+      "Adaugă puiul și gătește până este complet pătruns, apoi pune ciupercile.",
+      "După ce ciupercile se înmoaie, adaugă apa și smântâna și fierbe la foc mic câteva minute.",
+      "Asezonează și servește cu orez sau paste și pătrunjel."
+    ]
+  },
+   {
+    "id": "pranz41",
+    "titlu": "Risotto cu ciuperci",
+    "categorie": "Italian",
+    "timp": "◷ 35 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Orez cremos cu ciuperci și parmezan.",
+    "imagine": "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Risotto cu ciuperci",
+    "ingrediente": [
+      "180 g orez pentru risotto",
+      "200 g ciuperci",
+      "1 ceapă mică",
+      "650 ml supă caldă de legume",
+      "30 g parmezan",
+      "1 lingură unt",
+      "1 lingură ulei",
+      "Piper"
+    ],
+    "pasi": [
+      "Feliază ciupercile și toacă ceapa.",
+      "Gătește ciupercile într-o tigaie cu puțin ulei până se rumenesc ușor și pune-le deoparte.",
+      "În aceeași tigaie, înmoaie ceapa în unt, apoi adaugă orezul și amestecă un minut.",
+      "Adaugă supa caldă câte un polonic, amestecând des și așteptând să fie absorbită înainte de următoarea tranșă.",
+      "Când orezul este cremos și fraged, pune ciupercile și parmezanul și lasă 2 minute înainte de servire."
+    ]
+  },
+  {
+    "id": "pranz42",
+    "titlu": "Paste cremoase cu ciuperci",
+    "categorie": "Rapid",
+    "timp": "◷ 25 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Paste cu ciuperci și sos fin de smântână.",
+    "imagine": "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Paste cu ciuperci",
+    "ingrediente": [
+      "220 g paste",
+      "200 g ciuperci",
+      "150 ml smântână pentru gătit",
+      "1 cățel usturoi",
+      "20 g parmezan",
+      "1 lingură ulei",
+      "Sare și piper"
+    ],
+    "pasi": [
+      "Fierbe pastele conform instrucțiunilor și păstrează puțină apă de la fiert.",
+      "Feliază ciupercile și toacă usturoiul.",
+      "Gătește ciupercile în ulei până se înmoaie și se evaporă lichidul.",
+      "Adaugă usturoiul și smântâna și fierbe 2–3 minute la foc mic.",
+      "Amestecă pastele cu sosul, parmezanul și puțină apă de la paste, dacă este nevoie."
+    ]
+  },
+  {
+    "id": "pranz43",
+    "titlu": "Tortilla spaniolă cu cartofi",
+    "categorie": "Vegetarian",
+    "timp": "◷ 30 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Omletă consistentă cu cartofi și ceapă.",
+    "imagine": "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Tortilla cu cartofi",
+    "ingrediente": [
+      "400 g cartofi",
+      "1 ceapă mică",
+      "4 ouă",
+      "2 linguri ulei",
+      "Sare și piper"
+    ],
+    "pasi": [
+      "Curăță cartofii și taie-i în felii subțiri; feliază ceapa.",
+      "Cu ajutorul unui adult, gătește cartofii și ceapa într-o tigaie cu puțin ulei, la foc mic, până se înmoaie.",
+      "Bate ouăle cu sare și piper într-un bol.",
+      "Amestecă ouăle cu cartofii și ceapa și toarnă compoziția într-o tigaie antiaderentă.",
+      "Gătește la foc mic până se încheagă; întoarce cu ajutorul unei farfurii și gătește și cealaltă parte."
+    ]
+  },
+  {
+    "id": "pranz44",
+    "titlu": "Salată de linte cu legume",
+    "categorie": "Vegetarian",
+    "timp": "◷ 20 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Linte fiartă cu legume proaspete și dressing de lămâie.",
+    "imagine": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Salată de linte",
+    "ingrediente": [
+      "250 g linte fiartă și scursă",
+      "1 roșie",
+      "½ castravete",
+      "½ ardei",
+      "2 fire ceapă verde",
+      "1 lingură ulei de măsline",
+      "1 lingură zeamă de lămâie",
+      "Pătrunjel și sare"
+    ],
+    "pasi": [
+      "Dacă folosești linte la conservă, clătește-o și scurge-o bine.",
+      "Spală legumele și taie-le cubulețe mici.",
+      "Pune lintea și legumele într-un bol mare.",
+      "Amestecă uleiul cu zeama de lămâie și puțină sare.",
+      "Toarnă dressingul peste salată, amestecă și adaugă pătrunjel."
+    ]
+  },
+  {
+    "id": "pranz45",
+    "titlu": "Cartofi umpluți cu brânză și porumb",
+    "categorie": "La cuptor",
+    "timp": "◷ 50 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Cartofi copți umpluți cu brânză, porumb și iaurt.",
+    "imagine": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Cartofi umpluți",
+    "ingrediente": [
+      "2 cartofi mari",
+      "80 g cașcaval",
+      "80 g porumb",
+      "3 linguri iaurt",
+      "1 fir ceapă verde",
+      "Sare și piper"
+    ],
+    "pasi": [
+      "Spală cartofii și înțeapă-i de câteva ori cu furculița.",
+      "Cu ajutorul unui adult, coace cartofii la 200°C aproximativ 35–40 de minute, până sunt moi.",
+      "Lasă-i să se răcorească puțin și taie-i pe lungime.",
+      "Scoate o parte din miez și amestecă-l cu iaurtul, porumbul și jumătate din cașcaval.",
+      "Umple cartofii, presară restul de cașcaval și mai coace 8–10 minute. Adaugă ceapă verde."
+    ]
+  },
+   {
+    "id": "pranz41",
+    "titlu": "Risotto cu ciuperci",
+    "categorie": "Italian",
+    "timp": "◷ 35 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Orez cremos cu ciuperci și parmezan.",
+    "imagine": "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Risotto cu ciuperci",
+    "ingrediente": [
+      "180 g orez pentru risotto",
+      "200 g ciuperci",
+      "1 ceapă mică",
+      "650 ml supă caldă de legume",
+      "30 g parmezan",
+      "1 lingură unt",
+      "1 lingură ulei",
+      "Piper"
+    ],
+    "pasi": [
+      "Feliază ciupercile și toacă ceapa.",
+      "Gătește ciupercile într-o tigaie cu puțin ulei până se rumenesc ușor și pune-le deoparte.",
+      "În aceeași tigaie, înmoaie ceapa în unt, apoi adaugă orezul și amestecă un minut.",
+      "Adaugă supa caldă câte un polonic, amestecând des și așteptând să fie absorbită înainte de următoarea tranșă.",
+      "Când orezul este cremos și fraged, pune ciupercile și parmezanul și lasă 2 minute înainte de servire."
+    ]
+  },
+  {
+    "id": "pranz42",
+    "titlu": "Paste cremoase cu ciuperci",
+    "categorie": "Rapid",
+    "timp": "◷ 25 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Paste cu ciuperci și sos fin de smântână.",
+    "imagine": "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Paste cu ciuperci",
+    "ingrediente": [
+      "220 g paste",
+      "200 g ciuperci",
+      "150 ml smântână pentru gătit",
+      "1 cățel usturoi",
+      "20 g parmezan",
+      "1 lingură ulei",
+      "Sare și piper"
+    ],
+    "pasi": [
+      "Fierbe pastele conform instrucțiunilor și păstrează puțină apă de la fiert.",
+      "Feliază ciupercile și toacă usturoiul.",
+      "Gătește ciupercile în ulei până se înmoaie și se evaporă lichidul.",
+      "Adaugă usturoiul și smântâna și fierbe 2–3 minute la foc mic.",
+      "Amestecă pastele cu sosul, parmezanul și puțină apă de la paste, dacă este nevoie."
+    ]
+  },
+  {
+    "id": "pranz43",
+    "titlu": "Tortilla spaniolă cu cartofi",
+    "categorie": "Vegetarian",
+    "timp": "◷ 30 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Omletă consistentă cu cartofi și ceapă.",
+    "imagine": "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Tortilla cu cartofi",
+    "ingrediente": [
+      "400 g cartofi",
+      "1 ceapă mică",
+      "4 ouă",
+      "2 linguri ulei",
+      "Sare și piper"
+    ],
+    "pasi": [
+      "Curăță cartofii și taie-i în felii subțiri; feliază ceapa.",
+      "Cu ajutorul unui adult, gătește cartofii și ceapa într-o tigaie cu puțin ulei, la foc mic, până se înmoaie.",
+      "Bate ouăle cu sare și piper într-un bol.",
+      "Amestecă ouăle cu cartofii și ceapa și toarnă compoziția într-o tigaie antiaderentă.",
+      "Gătește la foc mic până se încheagă; întoarce cu ajutorul unei farfurii și gătește și cealaltă parte."
+    ]
+  },
+  {
+    "id": "pranz44",
+    "titlu": "Salată de linte cu legume",
+    "categorie": "Vegetarian",
+    "timp": "◷ 20 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Linte fiartă cu legume proaspete și dressing de lămâie.",
+    "imagine": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Salată de linte",
+    "ingrediente": [
+      "250 g linte fiartă și scursă",
+      "1 roșie",
+      "½ castravete",
+      "½ ardei",
+      "2 fire ceapă verde",
+      "1 lingură ulei de măsline",
+      "1 lingură zeamă de lămâie",
+      "Pătrunjel și sare"
+    ],
+    "pasi": [
+      "Dacă folosești linte la conservă, clătește-o și scurge-o bine.",
+      "Spală legumele și taie-le cubulețe mici.",
+      "Pune lintea și legumele într-un bol mare.",
+      "Amestecă uleiul cu zeama de lămâie și puțină sare.",
+      "Toarnă dressingul peste salată, amestecă și adaugă pătrunjel."
+    ]
+  },
+  {
+    "id": "pranz45",
+    "titlu": "Cartofi umpluți cu brânză și porumb",
+    "categorie": "La cuptor",
+    "timp": "◷ 50 minute",
+    "buget": "▤ Ingrediente simple",
+    "descriere": "Cartofi copți umpluți cu brânză, porumb și iaurt.",
+    "imagine": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1000&q=85",
+    "alt": "Cartofi umpluți",
+    "ingrediente": [
+      "2 cartofi mari",
+      "80 g cașcaval",
+      "80 g porumb",
+      "3 linguri iaurt",
+      "1 fir ceapă verde",
+      "Sare și piper"
+    ],
+    "pasi": [
+      "Spală cartofii și înțeapă-i de câteva ori cu furculița.",
+      "Cu ajutorul unui adult, coace cartofii la 200°C aproximativ 35–40 de minute, până sunt moi.",
+      "Lasă-i să se răcorească puțin și taie-i pe lungime.",
+      "Scoate o parte din miez și amestecă-l cu iaurtul, porumbul și jumătate din cașcaval.",
+      "Umple cartofii, presară restul de cașcaval și mai coace 8–10 minute. Adaugă ceapă verde."
+    ]
+  },
+ const PAS_AFISARE = 5;
+let reteteAfisate = 0;
+let retetaCurenta = null;
+let ultimulButon = null;
+let numarCerere = 0;
 
-const SUPABASE_URL = "https://mzimxhirbzsiilcvpkjj.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_kGOlHv5ZWogVQHW5ieaGQ_HWgUf62-";
-
+const grilaRetete = document.getElementById("grila-retete");
+const butonMaiMulte = document.getElementById("buton-mai-multe");
+const progresRetete = document.getElementById("progres-retete");
 const overlay = document.getElementById("overlay-reteta");
 const butonInchide = document.getElementById("inchide-reteta");
 const butonInapoi = document.getElementById("inapoi-retete");
@@ -964,16 +1424,76 @@ const listaComentarii = document.getElementById("lista-comentarii");
 const mesajFiltru = document.getElementById("mesaj-filtru");
 const butonTrimitere = formular.querySelector('button[type="submit"]');
 
-let retetaCurenta = null;
-let ultimulButon = null;
-let numarCerere = 0;
+function creeazaCardReteta(reteta) {
+  const card = document.createElement("article");
+  card.className = "card-reteta";
 
-const cuvinteBlocate = [
-  "prostule",
-  "idiotule",
-  "tampitule",
-  "nenorocitule"
-];
+  const zonaImagine = document.createElement("div");
+  zonaImagine.className = "imagine-card";
+
+  const imagine = document.createElement("img");
+  imagine.src = reteta.imagine;
+  imagine.alt = reteta.alt;
+  imagine.loading = "lazy";
+
+  const categorie = document.createElement("span");
+  categorie.className = "categorie";
+  categorie.textContent = reteta.categorie;
+
+  zonaImagine.append(imagine, categorie);
+
+  const continut = document.createElement("div");
+  continut.className = "continut-card";
+
+  const titlu = document.createElement("h3");
+  titlu.textContent = reteta.titlu;
+
+  const descriere = document.createElement("p");
+  descriere.className = "descriere-card";
+  descriere.textContent = reteta.descriere;
+
+  const detalii = document.createElement("div");
+  detalii.className = "detalii";
+
+  const timp = document.createElement("span");
+  timp.textContent = reteta.timp;
+
+  const buget = document.createElement("span");
+  buget.textContent = reteta.buget;
+
+  detalii.append(timp, buget);
+
+  const buton = document.createElement("button");
+  buton.className = "buton";
+  buton.type = "button";
+  buton.dataset.reteta = reteta.id;
+  buton.textContent = "Vezi rețeta →";
+
+  continut.append(titlu, descriere, detalii, buton);
+  card.append(zonaImagine, continut);
+
+  return card;
+}
+
+function afiseazaUrmatoareleRetete() {
+  const limita = Math.min(
+    reteteAfisate + PAS_AFISARE,
+    retete.length
+  );
+
+  for (let i = reteteAfisate; i < limita; i++) {
+    grilaRetete.appendChild(creeazaCardReteta(retete[i]));
+  }
+
+  reteteAfisate = limita;
+
+  progresRetete.textContent =
+    `Se afișează ${reteteAfisate} din ${retete.length} de rețete.`;
+
+  butonMaiMulte.hidden = reteteAfisate >= retete.length;
+}
+
+butonMaiMulte.addEventListener("click", afiseazaUrmatoareleRetete);
 
 function normalizeaza(text) {
   return text
@@ -982,13 +1502,19 @@ function normalizeaza(text) {
     .replace(/[\u0300-\u036f]/g, "");
 }
 
+const cuvinteBlocate = [
+  "prostule",
+  "idiotule",
+  "tampitule",
+  "nenorocitule"
+];
+
 function contineCuvinteBlocate(text) {
   const textNormalizat = normalizeaza(text);
 
   return cuvinteBlocate.some(cuvant => {
-    const cuvantNormalizat = normalizeaza(cuvant);
     const expresie = new RegExp(
-      `(^|[^a-z0-9])${cuvantNormalizat}([^a-z0-9]|$)`,
+      `(^|[^a-z0-9])${normalizeaza(cuvant)}([^a-z0-9]|$)`,
       "i"
     );
 
@@ -1005,6 +1531,11 @@ function afiseazaMesajGol(text) {
 
   listaComentarii.appendChild(paragraf);
 }
+
+const SUPABASE_URL = "https://mzimxhirbzsiilcvpkjj.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_kGOlHv5ZWogVQHW5ieaG_HWgUf62-";
 
 async function cerereSupabase(cale, optiuni = {}) {
   const raspuns = await fetch(`${SUPABASE_URL}/rest/v1/${cale}`, {
@@ -1025,7 +1556,10 @@ async function cerereSupabase(cale, optiuni = {}) {
   if (raspuns.status === 204) return null;
 
   const tip = raspuns.headers.get("content-type") || "";
-  return tip.includes("application/json") ? raspuns.json() : null;
+
+  return tip.includes("application/json")
+    ? raspuns.json()
+    : null;
 }
 
 function creeazaCardComentariu(comentariu) {
@@ -1062,13 +1596,12 @@ function creeazaCardComentariu(comentariu) {
 
 async function incarcaComentarii(idReteta) {
   const cerereCurenta = ++numarCerere;
+
   afiseazaMesajGol("Se încarcă comentariile...");
 
   try {
     const cale =
-      `comentarii?select=id,reteta_id,nume,continut,created_at` +
-      `&reteta_id=eq.${encodeURIComponent(idReteta)}` +
-      `&order=created_at.desc&limit=100`;
+      `comentarii?select=id,reteta_id,nume,continut,created_at&reteta_id=eq.${encodeURIComponent(idReteta)}&order=created_at.desc&limit=100`;
 
     const comentarii = await cerereSupabase(cale);
 
@@ -1087,8 +1620,11 @@ async function incarcaComentarii(idReteta) {
     }
 
     comentarii.forEach(comentariu => {
-      listaComentarii.appendChild(creeazaCardComentariu(comentariu));
+      listaComentarii.appendChild(
+        creeazaCardComentariu(comentariu)
+      );
     });
+
   } catch (eroare) {
     console.error("Eroare la încărcarea comentariilor:", eroare);
 
@@ -1104,23 +1640,35 @@ async function incarcaComentarii(idReteta) {
 }
 
 function deschideReteta(idReteta, buton) {
-  const reteta = retete[idReteta];
+  const reteta = retete.find(element => element.id === idReteta);
+
   if (!reteta) return;
 
   ultimulButon = buton || document.activeElement;
   retetaCurenta = idReteta;
 
-  document.getElementById("titlu-reteta-modal").textContent = reteta.titlu;
-  document.getElementById("categorie-reteta-modal").textContent = reteta.categorie;
-  document.getElementById("timp-reteta-modal").textContent = reteta.timp;
-  document.getElementById("buget-reteta-modal").textContent = reteta.buget;
-  document.getElementById("descriere-reteta-modal").textContent = reteta.descriere;
+  document.getElementById("titlu-reteta-modal").textContent =
+    reteta.titlu;
+
+  document.getElementById("categorie-reteta-modal").textContent =
+    reteta.categorie;
+
+  document.getElementById("timp-reteta-modal").textContent =
+    reteta.timp;
+
+  document.getElementById("buget-reteta-modal").textContent =
+    reteta.buget;
+
+  document.getElementById("descriere-reteta-modal").textContent =
+    reteta.descriere;
 
   const imagine = document.getElementById("imagine-reteta-modal");
   imagine.src = reteta.imagine;
   imagine.alt = reteta.alt;
 
-  const listaIngrediente = document.getElementById("ingrediente-reteta-modal");
+  const listaIngrediente =
+    document.getElementById("ingrediente-reteta-modal");
+
   listaIngrediente.replaceChildren();
 
   reteta.ingrediente.forEach(ingredient => {
@@ -1129,7 +1677,9 @@ function deschideReteta(idReteta, buton) {
     listaIngrediente.appendChild(element);
   });
 
-  const listaPasi = document.getElementById("pasi-reteta-modal");
+  const listaPasi =
+    document.getElementById("pasi-reteta-modal");
+
   listaPasi.replaceChildren();
 
   reteta.pasi.forEach(pas => {
@@ -1144,6 +1694,7 @@ function deschideReteta(idReteta, buton) {
   overlay.classList.add("activ");
   overlay.setAttribute("aria-hidden", "false");
   document.body.classList.add("modal-deschis");
+
   butonInchide.focus();
 
   incarcaComentarii(idReteta);
@@ -1160,17 +1711,21 @@ function inchideReteta() {
   if (ultimulButon) ultimulButon.focus();
 }
 
-document.querySelectorAll("[data-reteta]").forEach(buton => {
-  buton.addEventListener("click", () => {
-    deschideReteta(buton.dataset.reteta, buton);
-  });
+grilaRetete.addEventListener("click", eveniment => {
+  const buton = eveniment.target.closest("[data-reteta]");
+
+  if (!buton) return;
+
+  deschideReteta(buton.dataset.reteta, buton);
 });
 
 butonInchide.addEventListener("click", inchideReteta);
 butonInapoi.addEventListener("click", inchideReteta);
 
 overlay.addEventListener("click", eveniment => {
-  if (eveniment.target === overlay) inchideReteta();
+  if (eveniment.target === overlay) {
+    inchideReteta();
+  }
 });
 
 document.addEventListener("keydown", eveniment => {
@@ -1194,7 +1749,8 @@ formular.addEventListener("submit", async eveniment => {
   mesajFiltru.textContent = "";
 
   if (!nume || !continut) {
-    mesajFiltru.textContent = "Completează numele și comentariul.";
+    mesajFiltru.textContent =
+      "Completează numele și comentariul.";
     return;
   }
 
@@ -1230,16 +1786,20 @@ formular.addEventListener("submit", async eveniment => {
     if (retetaCurenta === idReteta) {
       await incarcaComentarii(idReteta);
     }
+
   } catch (eroare) {
-    console.error("Eroare la publicarea comentariului:", eroare);
+    console.error("Eroare la publicarea comentariilor:", eroare);
 
     mesajFiltru.textContent =
       "Comentariul nu a putut fi publicat. Verifică setările Supabase.";
+
   } finally {
     butonTrimitere.disabled = false;
     butonTrimitere.textContent = "Adaugă comentariul";
   }
 });
+
+afiseazaUrmatoareleRetete();
 </script>
 </body>
 </html>
