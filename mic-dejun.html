@@ -19,7 +19,6 @@
       --alb: #ffffff;
       --linie: #e7ebdf;
       --umbra: 0 8px 25px rgba(45, 60, 35, .09);
-      --accent-navigare: #d89a3d;
     }
 
     * { box-sizing: border-box; }
@@ -49,12 +48,11 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      flex-wrap: nowrap;
-      gap: 20px;
+      flex-wrap: wrap;
+      gap: 12px 16px;
     }
 
     .logo {
-      flex: 0 0 auto;
       display: inline-flex;
       align-items: center;
       gap: 7px;
@@ -69,8 +67,7 @@
 
     .navigare {
       display: flex;
-      flex: 1 1 auto;
-      min-width: 0;
+      flex: 1 1 650px;
       align-items: center;
       justify-content: flex-end;
       flex-wrap: wrap;
@@ -82,35 +79,57 @@
     .navigare a {
       position: relative;
       white-space: nowrap;
-      padding: 6px 7px 9px;
-      border-radius: 9px;
+      padding: 7px 7px 10px;
+      border-radius: 9px 9px 4px 4px;
       transition: background .2s, color .2s;
     }
 
     .navigare a::after {
       position: absolute;
       right: 7px;
-      bottom: 2px;
+      bottom: 4px;
       left: 7px;
-      height: 2px;
-      border-radius: 2px;
-      background: var(--accent-navigare);
+      height: 3px;
+      border-radius: 4px;
+      background: var(--accent, var(--verde));
       content: "";
       transform: scaleX(0);
       transform-origin: left;
       transition: transform .2s ease;
     }
 
-    .navigare a:hover::after,
-    .navigare a.activ::after {
-      transform: scaleX(1);
-    }
-
     .navigare a:hover,
     .navigare a.activ {
-      color: var(--verde);
+      color: var(--verde-inchis);
       background: var(--verde-deschis);
     }
+
+    .navigare a:hover::after,
+    .navigare a.activ::after { transform: scaleX(1); }
+
+    .navigare a:nth-child(1) { --accent: #e5a33b; }
+    .navigare a:nth-child(2) { --accent: #e69a35; }
+    .navigare a:nth-child(3) { --accent: #d96b4a; }
+    .navigare a:nth-child(4) { --accent: #8c6bc1; }
+    .navigare a:nth-child(5) { --accent: #d65d83; }
+    .navigare a:nth-child(6) { --accent: #e2a23a; }
+    .navigare a:nth-child(7) { --accent: #d65b4a; }
+    .navigare a:nth-child(8) { --accent: #9a6ac0; }
+    .navigare a:nth-child(9) { --accent: #c65e82; }
+    .navigare a:nth-child(10) { --accent: #7b9b48; }
+    .navigare a:nth-child(11) { --accent: #e08b43; }
+    .navigare a:nth-child(12) { --accent: #4d9a9a; }
+    .navigare a:nth-child(13) { --accent: #6486b8; }
+
+    .incarca-mai-multe-wrap {
+      display: grid;
+      justify-items: center;
+      gap: 8px;
+      margin: 24px 0 10px;
+    }
+
+    .buton-mai-multe { width: auto; min-width: 230px; padding-inline: 24px; }
+    .progres-retete { margin: 0; color: var(--gri); font-size: 13px; font-weight: 700; }
 
     .pagina {
       max-width: 1120px;
@@ -279,8 +298,7 @@
       font-size: 12px;
       font-weight: 800;
     }
-
-    .buton {
+        .buton {
       display: inline-flex;
       width: 100%;
       align-items: center;
@@ -297,7 +315,8 @@
       cursor: pointer;
       transition: background .2s, transform .2s;
     }
-        .buton:hover {
+
+    .buton:hover {
       transform: translateY(-1px);
       background: var(--verde-inchis);
     }
@@ -562,6 +581,7 @@
     </nav>
   </div>
 </header>
+
 <main class="pagina">
   <section class="hero">
     <div class="hero-text">
@@ -578,7 +598,7 @@
         src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1200&q=85"
         alt="Mic dejun cu fructe și ingrediente proaspete">
     </div>
-  </section>
+      </section>
 
   <section aria-labelledby="titlu-retete">
     <div class="titlu-sectiune">
@@ -586,62 +606,13 @@
         <span class="frunza">🥣</span>
         <h2 id="titlu-retete">Rețete pentru micul dejun</h2>
       </div>
-      <span class="pastila">4 idei delicioase</span>
+      <span class="pastila">50 de idei delicioase</span>
     </div>
 
-    <div class="grila-retete">
-      <article class="card-reteta">
-        <div class="imagine-card">
-          <img src="https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=900&q=85" alt="Omletă cu legume">
-          <span class="categorie">Rapid și simplu</span>
-        </div>
-        <div class="continut-card">
-          <h3>Omletă cu legume</h3>
-          <p class="descriere-card">O omletă gustoasă cu ouă, roșii și ardei, gata în câteva minute.</p>
-          <div class="detalii"><span>◷ 15 minute</span><span>▤ Ingrediente simple</span></div>
-          <button class="buton" type="button" data-reteta="omleta">Vezi rețeta <span>→</span></button>
-        </div>
-      </article>
-
-      <article class="card-reteta">
-        <div class="imagine-card">
-          <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=900&q=85" alt="Bol cu iaurt, ovăz și fructe">
-          <span class="categorie">Proaspăt și rapid</span>
-        </div>
-        <div class="continut-card">
-          <h3>Bol cu iaurt și ovăz</h3>
-          <p class="descriere-card">Un mic dejun rapid cu iaurt, fulgi de ovăz și fructe.</p>
-          <div class="detalii"><span>◷ 5 minute</span><span>▤ Fără gătire</span></div>
-          <button class="buton" type="button" data-reteta="ovaz">Vezi rețeta <span>→</span></button>
-        </div>
-      </article>
-
-      <article class="card-reteta">
-        <div class="imagine-card">
-         <img src="https://snapcalorie-webflow-website.s3.us-east-2.amazonaws.com/media/food_pics_v2/parfait.jpg"
-     alt="Iaurt cu fructe și granola">
-          <span class="categorie">Un răsfăț</span>
-        </div>
-        <div class="continut-card">
-          <h3>Clătite pufoase</h3>
-          <p class="descriere-card">Clătite moi și aromate, bune cu fructe sau iaurt.</p>
-          <div class="detalii"><span>◷ 20 minute</span><span>▤ Ingrediente simple</span></div>
-          <button class="buton" type="button" data-reteta="clatite">Vezi rețeta <span>→</span></button>
-        </div>
-      </article>
-
-      <article class="card-reteta">
-        <div class="imagine-card">
-          <img src="https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=900&q=85" alt="Sandviș cald cu brânză">
-          <span class="categorie">Gata imediat</span>
-        </div>
-        <div class="continut-card">
-          <h3>Sandviș cald cu brânză</h3>
-          <p class="descriere-card">Pâine crocantă, brânză topită și legume proaspete.</p>
-          <div class="detalii"><span>◷ 10 minute</span><span>▤ Buget redus</span></div>
-          <button class="buton" type="button" data-reteta="sandvis">Vezi rețeta <span>→</span></button>
-        </div>
-      </article>
+    <div class="grila-retete" id="grila-retete" aria-live="polite"></div>
+    <div class="incarca-mai-multe-wrap">
+      <button class="buton buton-mai-multe" id="vezi-mai-multe" type="button">Vezi mai multe rețete</button>
+      <p class="progres-retete" id="progres-retete" aria-live="polite">Se afișează 5 din 50 de rețete.</p>
     </div>
   </section>
 
@@ -729,105 +700,117 @@
 
 <script>
 const retete = {
-  omleta: {
-    titlu: "Omletă cu legume",
-    categorie: "Rapid și simplu",
-    timp: "◷ 15 minute",
-    buget: "▤ Ingrediente simple",
-    descriere: "O omletă caldă și gustoasă, cu legume proaspete.",
-    imagine: "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=1000&q=85",
-    alt: "Omletă cu legume",
-    ingrediente: [
-      "2 ouă",
-      "1 roșie mică",
-      "1/2 ardei",
-      "1 lingură de lapte, opțional",
-      "1 linguriță de ulei",
-      "Sare și piper, după gust"
-    ],
-    pasi: [
-      "Spală roșia și ardeiul, apoi taie-le cubulețe.",
-      "Bate ouăle într-un bol și adaugă laptele, dacă dorești.",
-      "Încălzește uleiul într-o tigaie și gătește legumele timp de 2–3 minute.",
-      "Toarnă ouăle bătute peste legume și gătește la foc mic până se încheagă.",
-      "Împăturește omleta și servește-o caldă."
-    ]
-  },
-
-  ovaz: {
-    titlu: "Bol cu iaurt și ovăz",
-    categorie: "Proaspăt și rapid",
-    timp: "◷ 5 minute",
-    buget: "▤ Fără gătire",
-    descriere: "Un bol rapid cu iaurt, ovăz și fructe la alegere.",
-    imagine: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1000&q=85",
-    alt: "Iaurt cu ovăz și fructe",
-    ingrediente: [
-      "200 g iaurt simplu",
-      "4 linguri fulgi de ovăz",
-      "1 banană sau un pumn de fructe",
-      "1 linguriță miere, opțional",
-      "Nuci sau semințe, opțional"
-    ],
-    pasi: [
-      "Pune iaurtul într-un bol.",
-      "Adaugă fulgii de ovăz și amestecă.",
-      "Taie fructele și așază-le deasupra.",
-      "Adaugă miere, nuci sau semințe, dacă dorești.",
-      "Servește imediat sau lasă ovăzul câteva minute să se înmoaie."
-    ]
-  },
-
-  clatite: {
-    titlu: "Clătite pufoase",
-    categorie: "Un răsfăț",
-    timp: "◷ 20 minute",
-    buget: "▤ Ingrediente simple",
-    descriere: "Clătite pufoase, bune alături de fructe, iaurt sau puțină dulceață.",
-    imagine: "https://images.unsplash.com/photo-1528207776546-365bb710ee93?auto=format&fit=crop&w=1000&q=85",
-    alt: "Clătite pufoase",
-    ingrediente: [
-      "1 ou",
-      "150 ml lapte",
-      "120 g făină",
-      "1 linguriță praf de copt",
-      "1 linguriță zahăr, opțional",
-      "1 linguriță ulei",
-      "Fructe sau iaurt, pentru servire"
-    ],
-    pasi: [
-      "Bate oul cu laptele și uleiul.",
-      "Adaugă făina, praful de copt și zahărul, apoi amestecă până obții un aluat omogen.",
-      "Încălzește o tigaie antiaderentă la foc mediu.",
-      "Toarnă mici porții de aluat și coace până apar bule, apoi întoarce clătitele.",
-      "Gătește până sunt rumenite și servește cu fructe sau iaurt."
-    ]
-  },
-
-  sandvis: {
-    titlu: "Sandviș cald cu brânză",
-    categorie: "Gata imediat",
-    timp: "◷ 10 minute",
-    buget: "▤ Buget redus",
-    descriere: "Un sandviș crocant, cu brânză topită și legume proaspete.",
-    imagine: "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=1000&q=85",
-    alt: "Sandviș cu brânză și legume",
-    ingrediente: [
-      "2 felii de pâine",
-      "2 felii de cașcaval sau brânză",
-      "1 roșie",
-      "Câteva frunze de salată",
-      "Puțin unt, opțional"
-    ],
-    pasi: [
-      "Așază brânza între feliile de pâine.",
-      "Rumenește sandvișul într-o tigaie sau într-un aparat de sandvișuri până când pâinea devine crocantă și brânza se topește.",
-      "Taie roșia și spală salata.",
-      "Adaugă legumele și servește cât este cald."
-    ]
-  }
+  micdejun01: {"titlu":"Omletă cu legume","categorie":"Rapid și simplu","timp":"◷ 15 minute","buget":"▤ Ingrediente simple","descriere":"Ouă pufoase cu roșii și ardei.","imagine":"https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=1000&q=85","alt":"Omletă cu legume","ingrediente":["2 ouă","1 roșie mică","½ ardei","1 lingură lapte","1 linguriță ulei","Sare și piper"],"pasi":["Spală roșia și ardeiul și taie-le cubulețe mici.","Bate ouăle cu laptele, sarea și piperul până se omogenizează.","Cu ajutorul unui adult, încălzește uleiul într-o tigaie și gătește legumele 2–3 minute.","Toarnă ouăle peste legume și gătește la foc mic, până când sunt bine închegate.","Împăturește omleta și servește-o caldă."]},
+  micdejun02: {"titlu":"Bol cu iaurt și ovăz","categorie":"Fără gătire","timp":"◷ 5 minute","buget":"▤ Ingrediente simple","descriere":"Un bol cremos cu fructe și fulgi de ovăz.","imagine":"https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1000&q=85","alt":"Bol cu iaurt și ovăz","ingrediente":["200 g iaurt simplu","4 linguri fulgi de ovăz","1 banană","50 g fructe de pădure","1 linguriță miere, opțional"],"pasi":["Pune iaurtul într-un bol încăpător.","Adaugă fulgii de ovăz și amestecă pentru a-i distribui uniform.","Taie banana felii și spală fructele de pădure.","Așază fructele peste iaurt și adaugă mierea, dacă dorești.","Lasă bolul 5 minute pentru ca ovăzul să se înmoaie sau servește imediat."]},
+  micdejun03: {"titlu":"Clătite pufoase","categorie":"Un răsfăț","timp":"◷ 20 minute","buget":"▤ Ingrediente simple","descriere":"Clătite moi, potrivite cu fructe sau iaurt.","imagine":"https://images.unsplash.com/photo-1528207776546-365bb710ee93?auto=format&fit=crop&w=1000&q=85","alt":"Clătite pufoase","ingrediente":["1 ou","150 ml lapte","120 g făină","1 linguriță praf de copt","1 linguriță zahăr","1 linguriță ulei"],"pasi":["Amestecă făina cu praful de copt și zahărul într-un bol.","Bate oul cu laptele și uleiul, apoi încorporează ingredientele uscate.","Lasă aluatul să stea 5 minute, ca să se îngroașe ușor.","Cu ajutorul unui adult, coace porții mici într-o tigaie antiaderentă; întoarce clătitele când apar bule la suprafață.","Servește-le cu iaurt, fructe sau puțină dulceață."]},
+  micdejun04: {"titlu":"Sandviș cald cu brânză","categorie":"Gata imediat","timp":"◷ 10 minute","buget":"▤ Ingrediente simple","descriere":"Pâine rumenită cu brânză topită și roșii.","imagine":"https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1000&q=85","alt":"Sandviș cald cu brânză","ingrediente":["2 felii pâine","40 g cașcaval","2 felii roșie","2 frunze salată","1 linguriță unt"],"pasi":["Așază cașcavalul și feliile de roșie între feliile de pâine.","Unge foarte subțire exteriorul pâinii cu unt.","Cu supravegherea unui adult, rumenește sandvișul într-un aparat sau într-o tigaie la foc mic.","Întoarce-l dacă folosești tigaia și gătește până când pâinea devine aurie și brânza se topește.","Lasă-l puțin să se răcorească, apoi adaugă salata și servește."]},
+  micdejun05: {"titlu":"Iaurt cu granola și fructe","categorie":"Proaspăt și rapid","timp":"◷ 5 minute","buget":"▤ Ingrediente simple","descriere":"Mic dejun răcoritor, gata în câteva minute.","imagine":"https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?auto=format&fit=crop&w=1000&q=85","alt":"Iaurt cu granola și fructe","ingrediente":["200 g iaurt","40 g granola","1 kiwi","½ banană","1 linguriță semințe"],"pasi":["Pune iaurtul într-un bol.","Curăță kiwi și banana și taie-le în bucăți potrivite.","Presară granola peste iaurt.","Adaugă fructele și semințele deasupra.","Servește imediat, pentru ca granola să rămână crocantă."]},
+  micdejun06: {"titlu":"Toast cu avocado și ou","categorie":"Sățios","timp":"◷ 15 minute","buget":"▤ Ingrediente simple","descriere":"Pâine prăjită cu avocado cremos și ou bine gătit.","imagine":"https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=1000&q=85","alt":"Toast cu avocado și ou","ingrediente":["1 felie pâine integrală","½ avocado copt","1 ou","1 linguriță zeamă de lămâie","Sare și piper"],"pasi":["Prăjește pâinea în toaster sau într-o tigaie uscată.","Pasează avocado cu zeama de lămâie, sare și piper.","Cu ajutorul unui adult, gătește oul într-o tigaie până când albușul și gălbenușul sunt bine închegate.","Întinde avocado pe pâinea prăjită.","Așază oul deasupra și servește imediat."]},
+  micdejun07: {"titlu":"Terci de ovăz cu măr","categorie":"Cald și aromat","timp":"◷ 12 minute","buget":"▤ Ingrediente simple","descriere":"Terci cald cu măr și scorțișoară.","imagine":"https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1000&q=85","alt":"Terci de ovăz cu măr","ingrediente":["50 g fulgi de ovăz","200 ml lapte","1 măr mic","½ linguriță scorțișoară","1 linguriță miere"],"pasi":["Spală mărul și rade-l sau taie-l cubulețe.","Pune ovăzul și laptele într-o crăticioară.","Cu supravegherea unui adult, fierbe la foc mic 5–7 minute, amestecând des.","Adaugă mărul și scorțișoara și mai gătește 2 minute, până se înmoaie.","Lasă terciul să se răcorească puțin și îndulcește cu miere."]},
+  micdejun08: {"titlu":"Pancakes cu banană","categorie":"Fără zahăr adăugat","timp":"◷ 18 minute","buget":"▤ Ingrediente simple","descriere":"Clătite americane îndulcite natural cu banană.","imagine":"https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?auto=format&fit=crop&w=1000&q=85","alt":"Pancakes cu banană","ingrediente":["1 banană coaptă","1 ou","80 g făină","80 ml lapte","½ linguriță praf de copt","½ linguriță ulei"],"pasi":["Pasează banana într-un bol până devine piure.","Adaugă oul și laptele și amestecă bine.","Încorporează făina și praful de copt până obții un aluat gros.","Cu ajutorul unui adult, coace clătite mici într-o tigaie unsă ușor, întorcându-le când apar bule.","Servește cu felii de banană sau iaurt."]},
+    micdejun09: {"titlu":"French toast cu scorțișoară","categorie":"Clasic","timp":"◷ 15 minute","buget":"▤ Ingrediente simple","descriere":"Felii de pâine înmuiate în ou și lapte.","imagine":"https://images.unsplash.com/photo-1484723091739-30a097e8f929?auto=format&fit=crop&w=1000&q=85","alt":"French toast cu scorțișoară","ingrediente":["2 felii pâine","1 ou","60 ml lapte","½ linguriță scorțișoară","1 linguriță unt","Fructe pentru servire"],"pasi":["Bate oul cu laptele și scorțișoara într-o farfurie adâncă.","Înmoaie fiecare felie de pâine în amestec, pe ambele părți, fără să o lași să se destrame.","Cu supravegherea unui adult, topește untul într-o tigaie la foc mediu-mic.","Rumenește pâinea pe ambele părți și verifică să fie bine gătită în interior.","Servește cu fructe proaspete."]},
+  micdejun10: {"titlu":"Budincă de chia cu căpșuni","categorie":"Pregătire în avans","timp":"◷ 5 minute","buget":"▤ Ingrediente simple","descriere":"Budincă rece, pregătită de seara.","imagine":"https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1000&q=85","alt":"Budincă de chia cu căpșuni","ingrediente":["3 linguri semințe chia","180 ml lapte","1 linguriță miere","100 g căpșuni","½ linguriță vanilie"],"pasi":["Pune semințele de chia într-un borcan sau bol cu capac.","Adaugă laptele, mierea și vanilia și amestecă energic.","Așteaptă 10 minute și amestecă din nou pentru a evita cocoloașele.","Acoperă și lasă la frigider cel puțin 3 ore sau peste noapte.","Servește cu căpșuni spălate și tăiate."]},
+  micdejun11: {"titlu":"Smoothie bowl cu mango","categorie":"Proaspăt","timp":"◷ 8 minute","buget":"▤ Ingrediente simple","descriere":"Bol dens de fructe, cu topping crocant.","imagine":"https://images.unsplash.com/photo-1505576399274-565b52d4ac71?auto=format&fit=crop&w=1000&q=85","alt":"Smoothie bowl cu mango","ingrediente":["150 g mango congelat","1 banană","100 g iaurt","2 linguri fulgi de ovăz","1 lingură nucă de cocos"],"pasi":["Pune mango, banana și iaurtul în blender.","Mixează în reprize scurte până obții o cremă groasă; dacă este nevoie, adaugă o lingură de lapte.","Toarnă crema într-un bol.","Presară fulgii de ovăz și nuca de cocos.","Servește imediat, cât compoziția este rece."]},
+  micdejun12: {"titlu":"Quesadilla de mic dejun","categorie":"Sățios","timp":"◷ 15 minute","buget":"▤ Ingrediente simple","descriere":"Lipie rumenită cu ou și cașcaval.","imagine":"https://images.unsplash.com/photo-1515003197210-e0cd7184f8b5?auto=format&fit=crop&w=1000&q=85","alt":"Quesadilla de mic dejun","ingrediente":["1 lipie tortilla","1 ou","30 g cașcaval ras","2 linguri porumb","2 linguri ardei cubulețe"],"pasi":["Bate oul și amestecă-l cu porumbul și ardeiul.","Cu ajutorul unui adult, gătește amestecul într-o tigaie până când oul este complet închegat.","Pune umplutura pe jumătate de lipie și presară cașcavalul.","Îndoaie lipia și rumenește-o pe ambele părți într-o tigaie, la foc mic.","Taie în triunghiuri după ce s-a răcorit puțin."]},
+  micdejun13: {"titlu":"Bruschete cu roșii și mozzarella","categorie":"Mediteraneean","timp":"◷ 12 minute","buget":"▤ Ingrediente simple","descriere":"Pâine crocantă cu roșii, busuioc și mozzarella.","imagine":"https://images.unsplash.com/photo-1506084868230-bb9d95c24759?auto=format&fit=crop&w=1000&q=85","alt":"Bruschete cu roșii și mozzarella","ingrediente":["2 felii pâine","1 roșie","50 g mozzarella","3 frunze busuioc","1 linguriță ulei de măsline"],"pasi":["Spală roșia și busuiocul; taie roșia cubulețe.","Taie mozzarella în bucăți mici și amestec-o cu roșia.","Adaugă busuiocul rupt și uleiul de măsline.","Prăjește pâinea în toaster sau cu ajutorul unui adult într-o tigaie.","Pune amestecul peste pâine chiar înainte de servire."]},
+  micdejun14: {"titlu":"Ouă fierte cu pâine și legume","categorie":"Simplu","timp":"◷ 12 minute","buget":"▤ Ingrediente simple","descriere":"Un mic dejun simplu, cu legume proaspete.","imagine":"https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=1000&q=85","alt":"Ouă fierte cu pâine și legume","ingrediente":["2 ouă","2 felii pâine integrală","½ castravete","1 roșie","Sare, după gust"],"pasi":["Spală castravetele și roșia și taie-le felii.","Un adult pune ouăle într-o crăticioară cu apă și le fierbe până sunt tari.","Răcește ouăle în apă rece și curăță-le cu grijă.","Taie ouăle în jumătăți sau sferturi.","Servește cu pâine și legumele pregătite."]},
+  micdejun15: {"titlu":"Muffins cu ou și spanac","categorie":"La cuptor","timp":"◷ 25 minute","buget":"▤ Ingrediente simple","descriere":"Brioșe sărate, bune și pentru pachet.","imagine":"https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1000&q=85","alt":"Muffins cu ou și spanac","ingrediente":["3 ouă","40 g spanac","30 g cașcaval ras","2 linguri lapte","2 roșii cherry","Piper"],"pasi":["Spală spanacul și taie-l mărunt; taie roșiile cherry în jumătăți.","Bate ouăle cu laptele și piperul, apoi adaugă spanacul și cașcavalul.","Unge formele de brioșe și distribuie compoziția, fără să le umpli până sus.","Cu ajutorul unui adult, coace la 180°C aproximativ 15–18 minute, până când oul este închegat.","Lasă brioșele să se răcorească înainte de a le scoate din forme."]},
+  micdejun16: {"titlu":"Lipie cu cremă de brânză și castravete","categorie":"Fără gătire","timp":"◷ 7 minute","buget":"▤ Ingrediente simple","descriere":"Ruladă proaspătă, ușor de luat la pachet.","imagine":"https://images.unsplash.com/photo-1528207776546-365bb710ee93?auto=format&fit=crop&w=1000&q=85","alt":"Lipie cu cremă de brânză și castravete","ingrediente":["1 lipie","50 g cremă de brânză","½ castravete","2 frunze salată","Mărar tocat"],"pasi":["Spală castravetele și salata și șterge-le cu un prosop curat.","Taie castravetele în fâșii subțiri.","Unge lipia cu crema de brânză și presară mărar.","Așază salata și castravetele pe mijloc.","Rulează strâns și taie în două."]},
+    micdejun17: {"titlu":"Griș cu lapte și vanilie","categorie":"Clasic","timp":"◷ 12 minute","buget":"▤ Ingrediente simple","descriere":"Griș fin, aromat cu vanilie.","imagine":"https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1000&q=85","alt":"Griș cu lapte și vanilie","ingrediente":["250 ml lapte","25 g griș","1 linguriță zahăr","½ linguriță vanilie","Fructe pentru decor"],"pasi":["Pune laptele într-o crăticioară și adaugă zahărul și vanilia.","Cu supravegherea unui adult, încălzește laptele până aproape de fierbere.","Toarnă grișul în ploaie, amestecând continuu cu telul.","Fierbe la foc mic 3–5 minute, până se îngroașă.","Lasă să se răcorească și servește cu fructe."]},
+  micdejun18: {"titlu":"Orez cu lapte și scorțișoară","categorie":"Clasic","timp":"◷ 30 minute","buget":"▤ Ingrediente simple","descriere":"Orez cremos, potrivit pentru dimineți liniștite.","imagine":"https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?auto=format&fit=crop&w=1000&q=85","alt":"Orez cu lapte și scorțișoară","ingrediente":["50 g orez cu bob rotund","300 ml lapte","1 linguriță zahăr","1 bucățică coajă de lămâie","Scorțișoară"],"pasi":["Spală orezul în două ape reci.","Pune orezul și laptele într-o crăticioară cu fund gros.","Cu supravegherea unui adult, fierbe la foc mic 25–30 de minute, amestecând des.","Când orezul este moale și compoziția cremoasă, adaugă zahărul și coaja de lămâie.","Îndepărtează coaja și servește cu scorțișoară."]},
+  micdejun19: {"titlu":"Toast cu unt de arahide și banană","categorie":"Rapid","timp":"◷ 5 minute","buget":"▤ Ingrediente simple","descriere":"Combinație cremoasă și dulce, gata rapid.","imagine":"https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=1000&q=85","alt":"Toast cu unt de arahide și banană","ingrediente":["2 felii pâine","2 linguri unt de arahide","1 banană","½ linguriță scorțișoară"],"pasi":["Prăjește feliile de pâine după preferință.","Întinde uniform untul de arahide pe pâinea caldă.","Curăță banana și taie-o rondele.","Așază rondelele peste untul de arahide.","Presară scorțișoară și servește."]},
+  micdejun20: {"titlu":"Salată de fructe cu iaurt","categorie":"Proaspăt","timp":"◷ 10 minute","buget":"▤ Ingrediente simple","descriere":"Fructe proaspete cu dressing simplu de iaurt.","imagine":"https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1000&q=85","alt":"Salată de fructe cu iaurt","ingrediente":["1 măr","1 banană","1 portocală","100 g struguri","150 g iaurt"],"pasi":["Spală bine mărul și strugurii; curăță portocala și banana.","Taie fructele în bucăți potrivite și pune-le într-un bol.","Amestecă iaurtul până devine cremos.","Toarnă iaurtul peste fructe și amestecă ușor.","Servește imediat sau păstrează la rece până la servire."]},
+  micdejun21: {"titlu":"Ouă jumări cremoase","categorie":"Rapid și simplu","timp":"◷ 10 minute","buget":"▤ Ingrediente simple","descriere":"Ouă moi, servite cu pâine prăjită.","imagine":"https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?auto=format&fit=crop&w=1000&q=85","alt":"Ouă jumări cremoase","ingrediente":["2 ouă","1 lingură lapte","1 linguriță unt","1 felie pâine","Sare și piper"],"pasi":["Bate ouăle cu laptele, sarea și piperul.","Cu ajutorul unui adult, topește untul într-o tigaie la foc mic.","Toarnă ouăle și amestecă lent cu o spatulă, aducând compoziția de la margine spre centru.","Oprește gătirea când ouăle sunt cremoase, dar complet gătite.","Servește imediat cu pâine prăjită."]},
+  micdejun22: {"titlu":"Tartine cu ricotta și miere","categorie":"Fără gătire","timp":"◷ 5 minute","buget":"▤ Ingrediente simple","descriere":"Tartine delicate, cu brânză proaspătă.","imagine":"https://images.unsplash.com/photo-1484723091739-30a097e8f929?auto=format&fit=crop&w=1000&q=85","alt":"Tartine cu ricotta și miere","ingrediente":["2 felii pâine","80 g ricotta","1 linguriță miere","2 smochine sau ½ pară","Nuci tocate"],"pasi":["Prăjește ușor pâinea, dacă dorești o bază crocantă.","Amestecă ricotta cu mierea până devine fină.","Întinde crema pe fiecare felie.","Spală și feliază fructul ales, apoi așază-l deasupra.","Presară câteva nuci tocate și servește."]},
+  micdejun23: {"titlu":"Mămăliguță cu brânză și iaurt","categorie":"Tradițional","timp":"◷ 20 minute","buget":"▤ Ingrediente simple","descriere":"Mic dejun românesc, simplu și sățios.","imagine":"https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1000&q=85","alt":"Mămăliguță cu brânză și iaurt","ingrediente":["60 g mălai","250 ml apă","½ linguriță sare","50 g brânză de vaci","2 linguri iaurt"],"pasi":["Pune apa și sarea într-o crăticioară.","Cu ajutorul unui adult, adu apa la fierbere și adaugă mălaiul treptat, amestecând cu telul.","Fierbe la foc mic, amestecând des, până când mămăliga se desprinde de vas.","Pune mămăliga într-un bol și las-o puțin să se răcorească.","Adaugă brânza de vaci și iaurtul."]},
+  micdejun24: {"titlu":"Pâine cu pastă de ou","categorie":"Pentru pachet","timp":"◷ 15 minute","buget":"▤ Ingrediente simple","descriere":"Pastă fină de ou fiert pentru tartine.","imagine":"https://images.unsplash.com/photo-1505576399274-565b52d4ac71?auto=format&fit=crop&w=1000&q=85","alt":"Pâine cu pastă de ou","ingrediente":["2 ouă","2 linguri iaurt grecesc","1 linguriță muștar","1 lingură ceapă verde","4 felii pâine"],"pasi":["Un adult fierbe ouăle până sunt tari, apoi le răcește și le curăță.","Pisează ouăle cu o furculiță într-un bol.","Adaugă iaurtul și muștarul și amestecă până obții o pastă.","Toacă ceapa verde și încorporeaz-o în pastă.","Întinde pasta pe pâine și servește."]},
+    micdejun25: {"titlu":"Clătite cu brânză dulce","categorie":"Dulce","timp":"◷ 25 minute","buget":"▤ Ingrediente simple","descriere":"Clătite umplute cu brânză și stafide.","imagine":"https://images.unsplash.com/photo-1515003197210-e0cd7184f8b5?auto=format&fit=crop&w=1000&q=85","alt":"Clătite cu brânză dulce","ingrediente":["3 clătite simple","150 g brânză de vaci","1 lingură iaurt","1 lingură stafide","1 linguriță miere"],"pasi":["Amestecă brânza de vaci cu iaurtul și mierea.","Adaugă stafidele și omogenizează umplutura.","Pune câte o lingură de umplutură în fiecare clătită.","Împăturește clătitele în pachețele sau rulează-le.","Servește reci sau încălzește-le ușor, cu ajutorul unui adult."]},
+  micdejun26: {"titlu":"Waffles cu iaurt","categorie":"De weekend","timp":"◷ 20 minute","buget":"▤ Ingrediente simple","descriere":"Vafe moi, cu topping de fructe.","imagine":"https://images.unsplash.com/photo-1506084868230-bb9d95c24759?auto=format&fit=crop&w=1000&q=85","alt":"Waffles cu iaurt","ingrediente":["120 g făină","1 ou","120 ml lapte","80 g iaurt","1 linguriță praf de copt","1 linguriță ulei"],"pasi":["Amestecă făina cu praful de copt.","Bate oul cu laptele, iaurtul și uleiul.","Încorporează ingredientele lichide în cele uscate până obții un aluat gros.","Cu ajutorul unui adult, coace aluatul în aparatul de vafe uns ușor, conform instrucțiunilor aparatului.","Servește cu fructe și iaurt."]},
+  micdejun27: {"titlu":"Mini pizza pe pâine","categorie":"Sărat","timp":"◷ 15 minute","buget":"▤ Ingrediente simple","descriere":"Felii de pâine cu sos de roșii și mozzarella.","imagine":"https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=1000&q=85","alt":"Mini pizza pe pâine","ingrediente":["2 felii pâine","2 linguri sos de roșii","50 g mozzarella","2 măsline","½ ardei"],"pasi":["Așază feliile de pâine într-o tavă.","Unge fiecare felie cu sos de roșii.","Adaugă mozzarella, ardeiul tăiat cubulețe și măslinele feliate.","Cu ajutorul unui adult, coace la 180°C aproximativ 8–10 minute, până se topește brânza.","Lasă să se răcorească înainte de servire."]},
+  micdejun28: {"titlu":"Rulouri de clătită cu banană","categorie":"Dulce","timp":"◷ 12 minute","buget":"▤ Ingrediente simple","descriere":"Clătite subțiri rulate cu banană și iaurt.","imagine":"https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1000&q=85","alt":"Rulouri de clătită cu banană","ingrediente":["2 clătite subțiri","1 banană","3 linguri iaurt","1 linguriță cacao"],"pasi":["Așază clătitele pe o farfurie curată.","Amestecă iaurtul cu pudra de cacao.","Unge fiecare clătită cu un strat subțire de cremă.","Pune banana la marginea clătitei și rulează strâns.","Taie rulourile în bucăți și servește."]},
+  micdejun29: {"titlu":"Brioșe cu banană și ovăz","categorie":"La cuptor","timp":"◷ 30 minute","buget":"▤ Ingrediente simple","descriere":"Brioșe fragede, îndulcite cu banană.","imagine":"https://images.unsplash.com/photo-1528207776546-365bb710ee93?auto=format&fit=crop&w=1000&q=85","alt":"Brioșe cu banană și ovăz","ingrediente":["2 banane coapte","1 ou","100 g fulgi de ovăz","60 g făină","½ linguriță praf de copt","50 ml lapte"],"pasi":["Pasează bananele într-un bol până devin piure.","Adaugă oul și laptele și amestecă.","Încorporează ovăzul, făina și praful de copt.","Pune compoziția în forme de brioșe pregătite cu hârtiuțe.","Cu ajutorul unui adult, coace la 180°C aproximativ 18–20 de minute; verifică să fie coapte în centru."]},
+  micdejun30: {"titlu":"Tartine cu hummus și castravete","categorie":"Vegetal","timp":"◷ 7 minute","buget":"▤ Ingrediente simple","descriere":"Mic dejun vegetal, cu pastă de năut.","imagine":"https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1000&q=85","alt":"Tartine cu hummus și castravete","ingrediente":["2 felii pâine integrală","3 linguri hummus","½ castravete","1 linguriță semințe susan","Puțină zeamă de lămâie"],"pasi":["Prăjește pâinea, dacă dorești.","Întinde hummusul într-un strat uniform.","Spală castravetele și taie-l în rondele subțiri.","Așază castravetele peste hummus.","Presară semințe de susan și câteva picături de lămâie."]},
+  micdejun31: {"titlu":"Cartofi dulci la cuptor cu ou","categorie":"Consistent","timp":"◷ 30 minute","buget":"▤ Ingrediente simple","descriere":"Felii de cartof dulce cu ou bine gătit.","imagine":"https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?auto=format&fit=crop&w=1000&q=85","alt":"Cartofi dulci la cuptor cu ou","ingrediente":["1 cartof dulce mic","1 ou","1 linguriță ulei","2 linguri iaurt","Sare și boia dulce"],"pasi":["Spală cartoful dulce și taie-l în felii subțiri.","Așază feliile pe o tavă, stropește cu ulei și presară puțină boia.","Cu ajutorul unui adult, coace la 200°C aproximativ 20 de minute, întorcând feliile la jumătate.","Gătește oul separat într-o tigaie până este bine închegat.","Servește cartoful dulce cu oul și iaurtul."]},
+  micdejun32: {"titlu":"Salată de castraveți cu brânză și ou","categorie":"Proaspăt","timp":"◷ 12 minute","buget":"▤ Ingrediente simple","descriere":"Farfurie rece cu ou, brânză și legume.","imagine":"https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=1000&q=85","alt":"Salată de castraveți cu brânză și ou","ingrediente":["1 ou","½ castravete","1 roșie","50 g telemea","1 linguriță ulei de măsline"],"pasi":["Spală castravetele și roșia și taie-le cubulețe.","Un adult fierbe oul până este tare, îl răcește și îl curăță.","Taie oul în sferturi și fărâmițează telemeaua.","Pune legumele, oul și brânza într-un bol.","Adaugă uleiul și amestecă ușor."]},
+    micdejun33: {"titlu":"Terci de ovăz cu cacao","categorie":"Cald și aromat","timp":"◷ 10 minute","buget":"▤ Ingrediente simple","descriere":"Terci cremos cu aromă de cacao și banană.","imagine":"https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1000&q=85","alt":"Terci de ovăz cu cacao","ingrediente":["50 g fulgi de ovăz","200 ml lapte","1 linguriță cacao","½ banană","1 linguriță sirop de arțar"],"pasi":["Pune ovăzul și laptele într-o crăticioară.","Cu supravegherea unui adult, fierbe la foc mic și amestecă des.","Adaugă pudra de cacao și jumătate din banana pasată.","Continuă gătirea până când terciul devine cremos.","Servește cu restul de banană feliată."]},
+  micdejun34: {"titlu":"Toast cu ricotta și căpșuni","categorie":"Dulce","timp":"◷ 8 minute","buget":"▤ Ingrediente simple","descriere":"Tartină dulce cu ricotta și fructe.","imagine":"https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?auto=format&fit=crop&w=1000&q=85","alt":"Toast cu ricotta și căpșuni","ingrediente":["2 felii pâine","80 g ricotta","5 căpșuni","1 linguriță miere","Puțină coajă de lămâie"],"pasi":["Spală căpșunile și îndepărtează codițele.","Prăjește pâinea după preferință.","Amestecă ricotta cu mierea și puțină coajă rasă de lămâie.","Întinde crema pe pâine.","Taie căpșunile felii și așază-le deasupra."]},
+  micdejun35: {"titlu":"Omletă cu ciuperci","categorie":"Sărat","timp":"◷ 18 minute","buget":"▤ Ingrediente simple","descriere":"Omletă consistentă cu ciuperci și pătrunjel.","imagine":"https://images.unsplash.com/photo-1484723091739-30a097e8f929?auto=format&fit=crop&w=1000&q=85","alt":"Omletă cu ciuperci","ingrediente":["2 ouă","80 g ciuperci","1 linguriță ulei","1 lingură lapte","Pătrunjel","Sare și piper"],"pasi":["Șterge ciupercile cu un prosop umed și feliază-le.","Bate ouăle cu laptele, sarea și piperul.","Cu ajutorul unui adult, gătește ciupercile în ulei până se înmoaie și lichidul se evaporă.","Toarnă ouăle peste ciuperci și gătește la foc mic până sunt complet închegate.","Presară pătrunjel tocat și servește."]},
+  micdejun36: {"titlu":"Ouă în cuib de ardei","categorie":"Creativ","timp":"◷ 15 minute","buget":"▤ Ingrediente simple","descriere":"Ou gătit într-un inel de ardei.","imagine":"https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1000&q=85","alt":"Ouă în cuib de ardei","ingrediente":["1 ardei gras mare","2 ouă","1 linguriță ulei","20 g cașcaval ras","Sare și piper"],"pasi":["Spală ardeiul, îndepărtează semințele și taie două rondele groase.","Cu ajutorul unui adult, încălzește uleiul într-o tigaie și așază rondelele.","Sparge câte un ou în centrul fiecărei rondele, cu grijă.","Gătește la foc mic, cu capac, până când ouăle sunt bine închegate.","Presară cașcavalul și servește după ce s-a răcorit puțin."]},
+  micdejun37: {"titlu":"Wrap cu pui și salată","categorie":"Sățios","timp":"◷ 12 minute","buget":"▤ Ingrediente simple","descriere":"Lipie cu pui gătit, salată și sos de iaurt.","imagine":"https://images.unsplash.com/photo-1505576399274-565b52d4ac71?auto=format&fit=crop&w=1000&q=85","alt":"Wrap cu pui și salată","ingrediente":["1 lipie","80 g piept de pui deja gătit","2 frunze salată","½ roșie","2 linguri iaurt","Puțină zeamă de lămâie"],"pasi":["Folosește piept de pui gătit complet și răcit; taie-l fâșii.","Spală salata și roșia; taie roșia cubulețe.","Amestecă iaurtul cu zeama de lămâie pentru sos.","Unge lipia cu sos și adaugă salata, puiul și roșia.","Rulează lipia și taie-o în două."]},
+  micdejun38: {"titlu":"Budincă de orez cu fructe","categorie":"Pregătire în avans","timp":"◷ 30 minute","buget":"▤ Ingrediente simple","descriere":"Orez cu lapte servit rece, cu fructe.","imagine":"https://images.unsplash.com/photo-1515003197210-e0cd7184f8b5?auto=format&fit=crop&w=1000&q=85","alt":"Budincă de orez cu fructe","ingrediente":["50 g orez","300 ml lapte","1 linguriță zahăr","½ linguriță vanilie","80 g fructe"],"pasi":["Clătește orezul și pune-l într-o crăticioară cu laptele.","Cu supravegherea unui adult, fierbe la foc mic, amestecând des, până când orezul este moale.","Adaugă zahărul și vanilia și amestecă.","Lasă budinca să se răcească, apoi pune-o la frigider.","Servește rece cu fructe spălate și tăiate."]},
+  micdejun39: {"titlu":"Granola de casă cu iaurt","categorie":"Pregătire în avans","timp":"◷ 25 minute","buget":"▤ Ingrediente simple","descriere":"Amestec crocant de ovăz, semințe și iaurt.","imagine":"https://images.unsplash.com/photo-1506084868230-bb9d95c24759?auto=format&fit=crop&w=1000&q=85","alt":"Granola de casă cu iaurt","ingrediente":["100 g fulgi de ovăz","20 g semințe","20 g nuci tocate","1 lingură miere","1 lingură ulei","150 g iaurt"],"pasi":["Amestecă ovăzul, semințele și nucile într-un bol.","Adaugă mierea și uleiul și amestecă până când ingredientele sunt ușor acoperite.","Întinde amestecul într-un strat subțire pe o tavă cu hârtie de copt.","Cu ajutorul unui adult, coace la 160°C aproximativ 15–18 minute, amestecând o dată.","Lasă granola să se răcească complet și servește 30 g cu iaurt."]},
+  micdejun40: {"titlu":"Batoane de ovăz cu mere","categorie":"La cuptor","timp":"◷ 30 minute","buget":"▤ Ingrediente simple","descriere":"Batoane moi cu măr și scorțișoară.","imagine":"https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=1000&q=85","alt":"Batoane de ovăz cu mere","ingrediente":["120 g fulgi de ovăz","1 măr ras","1 banană","1 linguriță scorțișoară","2 linguri lapte"],"pasi":["Rade mărul și pasează banana într-un bol.","Adaugă ovăzul, scorțișoara și laptele.","Amestecă până când fulgii sunt umeziți uniform.","Pune compoziția într-o tavă mică tapetată și nivelează.","Cu ajutorul unui adult, coace la 180°C 20–22 de minute; răcește complet înainte de tăiere."]},
+    micdejun41: {"titlu":"Sandviș cu mozzarella și pesto","categorie":"Mediteraneean","timp":"◷ 10 minute","buget":"▤ Ingrediente simple","descriere":"Sandviș aromat cu mozzarella și pesto.","imagine":"https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1000&q=85","alt":"Sandviș cu mozzarella și pesto","ingrediente":["2 felii pâine","50 g mozzarella","1 linguriță pesto","2 felii roșie","2 frunze rucola"],"pasi":["Unge interiorul feliilor de pâine cu pesto.","Taie mozzarella și roșia în felii.","Așază mozzarella și roșia pe o felie de pâine.","Cu ajutorul unui adult, rumenește sandvișul într-o tigaie sau într-un aparat până se topește mozzarella.","Adaugă rucola după gătire și servește."]},
+  micdejun42: {"titlu":"Porridge cu pere și nuci","categorie":"Cald și aromat","timp":"◷ 12 minute","buget":"▤ Ingrediente simple","descriere":"Terci cu pară moale și nuci crocante.","imagine":"https://images.unsplash.com/photo-1528207776546-365bb710ee93?auto=format&fit=crop&w=1000&q=85","alt":"Porridge cu pere și nuci","ingrediente":["50 g fulgi de ovăz","200 ml lapte","1 pară mică","10 g nuci tocate","½ linguriță scorțișoară"],"pasi":["Spală para și taie-o cubulețe mici.","Pune ovăzul și laptele într-o crăticioară.","Cu supravegherea unui adult, fierbe la foc mic 5 minute, amestecând.","Adaugă para și scorțișoara și mai gătește până când para se înmoaie.","Servește cu nuci tocate presărate deasupra."]},
+  micdejun43: {"titlu":"Clătite cu dovlecel și brânză","categorie":"Sărat","timp":"◷ 20 minute","buget":"▤ Ingrediente simple","descriere":"Clătite sărate, fragede, cu dovlecel.","imagine":"https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1000&q=85","alt":"Clătite cu dovlecel și brânză","ingrediente":["½ dovlecel mic","1 ou","70 g făină","50 ml lapte","40 g telemea","½ linguriță praf de copt"],"pasi":["Spală dovlecelul și rade-l; stoarce ușor excesul de apă.","Bate oul cu laptele și adaugă dovlecelul și telemeaua fărâmițată.","Încorporează făina și praful de copt.","Cu ajutorul unui adult, coace porții mici într-o tigaie antiaderentă, la foc mediu-mic.","Întoarce când marginile se fixează și gătește până sunt rumenite pe ambele părți."]},
+  micdejun44: {"titlu":"Toast cu ricotta și roșii","categorie":"Rapid","timp":"◷ 7 minute","buget":"▤ Ingrediente simple","descriere":"Tartine sărate cu ricotta și roșii proaspete.","imagine":"https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?auto=format&fit=crop&w=1000&q=85","alt":"Toast cu ricotta și roșii","ingrediente":["2 felii pâine","80 g ricotta","1 roșie","1 linguriță ulei de măsline","Busuioc și piper"],"pasi":["Prăjește feliile de pâine, dacă dorești.","Întinde ricotta în strat uniform pe fiecare felie.","Spală roșia și taie-o felii subțiri.","Așază roșia peste ricotta și adaugă uleiul de măsline.","Presară busuioc și puțin piper."]},
+  micdejun45: {"titlu":"Bol cu brânză de vaci și piersică","categorie":"Proaspăt","timp":"◷ 5 minute","buget":"▤ Ingrediente simple","descriere":"Brânză cremoasă cu piersică și semințe.","imagine":"https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=1000&q=85","alt":"Bol cu brânză de vaci și piersică","ingrediente":["150 g brânză de vaci","1 piersică","1 lingură iaurt","1 linguriță miere","1 lingură semințe"],"pasi":["Pune brânza de vaci și iaurtul într-un bol.","Amestecă până obții o textură cremoasă.","Spală piersica, îndepărtează sâmburele și taie pulpa cubulețe.","Adaugă piersica peste brânză.","Presară semințele și adaugă mierea, dacă dorești."]},
+  micdejun46: {"titlu":"Mini omlete la cuptor cu broccoli","categorie":"La cuptor","timp":"◷ 25 minute","buget":"▤ Ingrediente simple","descriere":"Porții individuale de ou cu broccoli și brânză.","imagine":"https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1000&q=85","alt":"Mini omlete la cuptor cu broccoli","ingrediente":["3 ouă","50 g broccoli","30 g cașcaval","2 linguri lapte","Sare și piper"],"pasi":["Spală broccoli și desparte-l în buchețele mici.","Un adult opărește broccoli câteva minute, apoi îl scurge și îl toacă.","Bate ouăle cu laptele, sarea și piperul; adaugă broccoli și cașcavalul.","Distribuie compoziția în forme de brioșe unse.","Cu ajutorul unui adult, coace la 180°C 15–18 minute, până când oul este complet închegat."]},
+  micdejun47: {"titlu":"Couscous cu lapte și stafide","categorie":"Rapid","timp":"◷ 10 minute","buget":"▤ Ingrediente simple","descriere":"Couscous moale, cu lapte și fructe uscate.","imagine":"https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?auto=format&fit=crop&w=1000&q=85","alt":"Couscous cu lapte și stafide","ingrediente":["50 g couscous","150 ml lapte fierbinte","1 lingură stafide","½ linguriță scorțișoară","1 linguriță miere"],"pasi":["Pune couscousul și stafidele într-un bol termorezistent.","Un adult încălzește laptele până devine fierbinte, fără să dea în clocot.","Toarnă laptele peste couscous, acoperă și lasă 5 minute.","Afânează couscousul cu o furculiță și adaugă scorțișoara.","Lasă să se răcorească puțin și servește cu miere."]},
+  micdejun48: {"titlu":"Clătite din ovăz și iaurt","categorie":"Fără făină albă","timp":"◷ 18 minute","buget":"▤ Ingrediente simple","descriere":"Clătite fragede cu făină de ovăz.","imagine":"https://images.unsplash.com/photo-1484723091739-30a097e8f929?auto=format&fit=crop&w=1000&q=85","alt":"Clătite din ovăz și iaurt","ingrediente":["60 g fulgi de ovăz măcinați","1 ou","80 g iaurt","½ linguriță praf de copt","1 linguriță ulei"],"pasi":["Mărunțește fulgii de ovăz în blender până obții o făină fină.","Amestecă oul cu iaurtul.","Adaugă ovăzul măcinat și praful de copt și lasă aluatul 5 minute.","Cu ajutorul unui adult, coace porții mici într-o tigaie unsă foarte puțin.","Întoarce clătitele când marginile se fixează și servește cu fructe."]},
+  micdejun49: {"titlu":"Tartină cu somon și cremă de brânză","categorie":"Special","timp":"◷ 8 minute","buget":"▤ Ingrediente simple","descriere":"Tartină cu somon afumat și castravete.","imagine":"https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1000&q=85","alt":"Tartină cu somon și cremă de brânză","ingrediente":["2 felii pâine","50 g cremă de brânză","40 g somon afumat","½ castravete","Mărar și lămâie"],"pasi":["Prăjește ușor pâinea, dacă dorești.","Unge feliile cu cremă de brânză.","Spală castravetele și taie-l în fâșii subțiri.","Așază somonul și castravetele peste cremă.","Adaugă mărar și câteva picături de lămâie; păstrează la rece până la servire."]},
+  micdejun50: {"titlu":"Mere coapte cu iaurt","categorie":"La cuptor","timp":"◷ 25 minute","buget":"▤ Ingrediente simple","descriere":"Mere moi cu scorțișoară și iaurt rece.","imagine":"https://images.unsplash.com/photo-1505576399274-565b52d4ac71?auto=format&fit=crop&w=1000&q=85","alt":"Mere coapte cu iaurt","ingrediente":["1 măr mare","1 linguriță miere","½ linguriță scorțișoară","2 linguri fulgi de ovăz","100 g iaurt"],"pasi":["Spală mărul, taie-l în jumătate și îndepărtează cotorul cu ajutorul unui adult.","Așază jumătățile într-un vas potrivit pentru cuptor.","Amestecă ovăzul cu scorțișoara și mierea și pune peste măr.","Cu ajutorul unui adult, coace la 180°C aproximativ 18–20 de minute, până se înmoaie.","Lasă să se răcorească și servește cu iaurt."]}
 };
-  const SUPABASE_URL = "https://mzimxhirbzsiilcvpkjj.supabase.co";
+  const grilaRetete = document.getElementById("grila-retete");
+const butonMaiMulte = document.getElementById("vezi-mai-multe");
+const progresRetete = document.getElementById("progres-retete");
+const toateIdurileRetete = Object.keys(retete);
+let reteteAfisate = 0;
+const PAS_AFISARE = 5;
+
+function creeazaCardReteta(id) {
+  const reteta = retete[id];
+  const card = document.createElement("article");
+  card.className = "card-reteta";
+  const zonaImagine = document.createElement("div");
+  zonaImagine.className = "imagine-card";
+  const imagine = document.createElement("img");
+  imagine.src = reteta.imagine;
+  imagine.alt = reteta.alt;
+  imagine.loading = "lazy";
+  const categorie = document.createElement("span");
+  categorie.className = "categorie";
+  categorie.textContent = reteta.categorie;
+  zonaImagine.append(imagine, categorie);
+
+  const continut = document.createElement("div");
+  continut.className = "continut-card";
+  const titlu = document.createElement("h3");
+  titlu.textContent = reteta.titlu;
+  const descriere = document.createElement("p");
+  descriere.className = "descriere-card";
+  descriere.textContent = reteta.descriere;
+  const detalii = document.createElement("div");
+  detalii.className = "detalii";
+  const timp = document.createElement("span");
+  timp.textContent = reteta.timp;
+  const ingrediente = document.createElement("span");
+  ingrediente.textContent = "▤ Ingrediente simple";
+  detalii.append(timp, ingrediente);
+  const buton = document.createElement("button");
+  buton.className = "buton";
+  buton.type = "button";
+  buton.dataset.reteta = id;
+  buton.textContent = "Vezi rețeta →";
+  continut.append(titlu, descriere, detalii, buton);
+  card.append(zonaImagine, continut);
+  return card;
+}
+
+function afiseazaUrmatoareleRetete() {
+  const limita = Math.min(reteteAfisate + PAS_AFISARE, toateIdurileRetete.length);
+  for (let i = reteteAfisate; i < limita; i++) {
+    grilaRetete.appendChild(creeazaCardReteta(toateIdurileRetete[i]));
+  }
+  reteteAfisate = limita;
+  progresRetete.textContent = `Se afișează ${reteteAfisate} din ${toateIdurileRetete.length} de rețete.`;
+  butonMaiMulte.hidden = reteteAfisate >= toateIdurileRetete.length;
+}
+
+afiseazaUrmatoareleRetete();
+butonMaiMulte.addEventListener("click", afiseazaUrmatoareleRetete);
+
+const SUPABASE_URL = "https://mzimxhirbzsiilcvpkjj.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_kGOlHv5ZWogVQHW5ieaGQ_HWgUf62-";
 
 const overlay = document.getElementById("overlay-reteta");
@@ -923,6 +906,7 @@ function creeazaCardComentariu(comentariu) {
 }
 
 async function incarcaComentarii(idReteta) {
+  async function incarcaComentarii(idReteta) {
   const cerereCurenta = ++numarCerere;
   afiseazaMesajGol("Se încarcă comentariile...");
 
@@ -1010,10 +994,10 @@ function inchideReteta() {
   if (ultimulButon) ultimulButon.focus();
 }
 
-document.querySelectorAll("[data-reteta]").forEach(buton => {
-  buton.addEventListener("click", () => {
-    deschideReteta(buton.dataset.reteta, buton);
-  });
+grilaRetete.addEventListener("click", eveniment => {
+  const buton = eveniment.target.closest("[data-reteta]");
+  if (!buton) return;
+  deschideReteta(buton.dataset.reteta, buton);
 });
 
 butonInchide.addEventListener("click", inchideReteta);
